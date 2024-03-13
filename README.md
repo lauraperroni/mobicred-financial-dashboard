@@ -1,68 +1,71 @@
-<h1>Dashboard Financeiro</h1>
+# Dashboard Financeiro
 
-<h2>Visão Geral:</h2>
-<p>O Dashboard Financeiro é uma aplicação full-stack desenvolvida para fornecer aos usuários uma visão abrangente de sua situação financeira, permitindo o acompanhamento detalhado de contas, entradas e saídas, metas financeiras, notificações e análises gráficas. O projeto visa auxiliar os usuários na gestão eficaz de suas finanças pessoais, fornecendo ferramentas e recursos intuitivos para tomada de decisões financeiras informadas.</p>
+## Visão Geral:
 
-<h2>Escopos Iniciais - Funcionalidades:</h2>
+O Dashboard Financeiro é uma aplicação full-stack desenvolvida para fornecer aos usuários uma visão abrangente de sua situação financeira, permitindo o acompanhamento detalhado de contas, entradas e saídas, metas financeiras, notificações e análises gráficas. O projeto visa auxiliar os usuários na gestão eficaz de suas finanças pessoais, fornecendo ferramentas e recursos intuitivos para tomada de decisões financeiras informadas.
 
-<p><strong>Contas e Saldo Atual:</strong><br>
-Os usuários poderão visualizar uma lista de contas associadas, juntamente com o saldo atual de cada conta.<br>
-O saldo atual será atualizado automaticamente com base nas transações registradas na aplicação (Microsserviço externo).</p>
+## Escopos Iniciais - Funcionalidades:
 
-<p><strong>Período:</strong><br>
-Os usuários poderão selecionar e visualizar transações dentro de um período específico, como dia, semana, mês ou ano.</p>
+**Contas e Saldo Atual:**  
+Os usuários poderão visualizar uma lista de contas associadas, juntamente com o saldo atual de cada conta.  
+O saldo atual será atualizado automaticamente com base nas transações registradas na aplicação (Microsserviço externo).
 
-<p><strong>Entradas e Saídas:</strong><br>
-Os usuários poderão registrar suas entradas (receitas) e saídas (despesas) financeiras, categorizando-as adequadamente.<br>
-As transações serão exibidas em uma interface amigável, permitindo aos usuários revisar e gerenciar facilmente seus registros financeiros.</p>
+**Período:**  
+Os usuários poderão selecionar e visualizar transações dentro de um período específico, como dia, semana, mês ou ano.
 
-<p><strong>Despesas por Categorias:</strong><br>
-Os usuários poderão visualizar suas despesas categorizadas por tipos específicos, como alimentação, transporte, moradia, entretenimento, etc.<br>
-Isso proporcionará uma compreensão mais clara dos padrões de gastos e ajudará na identificação de áreas para economia.</p>
+**Entradas e Saídas:**  
+Os usuários poderão registrar suas entradas (receitas) e saídas (despesas) financeiras, categorizando-as adequadamente.  
+As transações serão exibidas em uma interface amigável, permitindo aos usuários revisar e gerenciar facilmente seus registros financeiros.
 
-<p><strong>Ranqueamento de Gastos:</strong><br>
-Os usuários terão acesso a um ranking das principais categorias de gastos, mostrando onde a maior parte de seus gastos está sendo direcionada.</p>
+**Despesas por Categorias:**  
+Os usuários poderão visualizar suas despesas categorizadas por tipos específicos, como alimentação, transporte, moradia, entretenimento, etc.  
+Isso proporcionará uma compreensão mais clara dos padrões de gastos e ajudará na identificação de áreas para economia.
 
-<p><strong>Evolução Pessoal:</strong><br>
-Os usuários poderão acompanhar a evolução de seu patrimônio líquido ao longo do tempo, observando o saldo atual e as tendências de gastos e receitas.</p>
+**Ranqueamento de Gastos:**  
+Os usuários terão acesso a um ranking das principais categorias de gastos, mostrando onde a maior parte de seus gastos está sendo direcionada.
 
-<p><strong>Metas e Dinheiro Guardado:</strong><br>
-Os usuários poderão estabelecer metas financeiras, como economizar para uma viagem ou pagar uma dívida, e acompanhar seu progresso em direção a essas metas.<br>
-O dashboard fornecerá informações sobre quanto dinheiro foi guardado em relação às metas estabelecidas.</p>
+**Evolução Pessoal:**  
+Os usuários poderão acompanhar a evolução de seu patrimônio líquido ao longo do tempo, observando o saldo atual e as tendências de gastos e receitas.
 
-<p><strong>Notificações de Todas Funcionalidades:</strong><br>
-Os usuários receberão notificações e alertas para transações importantes, aproximação de metas, variações significativas nos gastos, entre outros eventos relevantes.</p>
+**Metas e Dinheiro Guardado:**  
+Os usuários poderão estabelecer metas financeiras, como economizar para uma viagem ou pagar uma dívida, e acompanhar seu progresso em direção a essas metas.  
+O dashboard fornecerá informações sobre quanto dinheiro foi guardado em relação às metas estabelecidas.
 
-<p><strong>Variação de Despesas:</strong><br>
-Os usuários poderão visualizar gráficos e relatórios detalhados sobre a variação de suas despesas ao longo do tempo, facilitando a análise de tendências e padrões.</p>
+**Notificações de Todas Funcionalidades:**  
+Os usuários receberão notificações e alertas para transações importantes, aproximação de metas, variações significativas nos gastos, entre outros eventos relevantes.
 
-<p><strong>Gráficos em Geral:</strong><br>
-A aplicação fornecerá uma variedade de gráficos e visualizações de dados para representar as informações financeiras de forma clara e intuitiva.</p>
+**Variação de Despesas:**  
+Os usuários poderão visualizar gráficos e relatórios detalhados sobre a variação de suas despesas ao longo do tempo, facilitando a análise de tendências e padrões.
 
-<p><strong>Visualização de Histórico:</strong><br>
-Os usuários poderão visualizar um histórico detalhado de suas transações financeiras, permitindo uma análise retrospectiva de seu comportamento financeiro.</p>
+**Gráficos em Geral:**  
+A aplicação fornecerá uma variedade de gráficos e visualizações de dados para representar as informações financeiras de forma clara e intuitiva.
 
-<p><strong>Login e Cadastro:</strong><br>
-Utilização de login e cadastro de perfis de usuários, utilizando a segurança adequada e as verificações necessárias.</p>
+**Visualização de Histórico:**  
+Os usuários poderão visualizar um histórico detalhado de suas transações financeiras, permitindo uma análise retrospectiva de seu comportamento financeiro.
 
-<h2>Tecnologias Utilizadas:</h2>
+**Login e Cadastro:**  
+Utilização de login e cadastro de perfis de usuários, utilizando a segurança adequada e as verificações necessárias.
 
-<p><strong>Frontend (React):</strong><br>
-React.js<br>
-Material-UI ou Bootstrap para estilização</p>
+## Tecnologias Utilizadas:
 
-<p><strong>Backend (Spring):</strong><br>
-Spring Boot<br>
-Spring Security para autenticação e autorização<br>
-Spring Data JPA para acesso e manipulação de dados<br>
-Banco de dados relacional (por exemplo, MySQL, PostgreSQL)</p>
+**Frontend (React):**  
+- React.js  
+- Material-UI ou Bootstrap para estilização
 
-<p><strong>Ferramentas Adicionais:</strong><br>
-Docker para empacotamento e implantação da aplicação em contêineres<br>
-Git para controle de versão e colaboração</p>
+**Backend (Spring):**  
+- Spring Boot  
+- Spring Security para autenticação e autorização  
+- Spring Data JPA para acesso e manipulação de dados  
+- Banco de dados relacional (por exemplo, MySQL, PostgreSQL)
 
-<h2>Considerações Finais:</h2>
-<p>O Dashboard Financeiro é uma solução abrangente para o gerenciamento financeiro pessoal, oferecendo uma ampla gama de funcionalidades para auxiliar os usuários na gestão eficaz de suas finanças. O projeto será desenvolvido seguindo as melhores práticas de desenvolvimento e utilizando tecnologias modernas para fornecer uma experiência de usuário intuitiva e agradável.</p>
+**Ferramentas Adicionais:**  
+- Docker para empacotamento e implantação da aplicação em contêineres  
+- Git para controle de versão e colaboração
 
-</body>
-</html>
+## Considerações Finais:
+
+O Dashboard Financeiro é uma solução abrangente para o gerenciamento financeiro pessoal, oferecendo uma ampla gama de funcionalidades para auxiliar os usuários na gestão eficaz de suas finanças. O projeto será desenvolvido seguindo as melhores práticas de desenvolvimento e utilizando tecnologias modernas para fornecer uma experiência de usuário intuitiva e agradável.
+
+
+## Diagrama do Banco de Dados
+![Diagrama](/img/Diagrama%20BD.png)
