@@ -69,3 +69,27 @@ O Dashboard Financeiro é uma solução abrangente para o gerenciamento financei
 
 ## Diagrama do Banco de Dados
 ![Diagrama](/img/Diagrama%20BD.png)
+
+
+## Postman Endpoints to test
+
+### Usuarios (/usuarios)
+
+| Endpoint        | Tipo   | Descrição                       |
+|-----------------|--------|---------------------------------|
+| /usuarios/all            | GET    | Traz lista de todos os usuários |
+| /usuarios/{id}           | GET    | Traz um usuário pelo seu Id     |
+| /usuarios/novo           | POST   | Cria um novo usuário            |
+| /usuarios/atualizar/{id} | PUT    | Atualiza um usuário pelo seu Id |
+| /usuarios/deletar/{id}   | DELETE | Deleta usuário pelo seu Id      |
+
+
+### Transacoes (/transacoes)
+
+| Endpoint                   | Tipo   | Descrição                          |
+|----------------------------|--------|------------------------------------|
+| /transacoes/all            | GET    | Traz lista de todas as transações  |
+| /transacoes/{id}           | GET    | Traz uma transação pelo seu Id     |
+| /transacoes/novo           | POST   | Cria uma nova transação            |
+| /transacoes/atualizar/{id} | PUT    | Atualiza uma transação pelo seu Id |
+| /transacoes/deletar/{id}   | DELETE | Deleta transação pelo seu Id       |
