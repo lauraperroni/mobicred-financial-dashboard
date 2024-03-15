@@ -13,7 +13,7 @@ public class MetasFinanceiras {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer idUsuario;
-    private String Descricao;
+    private String descricao;
     private Double valor;
     private Date data;
 
@@ -27,7 +27,7 @@ public class MetasFinanceiras {
     public MetasFinanceiras(Integer id, Integer idUsuario, String descricao, Double valor, Date data) {
         this.id = id;
         this.idUsuario = idUsuario;
-        Descricao = descricao;
+        this.descricao = descricao;
         this.valor = valor;
         this.data = data;
     }
@@ -50,12 +50,12 @@ public class MetasFinanceiras {
         this.idUsuario = idUsuario;
     }
 
-    public String getDescricao() {
-        return Descricao;
+    public String getdescricao() {
+        return descricao;
     }
 
-    public void setDescricao(String descricao) {
-        Descricao = descricao;
+    public void setdescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Double getValor() {
