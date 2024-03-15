@@ -17,6 +17,13 @@ public class Usuarios {
     private String email;
     private String senha;
 
+    // Construtores ============================================================
+
+    // Construtor sem argumentos
+    public Usuarios() {
+    }
+
+    // Construtor all args
     public Usuarios(Integer id, String cpf, String nome, String email, String senha) {
         this.id = id;
         this.cpf = cpf;
@@ -25,6 +32,7 @@ public class Usuarios {
         this.senha = senha;
     }
 
+    // Construtor some args
     public Usuarios(String cpf, String nome, String email, String senha) {
         this.cpf = cpf;
         this.nome = nome;
@@ -32,9 +40,7 @@ public class Usuarios {
         this.senha = senha;
     }
 
-    public Usuarios() {
-    }
-
+    // Getters e Setters =======================================================
     public Integer getId() {
         return id;
     }

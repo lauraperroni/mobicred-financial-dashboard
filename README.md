@@ -71,13 +71,13 @@ O Dashboard Financeiro é uma solução abrangente para o gerenciamento financei
 ![Diagrama](/img/Diagrama%20BD.png)
 
 
-## Postman Endpoints to test
+## Endpoints
 
 ### Usuarios (/usuarios)
 
 | Endpoint        | Tipo   | Descrição                       |
 |-----------------|--------|---------------------------------|
-| /usuarios/all            | GET    | Traz lista de todos os usuários |
+| /usuarios/todos            | GET    | Traz lista de todos os usuários |
 | /usuarios/{id}           | GET    | Traz um usuário pelo seu Id     |
 | /usuarios/novo           | POST   | Cria um novo usuário            |
 | /usuarios/atualizar/{id} | PUT    | Atualiza um usuário pelo seu Id |
@@ -88,8 +88,18 @@ O Dashboard Financeiro é uma solução abrangente para o gerenciamento financei
 
 | Endpoint                   | Tipo   | Descrição                          |
 |----------------------------|--------|------------------------------------|
-| /transacoes/all            | GET    | Traz lista de todas as transações  |
+| /transacoes/todas            | GET    | Traz lista de todas as transações  |
 | /transacoes/{id}           | GET    | Traz uma transação pelo seu Id     |
 | /transacoes/novo           | POST   | Cria uma nova transação            |
 | /transacoes/atualizar/{id} | PUT    | Atualiza uma transação pelo seu Id |
 | /transacoes/deletar/{id}   | DELETE | Deleta transação pelo seu Id       |
+
+### ContasBancaras (/contasbancarias)
+
+| Endpoint                        | Tipo   | Descrição                               |
+|---------------------------------|--------|-----------------------------------------|
+| /contasbancarias/todas            | GET    | Traz lista de todas as contas bancárias |
+| /contasbancarias/{id}           | GET    | Traz uma conta bancária pelo seu Id     |
+| /contasbancarias/nova           | POST   | Cria uma nova conta bancária            |
+| /contasbancarias/atualizar/{id} | PUT    | Atualiza uma conta bancária pelo seu Id |
+| /contasbancarias/deletar/{id}   | DELETE | Deleta conta bancária pelo seu Id       |

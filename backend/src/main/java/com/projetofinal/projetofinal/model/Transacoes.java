@@ -19,10 +19,13 @@ public class Transacoes {
     private Date data;
     private Integer idcategoria;
 
-    // Construtores
+    // Construtores ============================================================
+
+    // Construtor no args
     public Transacoes() {
     }
 
+    // Construtor all args
     public Transacoes(Integer idcontabancaria, Double valor, Date data, Integer idcategoria) {
         this.valor = valor;
         this.data = data;
@@ -30,7 +33,8 @@ public class Transacoes {
         this.idcontabancaria = idcontabancaria;
     }
 
-    // Getters e Setters
+    // Getters e Setters =======================================================
+
     public Integer getId() {
         return id;
     }

@@ -30,7 +30,7 @@ public class ControllerUsuario {
     // =============================================================================
 
     // Trazer todos os usuários pelo DTO ===========================================
-    @GetMapping("/all")
+    @GetMapping("/todos")
     public List<UsuariosDto> getTodosUsuariosDto() {
         return service.getAllUsuariosDto();
     }

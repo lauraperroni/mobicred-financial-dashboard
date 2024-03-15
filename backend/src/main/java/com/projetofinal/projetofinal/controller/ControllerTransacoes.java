@@ -28,7 +28,7 @@ public class ControllerTransacoes {
     // =============================================================================
 
     // Trazer todas as transacoes DTO =============================================
-    @GetMapping("/all")
+    @GetMapping("/todas")
     public List<TransacoesDto> getAllTransacoesDto() {
         return service.getAllTransacoesDto();
     }
