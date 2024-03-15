@@ -9,13 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "/transacoes")
+@Table(name = "transacoes")
 public class Transacoes {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer idcontabancaria;
-    private String valor;
+    private Double valor;
     private Date data;
     private Integer idcategoria;
 
@@ -23,7 +23,7 @@ public class Transacoes {
     public Transacoes() {
     }
 
-    public Transacoes(Integer idcontabancaria, String valor, Date data, Integer idcategoria) {
+    public Transacoes(Integer idcontabancaria, Double valor, Date data, Integer idcategoria) {
         this.valor = valor;
         this.data = data;
         this.idcategoria = idcategoria;
@@ -47,11 +47,11 @@ public class Transacoes {
         this.idcontabancaria = idcontabancaria;
     }
 
-    public String getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 

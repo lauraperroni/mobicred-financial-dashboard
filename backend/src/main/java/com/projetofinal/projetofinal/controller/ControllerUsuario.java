@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.projetofinal.projetofinal.dtos.UsuariosDto;
 import com.projetofinal.projetofinal.model.Usuarios;
 import com.projetofinal.projetofinal.service.UsuariosService;
 
@@ -20,41 +22,41 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 public class ControllerUsuario {
 
-    // Cria a dependencia do repositório pra conversar com banco de dados
+    // Cria a dependencia do service pra conversar com banco de dados
     @Autowired
     private UsuariosService service;
 
     // Endpoints
     // =============================================================================
 
-    // Trazer todos os usuários
+    // Trazer todos os usuários pelo DTO ===========================================
     @GetMapping("/all")
-    public List<Usuarios> getTodosUsuarios(Usuarios usuarios) {
-        return service.getAllUsuarios();
+    public List<UsuariosDto> getTodosUsuariosDto() {
+        return service.getAllUsuariosDto();
     }
 
-    // Traz um usuário pelo id
+    // Traz um usuário pelo id DTO =================================================
     @SuppressWarnings("null")
     @GetMapping("/{id}")
-    public Usuarios getUsuarioId(@PathVariable Integer id) {
-        return service.getUsuarioId(id);
+    public UsuariosDto getUsuarioIdDto(@PathVariable Integer id) {
+        return service.getUsuarioIdDto(id);
     }
 
-    // Adicionar novo usuário
+    // Adicionar novo usuário ======================================================
     @SuppressWarnings("null")
     @PostMapping("/novo")
     public ResponseEntity<String> postNovoUsuario(@RequestBody Usuarios usuario) {
         return service.postNovoUsuario(usuario);
     }
 
-    // Update de um usuário por id
+    // Update de um usuário por id =================================================
     @SuppressWarnings("null")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> putUpdateUsuario(@PathVariable Integer id, @RequestBody Usuarios usuario) {
         return service.putUpdateUsuario(id, usuario);
     }
 
-    // Deletar um usuário por id
+    // Deletar um usuário por id ===================================================
     @SuppressWarnings("null")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deleteUsuarioId(@PathVariable Integer id) {

@@ -1,6 +1,8 @@
 package com.projetofinal.projetofinal.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import com.projetofinal.projetofinal.dtos.TransacoesDto;
 import com.projetofinal.projetofinal.model.Transacoes;
 import com.projetofinal.projetofinal.service.TransacoesService;
 import java.util.List;
@@ -18,27 +20,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/transacoes")
 public class ControllerTransacoes {
 
-    // Liga com o repositório
+    // Cria a dependencia do service pra conversar com banco de dados
     @Autowired
     private TransacoesService service;
 
     // Endpoints
     // =============================================================================
 
-    // Trazer todas as transacoes
+    // Trazer todas as transacoes DTO =============================================
     @GetMapping("/all")
-    public List<Transacoes> getAllTransacoes() {
-        return service.getAllTransacoes();
+    public List<TransacoesDto> getAllTransacoesDto() {
+        return service.getAllTransacoesDto();
     }
 
-    // Traz uma transacao pelo id
+    // Traz uma transacao pelo id DTO ==============================================
     @SuppressWarnings("null")
     @GetMapping("/{id}")
-    public Transacoes getTransacaoId(@PathVariable Integer id) {
-        return service.getTransacaoId(id);
+    public TransacoesDto getTransacaoId(@PathVariable Integer id) {
+        return service.getTransacaoIdDto(id);
     }
 
-    // Adicionar novo usuário
+    // Adicionar novo usuário ======================================================
     @SuppressWarnings("null")
     @PostMapping("/nova")
     public ResponseEntity<String> postNovaTransacao(@RequestBody Transacoes transacao) {
@@ -46,7 +48,7 @@ public class ControllerTransacoes {
         return ResponseEntity.ok("Transação registrada com sucesso!");
     }
 
-    // Update de um usuário por id
+    // Update de um usuário por id ================================================
     @SuppressWarnings("null")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> putUpdateTransacao(@PathVariable Integer id, @RequestBody Transacoes transacao) {
@@ -54,7 +56,7 @@ public class ControllerTransacoes {
         return service.putUpdateTransacao(id, transacao);
     }
 
-    // Deletar um usuário por id
+    // Deletar um usuário por id ==================================================
     @SuppressWarnings("null")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deleteTransacaoId(@PathVariable Integer id) {
