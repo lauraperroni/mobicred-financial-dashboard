@@ -65,6 +65,6 @@ public class ControllerMetasFinanceiras {
     // Deletar uma meta financeira por id =========================================
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deleteMetaFinanceira(@PathVariable Integer id) {
-        return service.deleteMetaFinanceira(id);
+        return service.deleteMetaFinanceiraId(id);
     }
 }

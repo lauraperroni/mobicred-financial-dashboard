@@ -1,13 +1,10 @@
 package com.projetofinal.projetofinal.service;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.projetofinal.projetofinal.dtos.MetasFinanceirasDto;
 import com.projetofinal.projetofinal.model.MetasFinanceiras;
 import com.projetofinal.projetofinal.repository.MetasFinanceirasRepository;
@@ -50,24 +47,28 @@ public class MetasFinanceirasService {
     }
 
     // Trazer uma meta financeira pelo id ====================================
+    @SuppressWarnings("null")
     public MetasFinanceiras getMetaFinanceiraId(Integer id) {
         return repository.findById(id).get();
     }
 
     // Trazer metas financeiras pelo id Dto ==================================
-    public MetasFinanceirasDto getMetaFinanceiraDto(Integer id) {
+    public MetasFinanceirasDto getMetaFinanceiraIdDto(Integer id) {
+        @SuppressWarnings("null")
         MetasFinanceiras meta = repository.findById(id).get();
         MetasFinanceirasDto dto = new MetasFinanceirasDto(meta);
         return dto;
     }
 
-    // Criar uma nova meta financeira ==================================
+    // Criar uma nova meta financeira ========================================
+    @SuppressWarnings("null")
     public ResponseEntity<String> postNovaMetaFinanceira(MetasFinanceiras meta) {
         repository.save(meta);
         return ResponseEntity.ok("Meta financeira criada com sucesso.");
     }
 
     // Atualizar uma meta financeira por id ==================================
+    @SuppressWarnings("null")
     public ResponseEntity<String> putUpdateMetaFinanceira(Integer id, MetasFinanceiras meta) {
         if (repository.existsById(id)) {
             meta.setId(id);
@@ -79,6 +80,7 @@ public class MetasFinanceirasService {
     }
 
     // Deletar uma meta financeira por id ================================
+    @SuppressWarnings("null")
     public ResponseEntity<String> deleteMetaFinanceiraId(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
