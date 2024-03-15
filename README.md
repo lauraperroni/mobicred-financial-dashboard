@@ -103,3 +103,13 @@ O Dashboard Financeiro é uma solução abrangente para o gerenciamento financei
 | /contasbancarias/nova           | POST   | Cria uma nova conta bancária            |
 | /contasbancarias/atualizar/{id} | PUT    | Atualiza uma conta bancária pelo seu Id |
 | /contasbancarias/deletar/{id}   | DELETE | Deleta conta bancária pelo seu Id       |
+
+### MetasFinanceiras (/metasfinanceiras)
+
+| Endpoint                         | Tipo   | Descrição                                |
+|----------------------------------|--------|------------------------------------------|
+| /metasfinanceiras/todas          | GET    | Traz lista de todas as metas financeiras |
+| /metasfinanceiras/{id}           | GET    | Traz uma meta financeira pelo seu Id     |
+| /metasfinanceiras/nova           | POST   | Cria uma nova meta financeira            |
+| /metasfinanceiras/atualizar/{id} | PUT    | Atualiza uma meta financeira pelo seu Id |
+| /metasfinanceiras/deletar/{id}   | DELETE | Deleta meta financeira pelo seu Id       |
