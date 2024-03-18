@@ -44,7 +44,6 @@ public class ControllerContasBancarias {
     }
 
     // Adicionar nova conta bancaria ===========================================
-    @SuppressWarnings("null")
     @PostMapping("/nova")
     public ResponseEntity<String> postNovaContaBancaria(@RequestBody ContasBancarias conta) {
         service.postNovaContaBancaria(conta);
@@ -52,7 +51,6 @@ public class ControllerContasBancarias {
     }
 
     // Update de um usuário por id =============================================
-    @SuppressWarnings("null")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> putUpdateContaBancaria(@PathVariable Integer id, @RequestBody ContasBancarias conta) {
         conta.setId(id);
@@ -60,7 +58,6 @@ public class ControllerContasBancarias {
     }
 
     // Deletar um usuário por id ===============================================
-    @SuppressWarnings("null")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deleteContaBancariaId(@PathVariable Integer id) {
         return service.deleteContaBancariaId(id);

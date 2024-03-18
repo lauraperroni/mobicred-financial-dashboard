@@ -34,14 +34,12 @@ public class ControllerTransacoes {
     }
 
     // Traz uma transacao pelo id DTO ==============================================
-    @SuppressWarnings("null")
     @GetMapping("/{id}")
     public TransacoesDto getTransacaoId(@PathVariable Integer id) {
         return service.getTransacaoIdDto(id);
     }
 
     // Adicionar novo usuário ======================================================
-    @SuppressWarnings("null")
     @PostMapping("/nova")
     public ResponseEntity<String> postNovaTransacao(@RequestBody Transacoes transacao) {
         service.postNovaTransacao(transacao);
@@ -49,7 +47,6 @@ public class ControllerTransacoes {
     }
 
     // Update de um usuário por id ================================================
-    @SuppressWarnings("null")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> putUpdateTransacao(@PathVariable Integer id, @RequestBody Transacoes transacao) {
         transacao.setId(id);
@@ -57,7 +54,6 @@ public class ControllerTransacoes {
     }
 
     // Deletar um usuário por id ==================================================
-    @SuppressWarnings("null")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deleteTransacaoId(@PathVariable Integer id) {
         return service.deleteTransacaoId(id);

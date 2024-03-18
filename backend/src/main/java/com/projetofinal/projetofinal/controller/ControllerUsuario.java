@@ -36,28 +36,24 @@ public class ControllerUsuario {
     }
 
     // Traz um usuário pelo id DTO =================================================
-    @SuppressWarnings("null")
     @GetMapping("/{id}")
     public UsuariosDto getUsuarioIdDto(@PathVariable Integer id) {
         return service.getUsuarioIdDto(id);
     }
 
     // Adicionar novo usuário ======================================================
-    @SuppressWarnings("null")
     @PostMapping("/novo")
     public ResponseEntity<String> postNovoUsuario(@RequestBody Usuarios usuario) {
         return service.postNovoUsuario(usuario);
     }
 
     // Update de um usuário por id =================================================
-    @SuppressWarnings("null")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> putUpdateUsuario(@PathVariable Integer id, @RequestBody Usuarios usuario) {
         return service.putUpdateUsuario(id, usuario);
     }
 
     // Deletar um usuário por id ===================================================
-    @SuppressWarnings("null")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deleteUsuarioId(@PathVariable Integer id) {
         return service.deleteUsuarioId(id);

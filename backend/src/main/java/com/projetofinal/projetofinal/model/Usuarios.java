@@ -1,5 +1,7 @@
 package com.projetofinal.projetofinal.model;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,7 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuarios {
+public class Usuarios extends RepresentationModel<Usuarios> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

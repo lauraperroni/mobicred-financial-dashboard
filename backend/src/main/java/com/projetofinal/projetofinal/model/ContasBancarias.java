@@ -15,6 +15,7 @@ public class ContasBancarias {
     private Integer idUsuario;
     private String tipoConta;
     private Double saldo;
+
     // Construtores ============================================================
 
     // Construtor no args
