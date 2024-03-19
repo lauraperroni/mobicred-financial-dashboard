@@ -2,10 +2,8 @@ package com.projetofinal.projetofinal.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.projetofinal.projetofinal.model.ContasBancarias;
+import com.projetofinal.projetofinal.model.User;
 
 @Repository
-public interface ContasBancariasRepository extends JpaRepository<ContasBancarias, Integer> {
-
+public interface UserRepository extends JpaRepository<User, Integer> {
 }

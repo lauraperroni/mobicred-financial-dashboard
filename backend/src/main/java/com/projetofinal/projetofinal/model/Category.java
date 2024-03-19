@@ -7,23 +7,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "categorias")
-public class Categorias {
+@Table(name = "Categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String categoria;
+    private String name;
 
     // Construtores ============================================================
 
     // Construtor no args
-    public Categorias() {
+    public Category() {
     }
 
     // Construtor all args
-    public Categorias(Integer id, String categoria) {
+    public Category(Integer id, String name) {
         this.id = id;
-        this.categoria = categoria;
+        this.name = name;
     }
 
     // Getters e Setters =======================================================
@@ -36,11 +36,11 @@ public class Categorias {
         this.id = id;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setName(String name) {
+        this.name = name;
     }
 }

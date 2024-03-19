@@ -13,31 +13,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetofinal.projetofinal.dtos.MetasFinanceirasDto;
-import com.projetofinal.projetofinal.model.MetasFinanceiras;
-import com.projetofinal.projetofinal.service.MetasFinanceirasService;
+import com.projetofinal.projetofinal.dtos.FinancialGoalDto;
+import com.projetofinal.projetofinal.model.FinancialGoal;
+import com.projetofinal.projetofinal.service.FinancialGoalService;
 
 @RestController
-@RequestMapping("/metasfinanceiras")
-public class ControllerMetasFinanceiras {
+@RequestMapping("/financialgoals")
+public class ControllerFinancialGoal {
 
     // Cria a dependencia do service pra conversar com banco de dados
     @Autowired
-    private MetasFinanceirasService service;
+    private FinancialGoalService service;
 
     // Endpoints ===============================================================
 
     // Trazer todas as metas financeiras DTO ====================================
-    @GetMapping("/todas")
-    public List<MetasFinanceirasDto> getAllMetasFinanceirasDto() {
-        return service.getAllMetasFinanceirasDto();
+    @GetMapping("/all")
+    public List<FinancialGoalDto> getAllFinancialGoalDto() {
+        return service.getAllFinancialGoalDtoService();
     }
 
     // Traz uma meta financeira pelo id DTO ======================================
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getMetaFinanceiraId(@PathVariable Integer id) {
-        MetasFinanceirasDto dto = service.getMetaFinanceiraIdDto(id);
+    public ResponseEntity<?> getFinancialGoalId(@PathVariable Integer id) {
+        FinancialGoalDto dto = service.getFinancialGoalIdDtoService(id);
         if (dto != null) {
             return ResponseEntity.ok().body(dto);
         } else {
@@ -47,24 +47,24 @@ public class ControllerMetasFinanceiras {
 
     // Adicionar nova meta financeira ===========================================
 
-    @PostMapping("/nova")
-    public ResponseEntity<String> postNovaMetaFinanceira(@RequestBody MetasFinanceiras meta) {
-        service.postNovaMetaFinanceira(meta);
-        return ResponseEntity.ok("Meta financeira registrada com sucesso.");
+    @PostMapping("/new")
+    public ResponseEntity<String> postNovaMetaFinanceira(@RequestBody FinancialGoal goal) {
+        service.postNewFinancialGoalService(goal);
+        return ResponseEntity.ok("New goal created.");
     }
 
     // Update de uma meta financeira por id ========================================
 
-    @PutMapping("/atualizar/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> putUpdateMetaFinanceira(@PathVariable Integer id,
-            @RequestBody MetasFinanceiras meta) {
-        meta.setId(id);
-        return service.putUpdateMetaFinanceira(id, meta);
+            @RequestBody FinancialGoal goal) {
+        goal.setId(id);
+        return service.putUpdateFinancialGoalService(id, goal);
     }
 
     // Deletar uma meta financeira por id =========================================
-    @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> deleteMetaFinanceira(@PathVariable Integer id) {
-        return service.deleteMetaFinanceiraId(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteFinancialGoalId(@PathVariable Integer id) {
+        return service.deleteFinancialGoalIdService(id);
     }
 }

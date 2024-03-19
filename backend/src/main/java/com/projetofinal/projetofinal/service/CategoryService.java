@@ -3,56 +3,58 @@ package com.projetofinal.projetofinal.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import com.projetofinal.projetofinal.model.Categorias;
-import com.projetofinal.projetofinal.repository.CategoriasRepository;
+import com.projetofinal.projetofinal.model.Category;
+import com.projetofinal.projetofinal.repository.CategoryRepository;
 
-public class CategoriasService {
+@Service
+public class CategoryService {
 
     // Repositório que vai conversar com o banco de dados
     @Autowired
-    private CategoriasRepository repository;
+    private CategoryRepository repository;
 
     // Métodos que os Endpoints usam ============================================
 
     // Trazer todas as categorias ===============================================
-    public List<Categorias> getAllCategorias() {
+    public List<Category> getAllCategoryService() {
         return repository.findAll();
     }
 
     // Traz uma categoria pelo id ================================================
     @SuppressWarnings("null")
-    public Categorias getCategoriaId(Integer id) {
+    public Category getCategoryIdService(Integer id) {
         return repository.findById(id).get();
     }
 
     // Adicionar novo usuário =================================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> postNovaCategoria(Categorias categoria) {
-        repository.save(categoria);
-        return ResponseEntity.ok("Categoria criada com sucesso.");
+    public ResponseEntity<String> postNewCategoryService(Category category) {
+        repository.save(category);
+        return ResponseEntity.ok("New category created.");
     }
 
     // Update de um usuário por id ============================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> putUpdateCategoria(Integer id, Categorias categoria) {
+    public ResponseEntity<String> putUpdateCategoryService(Integer id, Category category) {
         if (repository.existsById(id)) {
-            categoria.setId(id);
-            repository.save(categoria);
-            return ResponseEntity.ok("Categoria atualizada com sucesso.");
+            category.setId(id);
+            repository.save(category);
+            return ResponseEntity.ok("Category updated.");
         } else {
-            return ResponseEntity.status(404).body("Categoria não encontrada.");
+            return ResponseEntity.status(404).body("Category not found.");
         }
     }
 
     // Deletar um usuário por id =============================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> deleteCategoriaId(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteCategoryIdService(@PathVariable Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
-            return ResponseEntity.ok("Categoria deletada com sucesso.");
+            return ResponseEntity.ok("Category created.");
         } else {
-            return ResponseEntity.status(404).body("Categoria não encontrada.");
+            return ResponseEntity.status(404).body("Category not found.");
         }
     }
 }

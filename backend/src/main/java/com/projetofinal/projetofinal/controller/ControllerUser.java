@@ -11,51 +11,51 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetofinal.projetofinal.dtos.UsuariosDto;
-import com.projetofinal.projetofinal.model.Usuarios;
-import com.projetofinal.projetofinal.service.UsuariosService;
+import com.projetofinal.projetofinal.dtos.UserDto;
+import com.projetofinal.projetofinal.model.User;
+import com.projetofinal.projetofinal.service.UserService;
 
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/users")
 
-public class ControllerUsuario {
+public class ControllerUser {
 
     // Cria a dependencia do service pra conversar com banco de dados
     @Autowired
-    private UsuariosService service;
+    private UserService service;
 
     // Endpoints
     // =============================================================================
 
     // Trazer todos os usuários pelo DTO ===========================================
-    @GetMapping("/todos")
-    public List<UsuariosDto> getTodosUsuariosDto() {
-        return service.getAllUsuariosDto();
+    @GetMapping("/all")
+    public List<UserDto> getAllUserDto() {
+        return service.getAllUserDtoService();
     }
 
     // Traz um usuário pelo id DTO =================================================
     @GetMapping("/{id}")
-    public UsuariosDto getUsuarioIdDto(@PathVariable Integer id) {
-        return service.getUsuarioIdDto(id);
+    public UserDto getUserIdDto(@PathVariable Integer id) {
+        return service.getUserIdDtoService(id);
     }
 
     // Adicionar novo usuário ======================================================
-    @PostMapping("/novo")
-    public ResponseEntity<String> postNovoUsuario(@RequestBody Usuarios usuario) {
-        return service.postNovoUsuario(usuario);
+    @PostMapping("/new")
+    public ResponseEntity<String> postNewUser(@RequestBody User user) {
+        return service.postNewUserService(user);
     }
 
     // Update de um usuário por id =================================================
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> putUpdateUsuario(@PathVariable Integer id, @RequestBody Usuarios usuario) {
-        return service.putUpdateUsuario(id, usuario);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> putUpdateUsuario(@PathVariable Integer id, @RequestBody User user) {
+        return service.putUpdateUserService(id, user);
     }
 
     // Deletar um usuário por id ===================================================
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUsuarioId(@PathVariable Integer id) {
-        return service.deleteUsuarioId(id);
+        return service.deleteUserIdService(id);
     }
 }

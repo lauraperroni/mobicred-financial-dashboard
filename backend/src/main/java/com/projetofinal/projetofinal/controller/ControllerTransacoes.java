@@ -2,9 +2,10 @@ package com.projetofinal.projetofinal.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetofinal.projetofinal.dtos.TransacoesDto;
-import com.projetofinal.projetofinal.model.Transacoes;
-import com.projetofinal.projetofinal.service.TransacoesService;
+import com.projetofinal.projetofinal.dtos.TransactionDto;
+import com.projetofinal.projetofinal.model.Transaction;
+import com.projetofinal.projetofinal.service.TransactionService;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,45 +18,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
-@RequestMapping("/transacoes")
+@RequestMapping("/transactions")
 public class ControllerTransacoes {
 
     // Cria a dependencia do service pra conversar com banco de dados
     @Autowired
-    private TransacoesService service;
+    private TransactionService service;
 
     // Endpoints
     // =============================================================================
 
     // Trazer todas as transacoes DTO =============================================
-    @GetMapping("/todas")
-    public List<TransacoesDto> getAllTransacoesDto() {
-        return service.getAllTransacoesDto();
+    @GetMapping("/all")
+    public List<TransactionDto> getAllTransactionDto() {
+        return service.getAllTransactionsDtoService();
     }
 
     // Traz uma transacao pelo id DTO ==============================================
     @GetMapping("/{id}")
-    public TransacoesDto getTransacaoId(@PathVariable Integer id) {
-        return service.getTransacaoIdDto(id);
+    public TransactionDto getTransactionId(@PathVariable Integer id) {
+        return service.getTransactionIdDtoService(id);
     }
 
     // Adicionar novo usuário ======================================================
-    @PostMapping("/nova")
-    public ResponseEntity<String> postNovaTransacao(@RequestBody Transacoes transacao) {
-        service.postNovaTransacao(transacao);
-        return ResponseEntity.ok("Transação registrada com sucesso!");
+    @PostMapping("/new")
+    public ResponseEntity<String> postNewTransaction(@RequestBody Transaction transaction) {
+        service.postNewTransactionService(transaction);
+        return ResponseEntity.ok("New transaction registered.");
     }
 
     // Update de um usuário por id ================================================
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> putUpdateTransacao(@PathVariable Integer id, @RequestBody Transacoes transacao) {
-        transacao.setId(id);
-        return service.putUpdateTransacao(id, transacao);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> putUpdateTransaction(@PathVariable Integer id, @RequestBody Transaction transaction) {
+        transaction.setId(id);
+        return service.putUpdateTransactionService(id, transaction);
     }
 
     // Deletar um usuário por id ==================================================
-    @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> deleteTransacaoId(@PathVariable Integer id) {
-        return service.deleteTransacaoId(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteTransactionId(@PathVariable Integer id) {
+        return service.deleteTransactionIdService(id);
     }
 }
