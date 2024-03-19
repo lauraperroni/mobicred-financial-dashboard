@@ -73,43 +73,53 @@ O Dashboard Financeiro é uma solução abrangente para o gerenciamento financei
 
 ## Endpoints
 
-### Usuarios (/usuarios)
+### Usuarios (/users)
 
 | Endpoint        | Tipo   | Descrição                       |
 |-----------------|--------|---------------------------------|
-| /usuarios/todos            | GET    | Traz lista de todos os usuários |
-| /usuarios/{id}           | GET    | Traz um usuário pelo seu Id     |
-| /usuarios/novo           | POST   | Cria um novo usuário            |
-| /usuarios/atualizar/{id} | PUT    | Atualiza um usuário pelo seu Id |
-| /usuarios/deletar/{id}   | DELETE | Deleta usuário pelo seu Id      |
+| /users/all            | GET    | Traz lista de todos os usuários |
+| /users/{id}           | GET    | Traz um usuário pelo seu Id     |
+| /users/new           | POST   | Cria um novo usuário            |
+| /users/update/{id} | PUT    | Atualiza um usuário pelo seu Id |
+| /users/delete/{id}   | DELETE | Deleta usuário pelo seu Id      |
 
 
-### Transacoes (/transacoes)
+### Transacoes (/transactions)
 
 | Endpoint                   | Tipo   | Descrição                          |
 |----------------------------|--------|------------------------------------|
-| /transacoes/todas            | GET    | Traz lista de todas as transações  |
-| /transacoes/{id}           | GET    | Traz uma transação pelo seu Id     |
-| /transacoes/novo           | POST   | Cria uma nova transação            |
-| /transacoes/atualizar/{id} | PUT    | Atualiza uma transação pelo seu Id |
-| /transacoes/deletar/{id}   | DELETE | Deleta transação pelo seu Id       |
+| /transactions/todas            | GET    | Traz lista de todas as transações  |
+| /transactions/{id}           | GET    | Traz uma transação pelo seu Id     |
+| /transactions/novo           | POST   | Cria uma nova transação            |
+| /transactions/update/{id} | PUT    | Atualiza uma transação pelo seu Id |
+| /transactions/delete/{id}   | DELETE | Deleta transação pelo seu Id       |
 
-### ContasBancaras (/contasbancarias)
+### ContasBancaras (/bankaccounts)
 
 | Endpoint                        | Tipo   | Descrição                               |
 |---------------------------------|--------|-----------------------------------------|
-| /contasbancarias/todas            | GET    | Traz lista de todas as contas bancárias |
+| /contasbancarias/all            | GET    | Traz lista de todas as contas bancárias |
 | /contasbancarias/{id}           | GET    | Traz uma conta bancária pelo seu Id     |
-| /contasbancarias/nova           | POST   | Cria uma nova conta bancária            |
-| /contasbancarias/atualizar/{id} | PUT    | Atualiza uma conta bancária pelo seu Id |
-| /contasbancarias/deletar/{id}   | DELETE | Deleta conta bancária pelo seu Id       |
+| /contasbancarias/new           | POST   | Cria uma nova conta bancária            |
+| /contasbancarias/update/{id} | PUT    | Atualiza uma conta bancária pelo seu Id |
+| /contasbancarias/delete/{id}   | DELETE | Deleta conta bancária pelo seu Id       |
 
-### MetasFinanceiras (/metasfinanceiras)
+### Financial Goals (/financialgoals)
 
 | Endpoint                         | Tipo   | Descrição                                |
 |----------------------------------|--------|------------------------------------------|
-| /metasfinanceiras/todas          | GET    | Traz lista de todas as metas financeiras |
-| /metasfinanceiras/{id}           | GET    | Traz uma meta financeira pelo seu Id     |
-| /metasfinanceiras/nova           | POST   | Cria uma nova meta financeira            |
-| /metasfinanceiras/atualizar/{id} | PUT    | Atualiza uma meta financeira pelo seu Id |
-| /metasfinanceiras/deletar/{id}   | DELETE | Deleta meta financeira pelo seu Id       |
+| /financialgoals/all          | GET    | Traz lista de todas as metas financeiras |
+| /financialgoals/{id}           | GET    | Traz uma meta financeira pelo seu Id     |
+| /financialgoals/new           | POST   | Cria uma nova meta financeira            |
+| /financialgoals/update/{id} | PUT    | Atualiza uma meta financeira pelo seu Id |
+| /financialgoals/delete/{id}   | DELETE | Deleta meta financeira pelo seu Id       |
+
+### Categories (/categories)
+
+| Endpoint                         | Tipo   | Descrição                                |
+|----------------------------------|--------|------------------------------------------|
+| /categories/all          | GET    | Traz lista de todas as categorias |
+| /categories/{id}           | GET    | Traz uma categoria pelo seu Id     |
+| /categories/new           | POST   | Cria uma nova categoria            |
+| /categories/update/{id} | PUT    | Atualiza uma categoria pelo seu Id |
+| /categories/delete/{id}   | DELETE | Deleta categoria pelo seu Id       |
