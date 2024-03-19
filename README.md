@@ -88,9 +88,9 @@ O Dashboard Financeiro é uma solução abrangente para o gerenciamento financei
 
 | Endpoint                   | Tipo   | Descrição                          |
 |----------------------------|--------|------------------------------------|
-| /transactions/todas            | GET    | Traz lista de todas as transações  |
+| /transactions/all            | GET    | Traz lista de todas as transações  |
 | /transactions/{id}           | GET    | Traz uma transação pelo seu Id     |
-| /transactions/novo           | POST   | Cria uma nova transação            |
+| /transactions/new           | POST   | Cria uma nova transação            |
 | /transactions/update/{id} | PUT    | Atualiza uma transação pelo seu Id |
 | /transactions/delete/{id}   | DELETE | Deleta transação pelo seu Id       |
 
@@ -98,11 +98,11 @@ O Dashboard Financeiro é uma solução abrangente para o gerenciamento financei
 
 | Endpoint                        | Tipo   | Descrição                               |
 |---------------------------------|--------|-----------------------------------------|
-| /contasbancarias/all            | GET    | Traz lista de todas as contas bancárias |
-| /contasbancarias/{id}           | GET    | Traz uma conta bancária pelo seu Id     |
-| /contasbancarias/new           | POST   | Cria uma nova conta bancária            |
-| /contasbancarias/update/{id} | PUT    | Atualiza uma conta bancária pelo seu Id |
-| /contasbancarias/delete/{id}   | DELETE | Deleta conta bancária pelo seu Id       |
+| /bankaccounts/all            | GET    | Traz lista de todas as contas bancárias |
+| /bankaccounts/{id}           | GET    | Traz uma conta bancária pelo seu Id     |
+| /bankaccounts/new           | POST   | Cria uma nova conta bancária            |
+| /bankaccounts/update/{id} | PUT    | Atualiza uma conta bancária pelo seu Id |
+| /bankaccounts/delete/{id}   | DELETE | Deleta conta bancária pelo seu Id       |
 
 ### Financial Goals (/financialgoals)
 
