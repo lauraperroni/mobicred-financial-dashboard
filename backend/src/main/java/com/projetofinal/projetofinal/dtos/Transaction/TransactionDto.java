@@ -6,6 +6,8 @@ public class TransactionDto {
     private Integer id;
     private Double amount;
     private Integer categoryId;
+    private Integer bankAccountId;
+
     // Construtores =============================================================
 
     // Construtor no args
@@ -17,6 +19,13 @@ public class TransactionDto {
         this.id = id;
         this.amount = amount;
         this.categoryId = categoryId;
+    }
+
+    // Construtor sem o id e com o id bankaccount
+    public TransactionDto(Double amount, Integer categoryId, Integer bankAccountId) {
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.bankAccountId = bankAccountId;
     }
 
     // Construtor usando Transacoes como args
@@ -49,6 +58,14 @@ public class TransactionDto {
 
     public void setCategoryIdDto(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Integer getBankAccountId() {
+        return bankAccountId;
+    }
+
+    public void setBankAccountId(Integer bankAccountId) {
+        this.bankAccountId = bankAccountId;
     }
 
 }

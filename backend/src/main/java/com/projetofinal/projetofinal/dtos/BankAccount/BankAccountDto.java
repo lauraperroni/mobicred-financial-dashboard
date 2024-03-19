@@ -1,4 +1,4 @@
-package com.projetofinal.projetofinal.dtos;
+package com.projetofinal.projetofinal.dtos.BankAccount;
 
 import com.projetofinal.projetofinal.model.BankAccount;
 
@@ -21,7 +21,7 @@ public class BankAccountDto {
         this.userId = userId;
     }
 
-    // Construtor sem o id
+    // Construtor sem o id e com o id user
     public BankAccountDto(String accountType, Double balance, Integer userId) {
         this.accountType = accountType;
         this.balance = balance;

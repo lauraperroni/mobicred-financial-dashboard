@@ -1,4 +1,4 @@
-package com.projetofinal.projetofinal.dtos;
+package com.projetofinal.projetofinal.dtos.BankAccount;
 
 public record BankAccountRequestDto(
         String accountType,

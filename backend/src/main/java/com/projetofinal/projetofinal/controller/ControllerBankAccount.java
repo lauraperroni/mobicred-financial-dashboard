@@ -2,8 +2,8 @@ package com.projetofinal.projetofinal.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetofinal.projetofinal.dtos.BankAccountDto;
-import com.projetofinal.projetofinal.dtos.BankAccountRequestDto;
+import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountDto;
+import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.model.BankAccount;
 import com.projetofinal.projetofinal.service.BankAccountService;
 import java.util.List;
