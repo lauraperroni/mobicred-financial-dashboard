@@ -1,4 +1,4 @@
-package com.projetofinal.projetofinal.dtos;
+package com.projetofinal.projetofinal.dtos.User;
 
 import com.projetofinal.projetofinal.model.User;
 

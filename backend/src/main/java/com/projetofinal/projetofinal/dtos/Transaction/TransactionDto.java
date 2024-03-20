@@ -1,4 +1,4 @@
-package com.projetofinal.projetofinal.dtos;
+package com.projetofinal.projetofinal.dtos.Transaction;
 
 import com.projetofinal.projetofinal.model.Transaction;
 

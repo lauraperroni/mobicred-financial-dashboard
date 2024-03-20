@@ -10,8 +10,8 @@ import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.model.BankAccount;
 import com.projetofinal.projetofinal.model.User;
-import com.projetofinal.projetofinal.repository.BankAccountRepository;
-import com.projetofinal.projetofinal.repository.UserRepository;
+import com.projetofinal.projetofinal.repository.BankAccount.BankAccountRepository;
+import com.projetofinal.projetofinal.repository.User.UserRepository;
 
 @Service
 public class BankAccountService {

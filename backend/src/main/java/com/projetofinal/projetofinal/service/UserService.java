@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import com.projetofinal.projetofinal.dtos.UserDto;
+
+import com.projetofinal.projetofinal.dtos.User.UserDto;
 import com.projetofinal.projetofinal.model.User;
-import com.projetofinal.projetofinal.repository.UserRepository;
+import com.projetofinal.projetofinal.repository.User.UserRepository;
 
 @Service
 public class UserService {

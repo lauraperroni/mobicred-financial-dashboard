@@ -5,9 +5,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.projetofinal.projetofinal.dtos.FinancialGoalDto;
+
+import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalDto;
 import com.projetofinal.projetofinal.model.FinancialGoal;
-import com.projetofinal.projetofinal.repository.FinancialGoalRepository;
+import com.projetofinal.projetofinal.repository.FinancialGoal.FinancialGoalRepository;
 
 @Service
 public class FinancialGoalService {

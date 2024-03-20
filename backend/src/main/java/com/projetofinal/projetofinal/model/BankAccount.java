@@ -78,7 +78,7 @@ public class BankAccount {
     // Métodos de relação entre tabelas ===================================
 
     // BankAccount - Transactions 1 - *
-    public void addBankAccountToList(Transaction transaction) {
+    public void addTransactionToList(Transaction transaction) {
         transactions.add(transaction);
         transaction.setBankAccount(this);
     }

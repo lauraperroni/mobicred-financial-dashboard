@@ -2,7 +2,8 @@ package com.projetofinal.projetofinal.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetofinal.projetofinal.dtos.TransactionDto;
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionDto;
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
 import com.projetofinal.projetofinal.model.Transaction;
 import com.projetofinal.projetofinal.service.TransactionService;
 
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/transactions")
-public class ControllerTransacoes {
+public class ControllerTransactions {
 
     // Cria a dependencia do service pra conversar com banco de dados
     @Autowired
@@ -40,10 +41,10 @@ public class ControllerTransacoes {
         return service.getTransactionIdDtoService(id);
     }
 
-    // Adicionar novo usuário ======================================================
+    // Adicionar a transação =======================================================
     @PostMapping("/new")
-    public ResponseEntity<String> postNewTransaction(@RequestBody Transaction transaction) {
-        service.postNewTransactionService(transaction);
+    public ResponseEntity<String> postNewTransaction(@RequestBody TransactionRequestDto transaction) {
+        service.postNewTransactionDtoService(transaction);
         return ResponseEntity.ok("New transaction registered.");
     }
 

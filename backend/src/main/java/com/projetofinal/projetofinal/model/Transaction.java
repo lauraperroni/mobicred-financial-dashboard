@@ -39,6 +39,13 @@ public class Transaction {
         this.idBankAccount = idBankAccount;
     }
 
+    // Construtor some args
+    public Transaction(Double amount, Date date, Integer categoryId) {
+        this.amount = amount;
+        this.date = date;
+        this.categoryId = categoryId;
+    }
+
     // Getters e Setters =======================================================
 
     public Integer getId() {

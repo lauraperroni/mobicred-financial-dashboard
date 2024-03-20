@@ -46,7 +46,7 @@ public class ControllerBankAccount {
 
     // Adicionar nova account bancaria ===========================================
     @PostMapping("/new")
-    public ResponseEntity<String> postNovaaccountBancaria(@RequestBody BankAccountRequestDto account) {
+    public ResponseEntity<String> postNewBankAccount(@RequestBody BankAccountRequestDto account) {
         service.postNewBankAccountDtoService(account);
         return ResponseEntity.ok("New bank account registered.");
     }

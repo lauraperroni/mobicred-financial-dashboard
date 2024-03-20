@@ -5,28 +5,34 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.projetofinal.projetofinal.dtos.TransactionDto;
+
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionDto;
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
+import com.projetofinal.projetofinal.model.BankAccount;
 import com.projetofinal.projetofinal.model.Transaction;
-import com.projetofinal.projetofinal.repository.TransactionRepository;
+import com.projetofinal.projetofinal.repository.BankAccount.BankAccountRepository;
+import com.projetofinal.projetofinal.repository.Transaction.TransactionRepository;
 
 @Service
 public class TransactionService {
 
-    // Cria a dependencia do repository pra conversar com banco de dados
+    // Cria a dependencia do transactionRepository pra conversar com banco de dados
     @Autowired
-    private TransactionRepository repository;
+    private TransactionRepository transactionRepository;
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
 
     // Métodos que os Endpoints usam ============================================
 
     // Trazer todas as transacoes ===============================================
     public List<Transaction> getAllTransactionsService() {
-        return repository.findAll();
+        return transactionRepository.findAll();
     }
 
     // Trazer todas as transacoes Dto ===========================================
 
     public List<TransactionDto> getAllTransactionsDtoService() {
-        List<Transaction> transactions = repository.findAll();
+        List<Transaction> transactions = transactionRepository.findAll();
         return mapTransactionListToTransactionDtoListService(transactions);
     }
 
@@ -52,13 +58,13 @@ public class TransactionService {
     // Traz uma transacao pelo id ===============================================
     @SuppressWarnings("null")
     public Transaction getTransactionIdService(Integer id) {
-        return repository.findById(id).get();
+        return transactionRepository.findById(id).get();
     }
 
     // Traz uma transacao pelo id DTO ===========================================
     @SuppressWarnings("null")
     public TransactionDto getTransactionIdDtoService(Integer id) {
-        Transaction transaction = repository.findById(id).get(); // instancia um objeto pelo Id
+        Transaction transaction = transactionRepository.findById(id).get(); // instancia um objeto pelo Id
         TransactionDto dto = new TransactionDto(transaction); // transforma em um objeto dto
         return dto;
     }
@@ -66,16 +72,26 @@ public class TransactionService {
     // Adicionar nova transacao =================================================
     @SuppressWarnings("null")
     public ResponseEntity<String> postNewTransactionService(Transaction transaction) {
-        repository.save(transaction);
+        transactionRepository.save(transaction);
         return ResponseEntity.ok("Transaction registered.");
+    }
+
+    // Adicionar nova transação DTO ============================================
+    @SuppressWarnings("null")
+    public ResponseEntity<String> postNewTransactionDtoService(TransactionRequestDto transaction) {
+        BankAccount bank = bankAccountRepository.findById(transaction.bankAccountId()).get();
+        Transaction trans = new Transaction(transaction.amount(), transaction.date(), transaction.categoryId());
+        bank.addTransactionToList(trans);
+        transactionRepository.save(trans);
+        return ResponseEntity.ok("New transaction created.");
     }
 
     // Update de um usuário por id ==============================================
     @SuppressWarnings("null")
     public ResponseEntity<String> putUpdateTransactionService(Integer id, Transaction transaction) {
-        if (repository.existsById(id)) {
+        if (transactionRepository.existsById(id)) {
             transaction.setId(id);
-            repository.save(transaction);
+            transactionRepository.save(transaction);
             return ResponseEntity.ok("Transaction updated.");
         } else {
             return ResponseEntity.status(404).body("Transaction not found.");
@@ -85,8 +101,8 @@ public class TransactionService {
     // Deletar um usuário por id ================================================
     @SuppressWarnings("null")
     public ResponseEntity<String> deleteTransactionIdService(Integer id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        if (transactionRepository.existsById(id)) {
+            transactionRepository.deleteById(id);
             return ResponseEntity.ok("Transaction deleted.");
         } else {
             return ResponseEntity.status(404).body("Transaction not found.");
