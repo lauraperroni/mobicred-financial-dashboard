@@ -26,7 +26,7 @@ public class BankAccount {
     private User user;
 
     // Lista de trançaões dessa conta bancária
-    @OneToMany(mappedBy = "bankaccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
     // Construtores ============================================================
