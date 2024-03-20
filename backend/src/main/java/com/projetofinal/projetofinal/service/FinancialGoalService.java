@@ -32,8 +32,8 @@ public class FinancialGoalService {
 
     // Trazer todas as metas financeiras Dto ====================================
     public List<FinancialGoalDto> getAllFinancialGoalDtoService() {
-        List<FinancialGoal> metas = financialGoalRepository.findAll();
-        return mapGoalListToGoalDtoListService(metas);
+        List<FinancialGoal> goals = financialGoalRepository.findAll();
+        return mapGoalListToGoalDtoListService(goals);
     }
 
     // Pega os objetos transformados em DTO e cria uma lista
@@ -47,6 +47,7 @@ public class FinancialGoalService {
     public FinancialGoalDto mapGoalToGoalDtoService(FinancialGoal goal) {
         FinancialGoalDto dto = new FinancialGoalDto();
         // Mapeie os campos para o DTO conforme necessário
+        dto.setIdDto(goal.getId());
         dto.setDescriptionDto(goal.getDescription());
         dto.setAmountDto(goal.getAmount());
         dto.setDateDto(goal.getDate());

@@ -38,7 +38,6 @@ public class BankAccountService {
     }
 
     // Método para converter uma lista de objetos BankAccount em uma lista de
-    // objetos BankAccountDto
     private List<BankAccountDto> mapBankAccountListToBankAccountDtoListService(List<BankAccount> accounts) {
         return accounts.stream()
                 .map(this::mapBankAccountToBankAccountDtoService) // usando o método abaixo
@@ -52,7 +51,6 @@ public class BankAccountService {
         dto.setIdDto(account.getId());
         dto.setBalanceDto(account.getBalance());
         dto.setAccountTypeDto(account.getAccountType());
-        // Faça o mesmo para outros campos
         return dto;
     }
 
