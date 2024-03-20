@@ -40,6 +40,12 @@ public class FinancialGoal {
         this.date = date;
     }
 
+    public FinancialGoal(String description, Double amount, Date date) {
+        this.description = description;
+        this.amount = amount;
+        this.date = date;
+    }
+
     // Getters e Setters =======================================================
 
     public Integer getId() {
