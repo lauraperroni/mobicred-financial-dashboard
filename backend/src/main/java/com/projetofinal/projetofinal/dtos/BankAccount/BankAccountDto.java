@@ -6,7 +6,6 @@ public class BankAccountDto {
     private Integer id;
     private String accountType;
     private Double balance;
-    private Integer userId;
     // Construtores ============================================================
 
     // Construtor no args
@@ -14,18 +13,17 @@ public class BankAccountDto {
     }
 
     // Construtor all args
-    public BankAccountDto(Integer id, String accountType, Double balance, Integer userId) {
+    public BankAccountDto(Integer id, String accountType, Double balance) {
         this.id = id;
         this.accountType = accountType;
         this.balance = balance;
-        this.userId = userId;
+
     }
 
     // Construtor sem o id e com o id user
-    public BankAccountDto(String accountType, Double balance, Integer userId) {
+    public BankAccountDto(String accountType, Double balance) {
         this.accountType = accountType;
         this.balance = balance;
-        this.userId = userId;
     }
 
     // Construtor usando BankAccount como args
@@ -59,14 +57,6 @@ public class BankAccountDto {
 
     public void setBalanceDto(Double balance) {
         this.balance = balance;
-    }
-
-    public Integer getUserIdDto() {
-        return userId;
-    }
-
-    public void setUserIdDto(Integer userId) {
-        this.userId = userId;
     }
 
 }

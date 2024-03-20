@@ -16,7 +16,6 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Integer idBankAccount;
     private Double amount;
     private Date date;
     private Integer categoryId;
@@ -32,14 +31,6 @@ public class Transaction {
     }
 
     // Construtor all args
-    public Transaction(Integer idBankAccount, Double amount, Date date, Integer categoryId) {
-        this.amount = amount;
-        this.date = date;
-        this.categoryId = categoryId;
-        this.idBankAccount = idBankAccount;
-    }
-
-    // Construtor some args
     public Transaction(Double amount, Date date, Integer categoryId) {
         this.amount = amount;
         this.date = date;
@@ -54,14 +45,6 @@ public class Transaction {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getIdBankAccount() {
-        return idBankAccount;
-    }
-
-    public void setIdBankAccount(Integer idBankAccount) {
-        this.idBankAccount = idBankAccount;
     }
 
     public Double getAmount() {

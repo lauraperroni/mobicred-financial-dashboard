@@ -41,7 +41,8 @@ public class ControllerTransactions {
         return service.getTransactionIdDtoService(id);
     }
 
-    // Adicionar a transação =======================================================
+    // Adicionar nova transação
+    // =======================================================
     @PostMapping("/new")
     public ResponseEntity<String> postNewTransaction(@RequestBody TransactionRequestDto transaction) {
         service.postNewTransactionDtoService(transaction);
