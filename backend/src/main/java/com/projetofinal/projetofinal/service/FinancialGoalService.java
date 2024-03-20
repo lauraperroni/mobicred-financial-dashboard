@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalDto;
 import com.projetofinal.projetofinal.model.FinancialGoal;
 import com.projetofinal.projetofinal.repository.FinancialGoal.FinancialGoalRepository;
+import com.projetofinal.projetofinal.repository.User.UserRepository;
 
 @Service
 public class FinancialGoalService {
@@ -16,6 +17,9 @@ public class FinancialGoalService {
     // Cria a dependencia do repository pra conversar com banco de dados
     @Autowired
     private FinancialGoalRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     // Métodos que os Endpoints usam ============================================
 

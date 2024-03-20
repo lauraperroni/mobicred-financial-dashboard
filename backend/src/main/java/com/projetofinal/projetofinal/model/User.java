@@ -23,8 +23,15 @@ public class User extends RepresentationModel<User> {
     private String email;
     private String password;
 
+    // Listas de relacionamento entre tabelas
+
+    // User - BankAcconut
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<BankAccount> bankAccounts;
+
+    // User - FinancialGoal
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<FinancialGoal> financialGoals;
 
     // Construtores ============================================================
 
@@ -96,5 +103,11 @@ public class User extends RepresentationModel<User> {
     public void addBankAccountToList(BankAccount bankAccount) {
         bankAccounts.add(bankAccount);
         bankAccount.setUser(this);
+    }
+
+    // User - FinancialGoal 1-*
+    public void addFinancialGoalToList(FinancialGoal financialGoal) {
+        financialGoals.add(financialGoal);
+        financialGoal.setUser(this);
     }
 }
