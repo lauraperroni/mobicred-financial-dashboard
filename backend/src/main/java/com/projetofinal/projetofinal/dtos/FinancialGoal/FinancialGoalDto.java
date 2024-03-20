@@ -5,6 +5,7 @@ import java.sql.Date;
 import com.projetofinal.projetofinal.model.FinancialGoal;
 
 public class FinancialGoalDto {
+    private Integer id;
     private String description;
     private Double amount;
     private Date date;
@@ -16,6 +17,14 @@ public class FinancialGoalDto {
     }
 
     // Construtor all args
+    public FinancialGoalDto(Integer id, String description, Double amount, Date date) {
+        this.id = id;
+        this.description = description;
+        this.amount = amount;
+        this.date = date;
+    }
+
+    // Construtor sem id
     public FinancialGoalDto(String description, Double amount, Date date) {
         this.description = description;
         this.amount = amount;
@@ -24,6 +33,7 @@ public class FinancialGoalDto {
 
     // Construtor usando model
     public FinancialGoalDto(FinancialGoal goal) {
+        id = goal.getId();
         description = goal.getDescription();
         amount = goal.getAmount();
         date = goal.getDate();
@@ -53,6 +63,14 @@ public class FinancialGoalDto {
 
     public void setDateDto(Date date) {
         this.date = date;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }
