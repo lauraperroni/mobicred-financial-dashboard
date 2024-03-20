@@ -68,8 +68,10 @@ O Dashboard Financeiro é uma solução abrangente para o gerenciamento financei
 
 
 ## Diagrama do Banco de Dados
-![Diagrama](/img/Diagrama%20BD.png)
 
+### Versão 1.0
+![Diagrama](/img/Diagrama%20BD.png)
+![Diagrama](/img/Diagram%202.0.png)
 
 ## Endpoints
 
