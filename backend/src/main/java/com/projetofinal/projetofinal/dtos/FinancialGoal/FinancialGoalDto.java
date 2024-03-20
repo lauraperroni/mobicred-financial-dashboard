@@ -32,14 +32,22 @@ public class FinancialGoalDto {
     }
 
     // Construtor usando model
-    public FinancialGoalDto(FinancialGoal goal) {
-        id = goal.getId();
-        description = goal.getDescription();
-        amount = goal.getAmount();
-        date = goal.getDate();
+    public FinancialGoalDto(FinancialGoal goals) {
+        id = goals.getId();
+        description = goals.getDescription();
+        amount = goals.getAmount();
+        date = goals.getDate();
     }
 
     // Getters e Setters ========================================================
+
+    public Integer getIdDto() {
+        return id;
+    }
+
+    public void setIdDto(Integer id) {
+        this.id = id;
+    }
 
     public String getDescriptionDto() {
         return description;
@@ -63,14 +71,6 @@ public class FinancialGoalDto {
 
     public void setDateDto(Date date) {
         this.date = date;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
 }

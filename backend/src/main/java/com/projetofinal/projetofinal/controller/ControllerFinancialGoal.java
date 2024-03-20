@@ -1,7 +1,6 @@
 package com.projetofinal.projetofinal.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalDto;
+import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.FinancialGoal;
 import com.projetofinal.projetofinal.service.FinancialGoalService;
 
@@ -48,15 +47,15 @@ public class ControllerFinancialGoal {
     // Adicionar nova meta financeira ===========================================
 
     @PostMapping("/new")
-    public ResponseEntity<String> postNovaMetaFinanceira(@RequestBody FinancialGoal goal) {
-        service.postNewFinancialGoalService(goal);
+    public ResponseEntity<String> postNewFinancialGoal(@RequestBody FinancialGoalRequestDto goal) {
+        service.postNewFinancialGoalDtoService(goal);
         return ResponseEntity.ok("New goal created.");
     }
 
     // Update de uma meta financeira por id ========================================
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> putUpdateMetaFinanceira(@PathVariable Integer id,
+    public ResponseEntity<String> putUpdateFinancialGoal(@PathVariable Integer id,
             @RequestBody FinancialGoal goal) {
         goal.setId(id);
         return service.putUpdateFinancialGoalService(id, goal);

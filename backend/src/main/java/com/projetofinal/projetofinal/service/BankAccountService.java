@@ -19,8 +19,10 @@ public class BankAccountService {
     // Cria a dependencia do bankAccountRepository pra conversar com banco de dados
     @Autowired
     private BankAccountRepository bankAccountRepository;
+
     @Autowired
     private UserRepository userRepository;
+
     // Métodos que os Endpoints usam ============================================
 
     // Trazer todas as accounts bancarias =========================================

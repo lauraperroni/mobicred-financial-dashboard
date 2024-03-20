@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.FinancialGoal;
@@ -78,7 +77,7 @@ public class FinancialGoalService {
     // Criar uma nova meta financeira DTO ========================================
     @SuppressWarnings("null")
     public ResponseEntity<String> postNewFinancialGoalDtoService(FinancialGoalRequestDto goal) {
-        User user = userRepository.findById(goal.userId()).get();
+        User user = userRepository.findById(goal.userid()).get();
         FinancialGoal fingo = new FinancialGoal(goal.description(), goal.amount(), goal.date());
         user.addFinancialGoalToList(fingo);
         financialGoalRepository.save(fingo);

@@ -1,7 +1,6 @@
 package com.projetofinal.projetofinal.model;
 
 import java.sql.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,8 +13,9 @@ import jakarta.persistence.Table;
 @Table(name = "FinancialGoals")
 public class FinancialGoal {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String description;
     private Double amount;
     private Date date;
@@ -28,14 +28,6 @@ public class FinancialGoal {
 
     // Construtor no args
     public FinancialGoal() {
-    }
-
-    // Construtor all args
-    public FinancialGoal(Integer id, Integer userId, String description, Double amount, Date date) {
-        this.id = id;
-        this.description = description;
-        this.amount = amount;
-        this.date = date;
     }
 
     public FinancialGoal(String description, Double amount, Date date) {
