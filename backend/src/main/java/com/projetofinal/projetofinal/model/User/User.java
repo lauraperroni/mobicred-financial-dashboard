@@ -1,8 +1,11 @@
-package com.projetofinal.projetofinal.model;
+package com.projetofinal.projetofinal.model.User;
 
 import java.util.List;
 
 import org.springframework.hateoas.RepresentationModel;
+
+import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
+import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

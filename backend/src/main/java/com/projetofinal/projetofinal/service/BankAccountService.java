@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
-import com.projetofinal.projetofinal.model.BankAccount;
-import com.projetofinal.projetofinal.model.User;
+import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
+import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.BankAccount.BankAccountRepository;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
 

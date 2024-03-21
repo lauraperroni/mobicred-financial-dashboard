@@ -1,6 +1,6 @@
 package com.projetofinal.projetofinal.dtos.User;
 
-import com.projetofinal.projetofinal.model.User;
+import com.projetofinal.projetofinal.model.User.User;
 
 public class UserDto {
     private Integer id;

@@ -1,9 +1,13 @@
-package com.projetofinal.projetofinal.model;
+package com.projetofinal.projetofinal.model.Category;
+
+import com.projetofinal.projetofinal.model.User.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,6 +18,10 @@ public class Category {
     private Integer id;
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     // Construtores ============================================================
 
     // Construtor no args
@@ -21,8 +29,7 @@ public class Category {
     }
 
     // Construtor all args
-    public Category(Integer id, String name) {
-        this.id = id;
+    public Category(String name) {
         this.name = name;
     }
 
@@ -43,4 +50,15 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    // Métodos de relação entre tabelas ===================================
+
 }

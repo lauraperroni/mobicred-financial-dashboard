@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.projetofinal.projetofinal.dtos.User.UserDto;
-import com.projetofinal.projetofinal.model.User;
+import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
 
 @Service

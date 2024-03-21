@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projetofinal.projetofinal.dtos.User.UserDto;
-import com.projetofinal.projetofinal.model.User;
+import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.service.UserService;
 
 import org.springframework.web.bind.annotation.PutMapping;

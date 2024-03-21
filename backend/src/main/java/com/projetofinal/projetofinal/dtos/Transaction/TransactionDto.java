@@ -1,6 +1,6 @@
 package com.projetofinal.projetofinal.dtos.Transaction;
 
-import com.projetofinal.projetofinal.model.Transaction;
+import com.projetofinal.projetofinal.model.Transaction.Transaction;
 
 public class TransactionDto {
     private Integer id;

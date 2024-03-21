@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
-import com.projetofinal.projetofinal.model.BankAccount;
-import com.projetofinal.projetofinal.model.Transaction;
+import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
+import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.repository.BankAccount.BankAccountRepository;
 import com.projetofinal.projetofinal.repository.Transaction.TransactionRepository;
 

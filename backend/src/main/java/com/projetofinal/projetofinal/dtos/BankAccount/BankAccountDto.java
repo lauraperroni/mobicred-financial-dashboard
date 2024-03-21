@@ -1,6 +1,6 @@
 package com.projetofinal.projetofinal.dtos.BankAccount;
 
-import com.projetofinal.projetofinal.model.BankAccount;
+import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 
 public class BankAccountDto {
     private Integer id;

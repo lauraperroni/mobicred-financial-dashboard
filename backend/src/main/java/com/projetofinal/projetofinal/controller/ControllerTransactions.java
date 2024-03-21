@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
-import com.projetofinal.projetofinal.model.Transaction;
+import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.service.TransactionService;
 
 import java.util.List;

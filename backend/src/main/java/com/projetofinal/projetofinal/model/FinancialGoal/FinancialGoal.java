@@ -1,6 +1,9 @@
-package com.projetofinal.projetofinal.model;
+package com.projetofinal.projetofinal.model.FinancialGoal;
 
 import java.sql.Date;
+
+import com.projetofinal.projetofinal.model.User.User;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

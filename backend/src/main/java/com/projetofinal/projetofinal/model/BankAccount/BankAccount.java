@@ -1,6 +1,10 @@
-package com.projetofinal.projetofinal.model;
+package com.projetofinal.projetofinal.model.BankAccount;
 
 import java.util.List;
+
+import com.projetofinal.projetofinal.model.Transaction.Transaction;
+import com.projetofinal.projetofinal.model.User.User;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

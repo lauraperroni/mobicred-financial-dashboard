@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
-import com.projetofinal.projetofinal.model.FinancialGoal;
+import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import com.projetofinal.projetofinal.service.FinancialGoalService;
 
 @RestController

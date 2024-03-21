@@ -1,6 +1,8 @@
-package com.projetofinal.projetofinal.model;
+package com.projetofinal.projetofinal.model.Transaction;
 
 import java.sql.Date;
+
+import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

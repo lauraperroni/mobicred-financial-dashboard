@@ -2,7 +2,7 @@ package com.projetofinal.projetofinal.dtos.FinancialGoal;
 
 import java.sql.Date;
 
-import com.projetofinal.projetofinal.model.FinancialGoal;
+import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 
 public class FinancialGoalDto {
     private Integer id;
