@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import com.projetofinal.projetofinal.dtos.Category.CategoryRequestDto;
 import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.repository.Category.CategoryRepository;
 

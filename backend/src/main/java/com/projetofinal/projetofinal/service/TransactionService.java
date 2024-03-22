@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
@@ -19,6 +18,7 @@ public class TransactionService {
     // Cria a dependencia do transactionRepository pra conversar com banco de dados
     @Autowired
     private TransactionRepository transactionRepository;
+
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
@@ -80,7 +80,7 @@ public class TransactionService {
     @SuppressWarnings("null")
     public ResponseEntity<String> postNewTransactionDtoService(TransactionRequestDto transaction) {
         BankAccount bank = bankAccountRepository.findById(transaction.bankAccountId()).get();
-        Transaction trans = new Transaction(transaction.amount(), transaction.date(), transaction.categoryId());
+        Transaction trans = new Transaction(transaction.amount(), transaction.date());
         bank.addTransactionToList(trans);
         transactionRepository.save(trans);
         return ResponseEntity.ok("New transaction created.");

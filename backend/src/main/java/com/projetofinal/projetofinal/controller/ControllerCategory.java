@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.projetofinal.projetofinal.dtos.Category.CategoryRequestDto;
 import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.service.CategoryService;
 

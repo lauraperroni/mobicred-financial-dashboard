@@ -21,7 +21,6 @@ public class Transaction {
     private Integer id;
     private Double amount;
     private Date date;
-    private Integer categoryId;
 
     @ManyToOne
     @JoinColumn(name = "bankaccount_id")
@@ -37,10 +36,9 @@ public class Transaction {
     }
 
     // Construtor all args
-    public Transaction(Double amount, Date date, Integer categoryId) {
+    public Transaction(Double amount, Date date) {
         this.amount = amount;
         this.date = date;
-        this.categoryId = categoryId;
     }
 
     // Getters e Setters =======================================================
@@ -67,15 +65,6 @@ public class Transaction {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-
     }
 
     public BankAccount getBankAccount() {
