@@ -11,6 +11,8 @@ import com.projetofinal.projetofinal.dtos.User.UserDto;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 
@@ -59,9 +61,13 @@ public class UserService {
     // Traz um usuário pelo id DTO ============================================
     @SuppressWarnings("null")
     public UserDto getUserIdDtoService(Integer id) {
-        User user = repository.findById(id).get();
-        UserDto dto = new UserDto(user);
-        return dto;
+        if (repository.existsById(id)) {
+            User user = repository.findById(id).get();
+            UserDto dto = new UserDto(user);
+            return dto;
+        } else {
+            throw new EntityNotFoundException("User not found.");
+        }
     }
 
     // Adicionar novo usuário =================================================
