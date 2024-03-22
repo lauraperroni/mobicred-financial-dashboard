@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,8 +17,8 @@ public class Category {
     private Integer id;
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "transactions")
+    @OneToOne
+    @JoinColumn(name = "transaction_id")
     private Transaction transaction;
 
     // Construtores ============================================================
@@ -50,16 +50,7 @@ public class Category {
         this.name = name;
     }
 
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
-
     public Integer categoryId() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'categoryId'");
     }
 

@@ -26,9 +26,10 @@ public class Transaction {
     @JoinColumn(name = "bankaccount_id")
     private BankAccount bankAccount;
 
-    // Lista de trançaões dessa conta bancária
+    // Categoria dessa transação
     @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL)
     private Category category;
+
     // Construtores ============================================================
 
     // Construtor no args
