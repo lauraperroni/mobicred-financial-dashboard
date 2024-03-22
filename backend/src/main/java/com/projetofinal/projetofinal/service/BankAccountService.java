@@ -7,10 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
+import com.projetofinal.projetofinal.exception.RestExceptionHandler;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.BankAccount.BankAccountRepository;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class BankAccountService {
@@ -75,13 +78,17 @@ public class BankAccountService {
     }
 
     // Adicionar nova account DTO ============================================
-    @SuppressWarnings("null")
-    public ResponseEntity<String> postNewBankAccountDtoService(BankAccountRequestDto account) {
-        User user = userRepository.findById(account.userId()).get();
-        BankAccount acc = new BankAccount(account.accountType(), account.balance());
-        user.addBankAccountToList(acc);
-        bankAccountRepository.save(acc);
-        return ResponseEntity.ok("New account created.");
+    @SuppressWarnings({ "null", "rawtypes" })
+    public ResponseEntity postNewBankAccountDtoService(BankAccountRequestDto account) {
+        try {
+            User user = userRepository.findById(account.userId()).get();
+            BankAccount acc = new BankAccount(account.accountType(), account.balance());
+            user.addBankAccountToList(acc);
+            bankAccountRepository.save(acc);
+            return ResponseEntity.ok("New account created.");
+        } catch (EntityNotFoundException ex) {
+            return RestExceptionHandler.HandlingErrorEntityNotFound(ex);
+        }
     }
 
     // Update de um usuário por id ==============================================

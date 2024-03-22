@@ -58,6 +58,11 @@ public class Category {
         this.transaction = transaction;
     }
 
+    public Integer categoryId() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'categoryId'");
+    }
+
     // Métodos de relação entre tabelas ===================================
 
 }

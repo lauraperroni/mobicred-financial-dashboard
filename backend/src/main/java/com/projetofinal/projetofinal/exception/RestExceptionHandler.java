@@ -12,7 +12,7 @@ public class RestExceptionHandler {
 
     @SuppressWarnings("rawtypes")
     @ExceptionHandler(EntityNotFoundException.class) // Diz que é um método que resolve uma exceção
-    public ResponseEntity HandlingErrorEntityNotFound(EntityNotFoundException exception) {
+    public static ResponseEntity HandlingErrorEntityNotFound(EntityNotFoundException exception) {
         String msg = exception.getMessage(); // pega a mensagem registrada para mostrar
         var dto = new ExceptionDto(HttpStatus.NOT_FOUND, msg);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);

@@ -3,14 +3,20 @@ package com.projetofinal.projetofinal.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
+import com.projetofinal.projetofinal.exception.RestExceptionHandler;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
+import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.repository.BankAccount.BankAccountRepository;
+import com.projetofinal.projetofinal.repository.Category.CategoryRepository;
 import com.projetofinal.projetofinal.repository.Transaction.TransactionRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TransactionService {
@@ -21,6 +27,9 @@ public class TransactionService {
 
     @Autowired
     private BankAccountRepository bankAccountRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     // Métodos que os Endpoints usam ============================================
 
@@ -76,13 +85,25 @@ public class TransactionService {
     }
 
     // Adicionar nova transação DTO ============================================
-    @SuppressWarnings("null")
+    @SuppressWarnings({ "null", "unchecked" })
     public ResponseEntity<String> postNewTransactionDtoService(TransactionRequestDto transaction) {
-        BankAccount bank = bankAccountRepository.findById(transaction.bankAccountId()).get();
-        Transaction trans = new Transaction(transaction.amount(), transaction.date());
-        bank.addTransactionToList(trans);
-        transactionRepository.save(trans);
-        return ResponseEntity.ok("New transaction created.");
+        try {
+            BankAccount bank = bankAccountRepository.findById(transaction.bankAccountId()).orElse(null);
+            if (bank == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bank account not found.");
+            }
+            Category category = categoryRepository.findById(transaction.categoryId()).orElse(null);
+            if (category == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found.");
+            }
+            Transaction trans = new Transaction(transaction.amount(), transaction.date());
+            trans.setCategory(category);
+            bank.addTransactionToList(trans);
+            transactionRepository.save(trans);
+            return ResponseEntity.ok("New transaction created.");
+        } catch (EntityNotFoundException ex) {
+            return RestExceptionHandler.HandlingErrorEntityNotFound(ex);
+        }
     }
 
     // Update de um usuário por id ==============================================
