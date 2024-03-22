@@ -50,7 +50,6 @@ public class TransactionService {
         // Mapeie os campos do usuário para o DTO conforme necessário
         dto.setIdDto(transaction.getId());
         dto.setAmountDto(transaction.getAmount());
-        dto.setCategoryIdDto(transaction.getCategoryId());
         // Faça o mesmo para outros campos
         return dto;
     }

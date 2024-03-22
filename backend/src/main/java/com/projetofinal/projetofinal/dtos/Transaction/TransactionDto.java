@@ -5,7 +5,6 @@ import com.projetofinal.projetofinal.model.Transaction.Transaction;
 public class TransactionDto {
     private Integer id;
     private Double amount;
-    private Integer categoryId;
     private Integer bankAccountId;
 
     // Construtores =============================================================
@@ -18,13 +17,11 @@ public class TransactionDto {
     public TransactionDto(Integer id, Double amount, Integer categoryId) {
         this.id = id;
         this.amount = amount;
-        this.categoryId = categoryId;
     }
 
     // Construtor sem o id e com o id bankaccount
     public TransactionDto(Double amount, Integer categoryId, Integer bankAccountId) {
         this.amount = amount;
-        this.categoryId = categoryId;
         this.bankAccountId = bankAccountId;
     }
 
@@ -32,7 +29,6 @@ public class TransactionDto {
     public TransactionDto(Transaction transaction) {
         id = transaction.getId();
         amount = transaction.getAmount();
-        categoryId = transaction.getCategoryId();
     }
 
     // Getters e Setters ========================================================
@@ -50,14 +46,6 @@ public class TransactionDto {
 
     public void setAmountDto(Double amount) {
         this.amount = amount;
-    }
-
-    public Integer getCategoryIdDto() {
-        return categoryId;
-    }
-
-    public void setCategoryIdDto(Integer categoryId) {
-        this.categoryId = categoryId;
     }
 
     public Integer getBankAccountId() {
