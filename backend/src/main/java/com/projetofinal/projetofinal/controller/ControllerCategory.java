@@ -41,7 +41,7 @@ public class ControllerCategory {
 
     // Adicionar novo usuário ======================================================
     @PostMapping("/new")
-    public ResponseEntity<String> postNewCategory(@RequestBody CategoryRequestDto category) {
+    public ResponseEntity<String> postNewCategory(@RequestBody Category category) {
         service.postNewCategoryService(category);
         return ResponseEntity.ok("New category registered.");
     }

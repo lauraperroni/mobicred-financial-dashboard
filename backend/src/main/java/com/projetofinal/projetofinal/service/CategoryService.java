@@ -32,7 +32,7 @@ public class CategoryService {
 
     // Adicionar novo usuário =================================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> postNewCategoryService(CategoryRequestDto category) {
+    public ResponseEntity<String> postNewCategoryService(Category category) {
         repository.save(category);
         return ResponseEntity.ok("New category created.");
     }
