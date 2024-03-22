@@ -5,7 +5,6 @@ import com.projetofinal.projetofinal.model.Transaction.Transaction;
 public class TransactionDto {
     private Integer id;
     private Double amount;
-    private Integer bankAccountId;
 
     // Construtores =============================================================
 
@@ -19,10 +18,9 @@ public class TransactionDto {
         this.amount = amount;
     }
 
-    // Construtor sem o id e com o id bankaccount
-    public TransactionDto(Double amount, Integer categoryId, Integer bankAccountId) {
+    // Construtor sem o id
+    public TransactionDto(Double amount) {
         this.amount = amount;
-        this.bankAccountId = bankAccountId;
     }
 
     // Construtor usando Transacoes como args
@@ -46,14 +44,6 @@ public class TransactionDto {
 
     public void setAmountDto(Double amount) {
         this.amount = amount;
-    }
-
-    public Integer getBankAccountId() {
-        return bankAccountId;
-    }
-
-    public void setBankAccountId(Integer bankAccountId) {
-        this.bankAccountId = bankAccountId;
     }
 
 }
