@@ -1,12 +1,11 @@
 package com.projetofinal.projetofinal.model.Category;
 
-import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,9 +16,9 @@ public class Category {
     private Integer id;
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "transaction_id")
-    private Transaction transaction;
+    @ManyToOne
+    @JoinColumn(name = "id_category")
+    private Category category;
 
     // Construtores ============================================================
 

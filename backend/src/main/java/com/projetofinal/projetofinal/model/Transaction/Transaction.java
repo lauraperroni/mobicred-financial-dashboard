@@ -3,14 +3,12 @@ package com.projetofinal.projetofinal.model.Transaction;
 import java.sql.Date;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.Category.Category;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,8 +24,8 @@ public class Transaction {
     @JoinColumn(name = "bankaccount_id")
     private BankAccount bankAccount;
 
-    // Categoria dessa transação
-    @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     // Construtores ============================================================
