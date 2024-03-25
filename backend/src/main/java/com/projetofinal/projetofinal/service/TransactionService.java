@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.projetofinal.projetofinal.dtos.Transaction.TransactionDto;
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionResponseDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
 import com.projetofinal.projetofinal.exception.RestExceptionHandler;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
@@ -40,22 +40,22 @@ public class TransactionService {
 
     // Trazer todas as transacoes Dto ===========================================
 
-    public List<TransactionDto> getAllTransactionsDtoService() {
+    public List<TransactionResponseDto> getAllTransactionsDtoService() {
         List<Transaction> transactions = transactionRepository.findAll();
         return mapTransactionListToTransactionDtoListService(transactions);
     }
 
     // Método para converter uma lista de objetos Transacoes em uma lista de objetos
     // TransacoesDto
-    private List<TransactionDto> mapTransactionListToTransactionDtoListService(List<Transaction> transactions) {
+    private List<TransactionResponseDto> mapTransactionListToTransactionDtoListService(List<Transaction> transactions) {
         return transactions.stream()
                 .map(this::mapTransactionToTransactionDtoService) // usando o método abaixo
                 .collect(Collectors.toList());
     }
 
     // Converte uma Transacao em uma TransacaoDto
-    private TransactionDto mapTransactionToTransactionDtoService(Transaction transaction) {
-        TransactionDto dto = new TransactionDto();
+    private TransactionResponseDto mapTransactionToTransactionDtoService(Transaction transaction) {
+        TransactionResponseDto dto = new TransactionResponseDto();
         // Mapeie os campos do usuário para o DTO conforme necessário
         dto.setIdDto(transaction.getId());
         dto.setAmountDto(transaction.getAmount());
@@ -71,9 +71,9 @@ public class TransactionService {
 
     // Traz uma transacao pelo id DTO ===========================================
     @SuppressWarnings("null")
-    public TransactionDto getTransactionIdDtoService(Integer id) {
+    public TransactionResponseDto getTransactionIdDtoService(Integer id) {
         Transaction transaction = transactionRepository.findById(id).get(); // instancia um objeto pelo Id
-        TransactionDto dto = new TransactionDto(transaction); // transforma em um objeto dto
+        TransactionResponseDto dto = new TransactionResponseDto(transaction); // transforma em um objeto dto
         return dto;
     }
 

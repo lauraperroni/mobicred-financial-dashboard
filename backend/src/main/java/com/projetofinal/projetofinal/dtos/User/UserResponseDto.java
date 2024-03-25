@@ -2,22 +2,22 @@ package com.projetofinal.projetofinal.dtos.User;
 
 import com.projetofinal.projetofinal.model.User.User;
 
-public class UserDto {
+public class UserResponseDto {
     private Integer id;
     private String name;
     private String email;
 
     // Construtores =============================================================
-    public UserDto() {
+    public UserResponseDto() {
     }
 
-    public UserDto(Integer id, String name, String email) {
+    public UserResponseDto(Integer id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
     }
 
-    public UserDto(User user) {
+    public UserResponseDto(User user) {
         id = user.getId();
         name = user.getName();
         email = user.getEmail();

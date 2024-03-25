@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalDto;
+import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalResponseDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import com.projetofinal.projetofinal.model.User.User;
@@ -31,21 +31,21 @@ public class FinancialGoalService {
     }
 
     // Trazer todas as metas financeiras Dto ====================================
-    public List<FinancialGoalDto> getAllFinancialGoalDtoService() {
+    public List<FinancialGoalResponseDto> getAllFinancialGoalDtoService() {
         List<FinancialGoal> goals = financialGoalRepository.findAll();
         return mapGoalListToGoalDtoListService(goals);
     }
 
     // Pega os objetos transformados em DTO e cria uma lista
-    public List<FinancialGoalDto> mapGoalListToGoalDtoListService(List<FinancialGoal> goals) {
+    public List<FinancialGoalResponseDto> mapGoalListToGoalDtoListService(List<FinancialGoal> goals) {
         return goals.stream()
                 .map(this::mapGoalToGoalDtoService)
                 .collect(Collectors.toList());
     }
 
     // Transforma os objetos model em DTO
-    public FinancialGoalDto mapGoalToGoalDtoService(FinancialGoal goal) {
-        FinancialGoalDto dto = new FinancialGoalDto();
+    public FinancialGoalResponseDto mapGoalToGoalDtoService(FinancialGoal goal) {
+        FinancialGoalResponseDto dto = new FinancialGoalResponseDto();
         // Mapeie os campos para o DTO conforme necessário
         dto.setIdDto(goal.getId());
         dto.setDescriptionDto(goal.getDescription());
@@ -61,10 +61,10 @@ public class FinancialGoalService {
     }
 
     // Trazer metas financeiras pelo id Dto ==================================
-    public FinancialGoalDto getFinancialGoalIdDtoService(Integer id) {
+    public FinancialGoalResponseDto getFinancialGoalIdDtoService(Integer id) {
         @SuppressWarnings("null")
         FinancialGoal meta = financialGoalRepository.findById(id).get();
-        FinancialGoalDto dto = new FinancialGoalDto(meta);
+        FinancialGoalResponseDto dto = new FinancialGoalResponseDto(meta);
         return dto;
     }
 

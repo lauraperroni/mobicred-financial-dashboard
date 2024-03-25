@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetofinal.projetofinal.dtos.User.UserDto;
+import com.projetofinal.projetofinal.dtos.User.UserResponseDto;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.service.UserService;
 
@@ -31,13 +31,13 @@ public class ControllerUser {
 
     // Trazer todos os usuários pelo DTO ===========================================
     @GetMapping("/all")
-    public List<UserDto> getAllUserDto() {
+    public List<UserResponseDto> getAllUserDto() {
         return service.getAllUserDtoService();
     }
 
     // Traz um usuário pelo id DTO =================================================
     @GetMapping("/{id}")
-    public UserDto getUserIdDto(@PathVariable Integer id) {
+    public UserResponseDto getUserIdDto(@PathVariable Integer id) {
         return service.getUserIdDtoService(id);
     }
 

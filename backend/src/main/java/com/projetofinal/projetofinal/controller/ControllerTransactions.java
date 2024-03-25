@@ -2,7 +2,7 @@ package com.projetofinal.projetofinal.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetofinal.projetofinal.dtos.Transaction.TransactionDto;
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionResponseDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.service.TransactionService;
@@ -31,13 +31,13 @@ public class ControllerTransactions {
 
     // Trazer todas as transacoes DTO =============================================
     @GetMapping("/all")
-    public List<TransactionDto> getAllTransactionDto() {
+    public List<TransactionResponseDto> getAllTransactionDto() {
         return service.getAllTransactionsDtoService();
     }
 
     // Traz uma transacao pelo id DTO ==============================================
     @GetMapping("/{id}")
-    public TransactionDto getTransactionId(@PathVariable Integer id) {
+    public TransactionResponseDto getTransactionId(@PathVariable Integer id) {
         return service.getTransactionIdDtoService(id);
     }
 

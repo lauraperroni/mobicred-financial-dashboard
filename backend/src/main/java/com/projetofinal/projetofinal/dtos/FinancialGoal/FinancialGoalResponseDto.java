@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 
-public class FinancialGoalDto {
+public class FinancialGoalResponseDto {
     private Integer id;
     private String description;
     private Double amount;
@@ -13,11 +13,11 @@ public class FinancialGoalDto {
     // Construtores =============================================================
 
     // Construtor no args
-    public FinancialGoalDto() {
+    public FinancialGoalResponseDto() {
     }
 
     // Construtor all args
-    public FinancialGoalDto(Integer id, String description, Double amount, Date date) {
+    public FinancialGoalResponseDto(Integer id, String description, Double amount, Date date) {
         this.id = id;
         this.description = description;
         this.amount = amount;
@@ -25,14 +25,14 @@ public class FinancialGoalDto {
     }
 
     // Construtor sem id
-    public FinancialGoalDto(String description, Double amount, Date date) {
+    public FinancialGoalResponseDto(String description, Double amount, Date date) {
         this.description = description;
         this.amount = amount;
         this.date = date;
     }
 
     // Construtor usando model
-    public FinancialGoalDto(FinancialGoal goals) {
+    public FinancialGoalResponseDto(FinancialGoal goals) {
         id = goals.getId();
         description = goals.getDescription();
         amount = goals.getAmount();

@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 
-public class TransactionDto {
+public class TransactionResponseDto {
     private Integer id;
     private Double amount;
     private Date date;
@@ -14,11 +14,11 @@ public class TransactionDto {
     // Construtores =============================================================
 
     // Construtor no args
-    public TransactionDto() {
+    public TransactionResponseDto() {
     }
 
     // Construtor usando Transacoes como args
-    public TransactionDto(Transaction transaction) {
+    public TransactionResponseDto(Transaction transaction) {
         id = transaction.getId();
         amount = transaction.getAmount();
         date = transaction.getDate();

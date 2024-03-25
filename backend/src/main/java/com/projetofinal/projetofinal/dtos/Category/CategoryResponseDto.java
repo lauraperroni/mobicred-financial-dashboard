@@ -2,29 +2,29 @@ package com.projetofinal.projetofinal.dtos.Category;
 
 import com.projetofinal.projetofinal.model.Category.Category;
 
-public class CategoryDto {
+public class CategoryResponseDto {
     private Integer id;
     private String name;
 
     // Construtores ============================================================
 
     // Construtor no args
-    public CategoryDto() {
+    public CategoryResponseDto() {
     }
 
     // Construtor all args
-    public CategoryDto(Integer id, String name) {
+    public CategoryResponseDto(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
     // Construtor sem o id
-    public CategoryDto(String name) {
+    public CategoryResponseDto(String name) {
         this.name = name;
     }
 
     // Construtor usando Category como args
-    public CategoryDto(Category category) {
+    public CategoryResponseDto(Category category) {
         id = category.getId();
         name = category.getName();
     }

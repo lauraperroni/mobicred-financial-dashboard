@@ -2,7 +2,7 @@ package com.projetofinal.projetofinal.dtos.BankAccount;
 
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 
-public class BankAccountDto {
+public class BankAccountResponseDto {
     private Integer id;
     private String accountType;
     private Double balance;
@@ -11,11 +11,11 @@ public class BankAccountDto {
     // Construtores ============================================================
 
     // Construtor no args
-    public BankAccountDto() {
+    public BankAccountResponseDto() {
     }
 
     // Construtor usando BankAccount como args
-    public BankAccountDto(BankAccount contas) {
+    public BankAccountResponseDto(BankAccount contas) {
         id = contas.getId();
         accountType = contas.getAccountType();
         balance = contas.getBalance();

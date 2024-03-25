@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalDto;
+import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalResponseDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import com.projetofinal.projetofinal.service.FinancialGoalService;
@@ -28,7 +28,7 @@ public class ControllerFinancialGoal {
 
     // Trazer todas as metas financeiras DTO ====================================
     @GetMapping("/all")
-    public List<FinancialGoalDto> getAllFinancialGoalDto() {
+    public List<FinancialGoalResponseDto> getAllFinancialGoalDto() {
         return service.getAllFinancialGoalDtoService();
     }
 
@@ -36,7 +36,7 @@ public class ControllerFinancialGoal {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getFinancialGoalId(@PathVariable Integer id) {
-        FinancialGoalDto dto = service.getFinancialGoalIdDtoService(id);
+        FinancialGoalResponseDto dto = service.getFinancialGoalIdDtoService(id);
         if (dto != null) {
             return ResponseEntity.ok().body(dto);
         } else {

@@ -1,7 +1,7 @@
 package com.projetofinal.projetofinal.controller;
 
 import org.springframework.web.bind.annotation.RestController;
-import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountDto;
+import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountResponseDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.service.BankAccountService;
@@ -28,14 +28,14 @@ public class ControllerBankAccount {
 
     // Trazer todas as accounts bancarias DTO ====================================
     @GetMapping("/all")
-    public List<BankAccountDto> getAllBankAccountDto() {
+    public List<BankAccountResponseDto> getAllBankAccountDto() {
         return service.getAllBankAccountDtoService();
     }
 
     // Traz uma account pelo id DTO ==============================================
     @GetMapping("/{id}")
     public ResponseEntity<?> getBankAccountId(@PathVariable Integer id) {
-        BankAccountDto dto = service.getBankAccountDtoIdService(id);
+        BankAccountResponseDto dto = service.getBankAccountDtoIdService(id);
         if (dto != null) {
             return ResponseEntity.ok().body(dto);
         } else {

@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountDto;
+import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountResponseDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.exception.RestExceptionHandler;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
@@ -34,21 +34,21 @@ public class BankAccountService {
 
     // Trazer todas as accounts Dto ===========================================
 
-    public List<BankAccountDto> getAllBankAccountDtoService() {
+    public List<BankAccountResponseDto> getAllBankAccountDtoService() {
         List<BankAccount> accounts = bankAccountRepository.findAll();
         return mapBankAccountListToBankAccountDtoListService(accounts);
     }
 
     // Método para converter uma lista de objetos BankAccount em uma lista de
-    private List<BankAccountDto> mapBankAccountListToBankAccountDtoListService(List<BankAccount> accounts) {
+    private List<BankAccountResponseDto> mapBankAccountListToBankAccountDtoListService(List<BankAccount> accounts) {
         return accounts.stream()
                 .map(this::mapBankAccountToBankAccountDtoService) // usando o método abaixo
                 .collect(Collectors.toList());
     }
 
     // Converte uma accountBancaria em uma accountBancariaDto
-    private BankAccountDto mapBankAccountToBankAccountDtoService(BankAccount account) {
-        BankAccountDto dto = new BankAccountDto(account);
+    private BankAccountResponseDto mapBankAccountToBankAccountDtoService(BankAccount account) {
+        BankAccountResponseDto dto = new BankAccountResponseDto(account);
         return dto;
     }
 
@@ -60,9 +60,9 @@ public class BankAccountService {
 
     // Traz uma account pelo id DTO ===========================================
     @SuppressWarnings("null")
-    public BankAccountDto getBankAccountDtoIdService(Integer id) {
+    public BankAccountResponseDto getBankAccountDtoIdService(Integer id) {
         BankAccount account = bankAccountRepository.findById(id).get(); // instancia um objeto pelo Id
-        BankAccountDto dto = new BankAccountDto(account); // transforma em um objeto dto
+        BankAccountResponseDto dto = new BankAccountResponseDto(account); // transforma em um objeto dto
         return dto;
     }
 

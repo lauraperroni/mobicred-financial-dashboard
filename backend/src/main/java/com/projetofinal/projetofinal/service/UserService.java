@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.projetofinal.projetofinal.dtos.User.UserDto;
+import com.projetofinal.projetofinal.dtos.User.UserResponseDto;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
 
@@ -28,22 +28,22 @@ public class UserService {
     }
 
     // Trazer todos os usuários DTO ===========================================
-    public List<UserDto> getAllUserDtoService() {
+    public List<UserResponseDto> getAllUserDtoService() {
         List<User> users = repository.findAll();
         return mapUserListToUserDtoListService(users);
     }
 
     // Método para converter uma lista de objetos users em uma lista de objetos
     // usersDto
-    private List<UserDto> mapUserListToUserDtoListService(List<User> users) {
+    private List<UserResponseDto> mapUserListToUserDtoListService(List<User> users) {
         return users.stream()
                 .map(this::mapUserToUserDtoService)
                 .collect(Collectors.toList());
     }
 
     // Converte um Usuário em um UsuarioDto
-    private UserDto mapUserToUserDtoService(User user) {
-        UserDto dto = new UserDto();
+    private UserResponseDto mapUserToUserDtoService(User user) {
+        UserResponseDto dto = new UserResponseDto();
         // Mapeie os campos do usuário para o DTO conforme necessário
         dto.setIdDto(user.getId());
         dto.setNameDto(user.getName());
@@ -60,10 +60,10 @@ public class UserService {
 
     // Traz um usuário pelo id DTO ============================================
     @SuppressWarnings("null")
-    public UserDto getUserIdDtoService(Integer id) {
+    public UserResponseDto getUserIdDtoService(Integer id) {
         if (repository.existsById(id)) {
             User user = repository.findById(id).get();
-            UserDto dto = new UserDto(user);
+            UserResponseDto dto = new UserResponseDto(user);
             return dto;
         } else {
             throw new EntityNotFoundException("User not found.");
