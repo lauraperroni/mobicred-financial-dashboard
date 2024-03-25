@@ -3,6 +3,7 @@ package com.projetofinal.projetofinal.model.Transaction;
 import java.sql.Date;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.Category.Category;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

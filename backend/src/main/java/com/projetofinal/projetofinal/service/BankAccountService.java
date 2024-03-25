@@ -48,11 +48,7 @@ public class BankAccountService {
 
     // Converte uma accountBancaria em uma accountBancariaDto
     private BankAccountDto mapBankAccountToBankAccountDtoService(BankAccount account) {
-        BankAccountDto dto = new BankAccountDto();
-        // Mapeie os campos do usuário para o DTO conforme necessário
-        dto.setIdDto(account.getId());
-        dto.setBalanceDto(account.getBalance());
-        dto.setAccountTypeDto(account.getAccountType());
+        BankAccountDto dto = new BankAccountDto(account);
         return dto;
     }
 
@@ -82,7 +78,7 @@ public class BankAccountService {
     public ResponseEntity postNewBankAccountDtoService(BankAccountRequestDto account) {
         try {
             User user = userRepository.findById(account.userId()).get();
-            BankAccount acc = new BankAccount(account.accountType(), account.balance());
+            BankAccount acc = new BankAccount(account.accountType(), account.balance(), account.name());
             user.addBankAccountToList(acc);
             bankAccountRepository.save(acc);
             return ResponseEntity.ok("New account created.");

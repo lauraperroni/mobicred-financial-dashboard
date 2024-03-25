@@ -24,6 +24,7 @@ public class BankAccount {
 
     private String accountType;
     private Double balance;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -40,9 +41,10 @@ public class BankAccount {
     }
 
     // Construtor all args
-    public BankAccount(String accountType, Double balance) {
+    public BankAccount(String accountType, Double balance, String name) {
         this.accountType = accountType;
         this.balance = balance;
+        this.name = name;
     }
 
     // Getters e Setters =======================================================
@@ -77,6 +79,14 @@ public class BankAccount {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     // Métodos de relação entre tabelas ===================================

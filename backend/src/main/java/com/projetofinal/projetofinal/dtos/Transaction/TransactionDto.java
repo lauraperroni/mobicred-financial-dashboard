@@ -1,10 +1,15 @@
 package com.projetofinal.projetofinal.dtos.Transaction;
 
+import java.sql.Date;
+
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 
 public class TransactionDto {
     private Integer id;
     private Double amount;
+    private Date date;
+    private String bankName;
+    private String categoryName;
 
     // Construtores =============================================================
 
@@ -12,21 +17,13 @@ public class TransactionDto {
     public TransactionDto() {
     }
 
-    // Construtor all args
-    public TransactionDto(Integer id, Double amount, Integer categoryId) {
-        this.id = id;
-        this.amount = amount;
-    }
-
-    // Construtor sem o id
-    public TransactionDto(Double amount) {
-        this.amount = amount;
-    }
-
     // Construtor usando Transacoes como args
     public TransactionDto(Transaction transaction) {
         id = transaction.getId();
         amount = transaction.getAmount();
+        date = transaction.getDate();
+        bankName = transaction.getBankAccount().getName();
+        categoryName = transaction.getCategory().getName();
     }
 
     // Getters e Setters ========================================================
@@ -44,6 +41,30 @@ public class TransactionDto {
 
     public void setAmountDto(Double amount) {
         this.amount = amount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
 }
