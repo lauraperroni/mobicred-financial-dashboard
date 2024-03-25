@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.projetofinal.projetofinal.dtos.Category.CategoryResponseDto;
 import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.service.CategoryService;
 
@@ -27,13 +29,13 @@ public class ControllerCategory {
 
     // Trazer todas as transacoes ==================================================
     @GetMapping("/all")
-    public List<Category> getAllTransactionDto() {
-        return service.getAllCategoryService();
+    public List<CategoryResponseDto> getAllCategoryDto() {
+        return service.getAllCategoryDtoService();
     }
 
     // Traz uma transacao pelo id =================================================
     @GetMapping("/{id}")
-    public Category getCAtegoryId(@PathVariable Integer id) {
+    public Category getCategoryId(@PathVariable Integer id) {
         return service.getCategoryIdService(id);
     }
 
