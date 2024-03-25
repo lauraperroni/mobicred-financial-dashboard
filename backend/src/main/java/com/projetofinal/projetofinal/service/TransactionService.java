@@ -3,7 +3,6 @@ package com.projetofinal.projetofinal.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionResponseDto;
@@ -55,11 +54,7 @@ public class TransactionService {
 
     // Converte uma Transacao em uma TransacaoDto
     private TransactionResponseDto mapTransactionToTransactionDtoService(Transaction transaction) {
-        TransactionResponseDto dto = new TransactionResponseDto();
-        // Mapeie os campos do usuário para o DTO conforme necessário
-        dto.setIdDto(transaction.getId());
-        dto.setAmountDto(transaction.getAmount());
-        // Faça o mesmo para outros campos
+        TransactionResponseDto dto = new TransactionResponseDto(transaction);
         return dto;
     }
 
@@ -84,25 +79,16 @@ public class TransactionService {
         return ResponseEntity.ok("Transaction registered.");
     }
 
+    // Adicionar nova transaction Dto ==========================================
     @SuppressWarnings({ "null", "unchecked" })
     public ResponseEntity<String> postNewTransactionDtoService(TransactionRequestDto transaction) {
         try {
             BankAccount bank = bankAccountRepository.findById(transaction.bankAccountId()).orElse(null);
-            if (bank == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bank account not found.");
-            }
-
             Category category = categoryRepository.findById(transaction.categoryId()).orElse(null);
-            if (category == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found.");
-            }
-
             Transaction trans = new Transaction(transaction.amount(), transaction.date());
             trans.setCategory(category);
-
             bank.addTransactionToList(trans);
             transactionRepository.save(trans);
-
             return ResponseEntity.ok("New transaction created.");
         } catch (EntityNotFoundException ex) {
             return RestExceptionHandler.HandlingErrorEntityNotFound(ex);
