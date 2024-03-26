@@ -79,16 +79,26 @@ public class TransactionService {
         return ResponseEntity.ok("Transaction registered.");
     }
 
-    // Adicionar nova transaction Dto ==========================================
+    // Adicionar nova transação DTO ============================================
     @SuppressWarnings({ "null", "unchecked" })
-    public ResponseEntity<String> postNewTransactionDtoService(TransactionRequestDto transaction) {
+    public ResponseEntity<String> postNewTransactionDtoService(TransactionRequestDto transactionDto) {
         try {
-            BankAccount bank = bankAccountRepository.findById(transaction.bankAccountId()).orElse(null);
-            Category category = categoryRepository.findById(transaction.categoryId()).orElse(null);
-            Transaction trans = new Transaction(transaction.amount(), transaction.date());
+            BankAccount bank = bankAccountRepository.findById(transactionDto.bankAccountId())
+                    .orElseThrow(EntityNotFoundException::new);
+            Category category = categoryRepository.findById(transactionDto.categoryId())
+                    .orElseThrow(EntityNotFoundException::new);
+            Transaction trans = new Transaction(transactionDto.amount(), transactionDto.date());
+
             trans.setCategory(category);
+            if (transactionDto.type() == 1) { // Crédito
+                bank.deposit(transactionDto.amount());
+            } else if (transactionDto.type() == 2) { // Débito
+                bank.withdraw(transactionDto.amount());
+            }
+
             bank.addTransactionToList(trans);
             transactionRepository.save(trans);
+            bankAccountRepository.save(bank);
             return ResponseEntity.ok("New transaction created.");
         } catch (EntityNotFoundException ex) {
             return RestExceptionHandler.HandlingErrorEntityNotFound(ex);

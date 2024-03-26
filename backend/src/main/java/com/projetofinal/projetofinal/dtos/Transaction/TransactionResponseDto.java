@@ -1,13 +1,14 @@
 package com.projetofinal.projetofinal.dtos.Transaction;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 
 public class TransactionResponseDto {
     private Integer id;
     private Double amount;
-    private Date date;
+    private Integer type;
+    private LocalDate date;
     private String bankName;
     private String categoryName;
 
@@ -21,6 +22,7 @@ public class TransactionResponseDto {
     public TransactionResponseDto(Transaction transaction) {
         id = transaction.getId();
         amount = transaction.getAmount();
+        type = transaction.getType();
         date = transaction.getDate();
         bankName = transaction.getBankAccount().getName();
         categoryName = transaction.getCategory().getName();
@@ -43,11 +45,11 @@ public class TransactionResponseDto {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -65,6 +67,14 @@ public class TransactionResponseDto {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
 }

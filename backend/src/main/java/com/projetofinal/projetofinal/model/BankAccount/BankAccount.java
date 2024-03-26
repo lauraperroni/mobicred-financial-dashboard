@@ -96,4 +96,12 @@ public class BankAccount {
         transactions.add(transaction);
         transaction.setBankAccount(this);
     }
+
+    public void deposit(Double amount) {
+        this.balance += amount;
+    }
+
+    public void withdraw(Double amount) {
+        this.balance -= amount;
+    }
 }

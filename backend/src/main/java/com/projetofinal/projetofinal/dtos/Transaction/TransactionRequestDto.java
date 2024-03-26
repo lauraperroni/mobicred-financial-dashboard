@@ -1,11 +1,13 @@
 package com.projetofinal.projetofinal.dtos.Transaction;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public record TransactionRequestDto(
                 Double amount,
-                Date date,
+                LocalDate date,
+                Integer type,
                 Integer categoryId,
                 String categoryName,
                 Integer bankAccountId) {
+
 }

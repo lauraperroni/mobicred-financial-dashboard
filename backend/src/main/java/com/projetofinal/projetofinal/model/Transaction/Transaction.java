@@ -1,6 +1,7 @@
 package com.projetofinal.projetofinal.model.Transaction;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.Category.Category;
 
@@ -11,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "transactions")
@@ -18,8 +21,21 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotNull(message = "Amount is mandatory")
     private Double amount;
-    private Date date;
+
+    @NotNull(message = "Amount is mandatory")
+    private Integer type;
+
+    @NotNull(message = "Date is mandatory")
+    @PastOrPresent(message = "Date must be in the past or present")
+    private LocalDate date;
+
+    @NotNull(message = "Balance after transaction is mandatory")
+    private Double balanceAfterTransaction;
+
+    // Relações entre tabelas
 
     @ManyToOne
     @JoinColumn(name = "bankaccount_id")
@@ -36,7 +52,7 @@ public class Transaction {
     }
 
     // Construtor all args
-    public Transaction(Double amount, Date date) {
+    public Transaction(Double amount, LocalDate date) {
         this.amount = amount;
         this.date = date;
     }
@@ -59,11 +75,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -81,6 +97,22 @@ public class Transaction {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Double getBalanceAfterTransaction() {
+        return balanceAfterTransaction;
+    }
+
+    public void setBalanceAfterTransaction(Double balanceAfterTransaction) {
+        this.balanceAfterTransaction = balanceAfterTransaction;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     // Métodos de relação entre tabelas ===================================
