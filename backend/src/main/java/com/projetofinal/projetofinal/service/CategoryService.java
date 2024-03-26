@@ -11,6 +11,8 @@ import com.projetofinal.projetofinal.dtos.Category.CategoryResponseDto;
 import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.repository.Category.CategoryRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class CategoryService {
 
@@ -64,7 +66,7 @@ public class CategoryService {
             categoryRepository.save(category);
             return ResponseEntity.ok("Category updated.");
         } else {
-            return ResponseEntity.status(404).body("Category not found.");
+            throw new EntityNotFoundException("Category not found.");
         }
     }
 
@@ -75,7 +77,7 @@ public class CategoryService {
             categoryRepository.deleteById(id);
             return ResponseEntity.ok("Category created.");
         } else {
-            return ResponseEntity.status(404).body("Category not found.");
+            throw new EntityNotFoundException("Category not found.");
         }
     }
 }
