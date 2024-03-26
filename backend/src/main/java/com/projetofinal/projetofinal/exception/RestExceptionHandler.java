@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -23,7 +22,7 @@ public class RestExceptionHandler {
 
     // Exception 400
     @SuppressWarnings("rawtypes")
-    @ExceptionHandler(BadRequest.class)
+    @ExceptionHandler(BadRequestException.class)
     public static ResponseEntity HandlingErrorBadRequest(BadRequestException exception) {
         String msg = exception.getMessage();
         var dto = new ExceptionDto(HttpStatus.BAD_REQUEST, msg);

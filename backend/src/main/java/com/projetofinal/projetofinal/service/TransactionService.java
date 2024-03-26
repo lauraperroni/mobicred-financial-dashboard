@@ -103,7 +103,7 @@ public class TransactionService {
             transactionRepository.save(transaction);
             return ResponseEntity.ok("Transaction updated.");
         } else {
-            return ResponseEntity.status(404).body("Transaction not found.");
+            throw new EntityNotFoundException("Transaction not found.");
         }
     }
 
@@ -114,7 +114,7 @@ public class TransactionService {
             transactionRepository.deleteById(id);
             return ResponseEntity.ok("Transaction deleted.");
         } else {
-            return ResponseEntity.status(404).body("Transaction not found.");
+            throw new EntityNotFoundException("Transaction not found.");
         }
     }
 }
