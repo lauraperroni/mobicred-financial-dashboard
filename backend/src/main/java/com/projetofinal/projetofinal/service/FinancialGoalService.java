@@ -13,6 +13,8 @@ import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.FinancialGoal.FinancialGoalRepository;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class FinancialGoalService {
 
@@ -45,12 +47,7 @@ public class FinancialGoalService {
 
     // Transforma os objetos model em DTO
     public FinancialGoalResponseDto mapGoalToGoalDtoService(FinancialGoal goal) {
-        FinancialGoalResponseDto dto = new FinancialGoalResponseDto();
-        // Mapeie os campos para o DTO conforme necessário
-        dto.setIdDto(goal.getId());
-        dto.setDescriptionDto(goal.getDescription());
-        dto.setAmountDto(goal.getAmount());
-        dto.setDateDto(goal.getDate());
+        FinancialGoalResponseDto dto = new FinancialGoalResponseDto(goal);
         return dto;
     }
 
@@ -93,7 +90,7 @@ public class FinancialGoalService {
             financialGoalRepository.save(goal);
             return ResponseEntity.ok("Financial goal updated.");
         } else {
-            return ResponseEntity.status(404).body("Financial goal not found.");
+            throw new EntityNotFoundException("Financial Goal not found.");
         }
     }
 
@@ -104,7 +101,7 @@ public class FinancialGoalService {
             financialGoalRepository.deleteById(id);
             return ResponseEntity.ok("Financial goal deleted.");
         } else {
-            return ResponseEntity.status(404).body("Financial goal not found.");
+            throw new EntityNotFoundException("Financial Goal not found.");
         }
     }
 }
