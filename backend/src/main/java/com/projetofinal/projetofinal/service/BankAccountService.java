@@ -95,7 +95,7 @@ public class BankAccountService {
             bankAccountRepository.save(account);
             return ResponseEntity.ok("Updated bank account.");
         } else {
-            return ResponseEntity.status(404).body("Bank account not found.");
+            throw new EntityNotFoundException("Bank account not found.");
         }
     }
 
@@ -106,7 +106,7 @@ public class BankAccountService {
             bankAccountRepository.deleteById(id);
             return ResponseEntity.ok("Bank account deleted.");
         } else {
-            return ResponseEntity.status(404).body("Bank account not found.");
+            throw new EntityNotFoundException("Bank account not found.");
         }
     }
 }
