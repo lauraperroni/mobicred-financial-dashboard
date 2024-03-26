@@ -87,15 +87,14 @@ public class TransactionService {
                     .orElseThrow(EntityNotFoundException::new);
             Category category = categoryRepository.findById(transactionDto.categoryId())
                     .orElseThrow(EntityNotFoundException::new);
-            Transaction trans = new Transaction(transactionDto.amount(), transactionDto.date());
+            Transaction trans = new Transaction(transactionDto.amount(), transactionDto.date(), transactionDto.type());
 
             trans.setCategory(category);
             if (transactionDto.type() == 1) { // Crédito
-                bank.deposit(transactionDto.amount());
+                bank.deposit(transactionDto.amount(), trans);
             } else if (transactionDto.type() == 2) { // Débito
-                bank.withdraw(transactionDto.amount());
+                bank.withdraw(transactionDto.amount(), trans);
             }
-
             bank.addTransactionToList(trans);
             transactionRepository.save(trans);
             bankAccountRepository.save(bank);

@@ -22,17 +22,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "Amount is mandatory")
     private Double amount;
 
-    @NotNull(message = "Amount is mandatory")
     private Integer type;
 
     @NotNull(message = "Date is mandatory")
     @PastOrPresent(message = "Date must be in the past or present")
     private LocalDate date;
 
-    @NotNull(message = "Balance after transaction is mandatory")
     private Double balanceAfterTransaction;
 
     // Relações entre tabelas
@@ -52,9 +49,10 @@ public class Transaction {
     }
 
     // Construtor all args
-    public Transaction(Double amount, LocalDate date) {
+    public Transaction(Double amount, LocalDate date, Integer type) {
         this.amount = amount;
         this.date = date;
+        this.type = type;
     }
 
     // Getters e Setters =======================================================

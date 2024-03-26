@@ -97,11 +97,14 @@ public class BankAccount {
         transaction.setBankAccount(this);
     }
 
-    public void deposit(Double amount) {
+    // Dentro do método deposit da classe BankAccount
+    public void deposit(Double amount, Transaction transaction) {
         this.balance += amount;
+        transaction.setBalanceAfterTransaction(this.balance);
     }
 
-    public void withdraw(Double amount) {
+    public void withdraw(Double amount, Transaction transaction) {
         this.balance -= amount;
+        transaction.setBalanceAfterTransaction(this.balance);
     }
 }
