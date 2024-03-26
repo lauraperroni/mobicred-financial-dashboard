@@ -43,12 +43,7 @@ public class UserService {
 
     // Converte um Usuário em um UsuarioDto
     private UserResponseDto mapUserToUserDtoService(User user) {
-        UserResponseDto dto = new UserResponseDto();
-        // Mapeie os campos do usuário para o DTO conforme necessário
-        dto.setIdDto(user.getId());
-        dto.setNameDto(user.getName());
-        dto.setEmailDto(user.getEmail());
-        // Faça o mesmo para outros campos
+        UserResponseDto dto = new UserResponseDto(user);
         return dto;
     }
 
@@ -85,7 +80,7 @@ public class UserService {
             repository.save(user);
             return ResponseEntity.ok("User updated.");
         } else {
-            return ResponseEntity.status(404).body("User not found.");
+            throw new EntityNotFoundException("User not found.");
         }
     }
 
@@ -96,7 +91,7 @@ public class UserService {
             repository.deleteById(id);
             return ResponseEntity.ok("User deleted.");
         } else {
-            return ResponseEntity.status(404).body("User not found.");
+            throw new EntityNotFoundException("User not found.");
         }
     }
 }
