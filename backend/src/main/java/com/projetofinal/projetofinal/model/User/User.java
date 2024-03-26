@@ -37,7 +37,8 @@ public class User extends RepresentationModel<User> {
     private String email;
 
     @NotBlank(message = "Password is mandatory")
-    @Size(min = 6, message = "Password must be at least 6 characters long")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$", message = "Password must contain at least one digit, one lowercase letter, one uppercase letter and one special character")
     private String password;
 
     @NotBlank(message = "Rua is mandatory")
