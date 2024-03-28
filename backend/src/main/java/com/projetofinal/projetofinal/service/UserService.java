@@ -1,5 +1,6 @@
 package com.projetofinal.projetofinal.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,7 @@ public class UserService {
     public ResponseEntity<String> postNewUserService(User user) {
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encryptedPassword);
+        user.setregisterDate(LocalDate.now());
         repository.save(user);
         return ResponseEntity.ok("New user created.");
     }

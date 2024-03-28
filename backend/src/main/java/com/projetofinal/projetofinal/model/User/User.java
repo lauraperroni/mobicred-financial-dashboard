@@ -69,7 +69,7 @@ public class User extends RepresentationModel<User> implements UserDetails {
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "Invalid ZIP code format. Should be XXXXX-XXX")
     private String cep;
 
-    private LocalDate dataRegistro;
+    private LocalDate registerDate;
     // Listas de relacionamento entre tabelas
 
     // User - BankAcconut
@@ -88,7 +88,7 @@ public class User extends RepresentationModel<User> implements UserDetails {
 
     // Construtor all args
     public User(Integer id, String cpf, String name, String email, String password, String rua, Integer numero,
-            String bairro, String complemento, String cidade, String estado, String cep, LocalDate dataRegistro) {
+            String bairro, String complemento, String cidade, String estado, String cep, LocalDate registerDate) {
         this.id = id;
         this.cpf = cpf;
         this.name = name;
@@ -101,7 +101,7 @@ public class User extends RepresentationModel<User> implements UserDetails {
         this.cidade = cidade;
         this.estado = estado;
         this.cep = cep;
-        this.dataRegistro = LocalDate.now();
+        this.registerDate = LocalDate.now();
     }
 
     public User(String email, String password, UserRole role) {
@@ -151,12 +151,12 @@ public class User extends RepresentationModel<User> implements UserDetails {
         this.password = password;
     }
 
-    public LocalDate getDataRegistro() {
-        return dataRegistro;
+    public LocalDate getregisterDate() {
+        return registerDate;
     }
 
-    public void setDataRegistro(LocalDate dataRegistro) {
-        this.dataRegistro = dataRegistro;
+    public void setregisterDate(LocalDate registerDate) {
+        this.registerDate = registerDate;
     }
 
     public String getRua() {
