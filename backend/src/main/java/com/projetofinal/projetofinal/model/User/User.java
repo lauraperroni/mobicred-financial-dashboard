@@ -30,7 +30,7 @@ public class User extends RepresentationModel<User> implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private UserRole role;
+    private UserRole role = UserRole.USER;
 
     @CPF
     @NotBlank(message = "CPF is mandatory")
