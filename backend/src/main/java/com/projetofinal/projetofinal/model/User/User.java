@@ -12,6 +12,8 @@ import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +32,7 @@ public class User extends RepresentationModel<User> implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
     @CPF
@@ -45,29 +48,30 @@ public class User extends RepresentationModel<User> implements UserDetails {
 
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\\\\\"|,.<>\\/?])[\\w!@#$%^&*()_+\\-=\\[\\]{};':\\\\\"|,.<>\\/?]{8,}$", message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
     private String password;
 
-    @NotBlank(message = "Rua is mandatory")
-    private String rua;
+    @NotBlank(message = "Street is mandatory")
+    private String street;
 
-    @NotNull(message = "Número is mandatory")
-    private Integer numero;
+    @NotNull(message = "Number is mandatory")
+    private Integer number;
 
-    @NotBlank(message = "Bairro is mandatory")
-    private String bairro;
+    @NotBlank(message = "District is mandatory")
+    private String district;
 
-    private String complemento;
+    private String complement;
 
-    @NotBlank(message = "Cidade is mandatory")
-    private String cidade;
+    @NotBlank(message = "City is mandatory")
+    private String city;
 
-    @NotBlank(message = "Estado is mandatory")
+    @NotBlank(message = "State is mandatory")
     @Size(min = 2, max = 2, message = "State abbreviation must have 2 characters")
-    private String estado;
+    private String state;
 
-    @NotBlank(message = "CEP is mandatory")
+    @NotBlank(message = "Zip Code is mandatory")
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "Invalid ZIP code format. Should be XXXXX-XXX")
-    private String cep;
+    private String zipCode;
 
     private LocalDate registerDate;
     // Listas de relacionamento entre tabelas
@@ -87,20 +91,20 @@ public class User extends RepresentationModel<User> implements UserDetails {
     }
 
     // Construtor all args
-    public User(Integer id, String cpf, String name, String email, String password, String rua, Integer numero,
-            String bairro, String complemento, String cidade, String estado, String cep, LocalDate registerDate) {
+    public User(Integer id, String cpf, String name, String email, String password, String street, Integer number,
+            String district, String complement, String city, String state, String zipCode, LocalDate registerDate) {
         this.id = id;
         this.cpf = cpf;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.rua = rua;
-        this.numero = numero;
-        this.bairro = bairro;
-        this.complemento = complemento;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.cep = cep;
+        this.street = street;
+        this.number = number;
+        this.district = district;
+        this.complement = complement;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
         this.registerDate = LocalDate.now();
     }
 
@@ -159,60 +163,60 @@ public class User extends RepresentationModel<User> implements UserDetails {
         this.registerDate = registerDate;
     }
 
-    public String getRua() {
-        return rua;
+    public String getStreet() {
+        return street;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public Integer getNumero() {
-        return numero;
+    public Integer getNumber() {
+        return number;
     }
 
-    public void setNumero(Integer numero) {
-        this.numero = numero;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
-    public String getBairro() {
-        return bairro;
+    public String getDistrict() {
+        return district;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
-    public String getComplemento() {
-        return complemento;
+    public String getComplement() {
+        return complement;
     }
 
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
+    public void setComplement(String complement) {
+        this.complement = complement;
     }
 
-    public String getCidade() {
-        return cidade;
+    public String getCity() {
+        return city;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getState() {
+        return state;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getCep() {
-        return cep;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setCep(String cep) {
-        this.cep = cep;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public UserRole getRole() {
