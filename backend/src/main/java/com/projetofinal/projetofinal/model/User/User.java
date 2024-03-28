@@ -8,7 +8,6 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import jakarta.persistence.CascadeType;
@@ -20,6 +19,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -45,13 +45,12 @@ public class User extends RepresentationModel<User> implements UserDetails {
 
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password must be at least 8 characters long")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$", message = "Password must contain at least one digit, one lowercase letter, one uppercase letter and one special character")
     private String password;
 
     @NotBlank(message = "Rua is mandatory")
     private String rua;
 
-    @NotBlank(message = "Número is mandatory")
+    @NotNull(message = "Número is mandatory")
     private Integer numero;
 
     @NotBlank(message = "Bairro is mandatory")
@@ -214,6 +213,14 @@ public class User extends RepresentationModel<User> implements UserDetails {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     // Método de relação entre tabelas ================================

@@ -5,14 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.User.AuthenticationDTO;
-import com.projetofinal.projetofinal.dtos.User.RegisterDTO;
-import com.projetofinal.projetofinal.repository.User.UserRepository;
+import com.projetofinal.projetofinal.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -24,7 +22,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository repository;
+    private UserService userService;
 
     @SuppressWarnings("rawtypes")
     @PostMapping("/login")
@@ -37,17 +35,8 @@ public class AuthenticationController {
 
     @SuppressWarnings("rawtypes")
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
-        // verificar se o email não existe no banco
-        if (this.repository.findByEmail(data.email()) != null) {
-            return ResponseEntity.badRequest().build();
-        }
-        // se não existe, cadastra ela com o hash de senha
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.email(), encryptedPassword, data.role());
-
-        this.repository.save(newUser);
+    public ResponseEntity register(@RequestBody @Valid User data) {
+        userService.postNewUserService(data);
         return ResponseEntity.ok().build();
     }
-
 }
