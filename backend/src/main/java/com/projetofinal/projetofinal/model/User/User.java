@@ -1,9 +1,14 @@
 package com.projetofinal.projetofinal.model.User;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import jakarta.persistence.CascadeType;
@@ -20,10 +25,12 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Users")
-public class User extends RepresentationModel<User> {
+public class User extends RepresentationModel<User> implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private UserRole role;
 
     @CPF
     @NotBlank(message = "CPF is mandatory")
@@ -96,6 +103,12 @@ public class User extends RepresentationModel<User> {
         this.estado = estado;
         this.cep = cep;
         this.dataRegistro = LocalDate.now();
+    }
+
+    public User(String email, String password, UserRole role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     // Getters e Setters =======================================================
@@ -215,5 +228,40 @@ public class User extends RepresentationModel<User> {
     public void addFinancialGoalToList(FinancialGoal financialGoal) {
         financialGoals.add(financialGoal);
         financialGoal.setUser(this);
+    }
+
+    // UserDetails Methods ============================================
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == UserRole.ADMIN)
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
