@@ -6,7 +6,7 @@ public class BankAccountResponseDto {
     private Integer id;
     private String accountType;
     private Double balance;
-    private String name;
+    private String bankName;
 
     // Construtores ============================================================
 
@@ -19,7 +19,7 @@ public class BankAccountResponseDto {
         id = contas.getId();
         accountType = contas.getAccountType();
         balance = contas.getBalance();
-        name = contas.getName();
+        bankName = contas.getBankName();
     }
 
     // Getters e Setters =======================================================
@@ -48,12 +48,12 @@ public class BankAccountResponseDto {
         this.balance = balance;
     }
 
-    public String getName() {
-        return name;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String bankName) {
+        this.bankName = bankName;
     }
 
 }

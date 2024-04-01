@@ -24,7 +24,7 @@ public class BankAccount {
 
     private String accountType;
     private Double balance;
-    private String name;
+    private String bankName;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -41,10 +41,10 @@ public class BankAccount {
     }
 
     // Construtor all args
-    public BankAccount(String accountType, Double balance, String name) {
+    public BankAccount(String accountType, Double balance, String bankName) {
         this.accountType = accountType;
         this.balance = balance;
-        this.name = name;
+        this.bankName = bankName;
     }
 
     // Getters e Setters =======================================================
@@ -81,12 +81,12 @@ public class BankAccount {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     // Métodos de relação entre tabelas ===================================
