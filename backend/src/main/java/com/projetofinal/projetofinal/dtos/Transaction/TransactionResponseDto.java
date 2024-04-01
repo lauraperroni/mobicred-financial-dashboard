@@ -24,7 +24,7 @@ public class TransactionResponseDto {
         amount = transaction.getAmount();
         type = transaction.getType();
         date = transaction.getDate();
-        bankName = transaction.getBankAccount().getName();
+        bankName = transaction.getBankAccount().getBankName();
         categoryName = transaction.getCategory().getName();
     }
 
