@@ -1,9 +1,7 @@
 package com.projetofinal.projetofinal.model.FinancialGoal;
 
-import java.sql.Date;
-
+import java.time.LocalDate;
 import com.projetofinal.projetofinal.model.User.User;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
 
 @Entity
 @Table(name = "FinancialGoals")
@@ -21,7 +20,10 @@ public class FinancialGoal {
 
     private String description;
     private Double amount;
-    private Date date;
+    private LocalDate creationDate;
+
+    @Future
+    private LocalDate deadline;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,10 +35,11 @@ public class FinancialGoal {
     public FinancialGoal() {
     }
 
-    public FinancialGoal(String description, Double amount, Date date) {
+    public FinancialGoal(String description, Double amount, LocalDate date, LocalDate deadline) {
         this.description = description;
         this.amount = amount;
-        this.date = date;
+        this.creationDate = LocalDate.now();
+        this.deadline = deadline;
     }
 
     // Getters e Setters =======================================================
@@ -65,12 +68,12 @@ public class FinancialGoal {
         this.amount = amount;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     public User getUser() {
@@ -79,6 +82,14 @@ public class FinancialGoal {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 
     // Métodos de relacionamento entre tabelas
