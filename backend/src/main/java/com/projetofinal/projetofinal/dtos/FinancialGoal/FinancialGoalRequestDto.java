@@ -1,11 +1,12 @@
 package com.projetofinal.projetofinal.dtos.FinancialGoal;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public record FinancialGoalRequestDto(
-                Double amount,
-                Date date,
-                String description,
-                Integer userid) {
+        Double amount,
+        LocalDate creationDate,
+        String description,
+        Integer userid,
+        LocalDate deadline) {
 
 }
