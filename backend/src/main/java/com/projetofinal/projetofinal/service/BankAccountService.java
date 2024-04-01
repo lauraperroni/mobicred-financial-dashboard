@@ -78,7 +78,7 @@ public class BankAccountService {
     public ResponseEntity postNewBankAccountDtoService(BankAccountRequestDto account) {
         try {
             User user = userRepository.findById(account.userId()).get();
-            BankAccount acc = new BankAccount(account.accountType(), account.balance(), account.name());
+            BankAccount acc = new BankAccount(account.accountType(), account.balance(), account.bankName());
             user.addBankAccountToList(acc);
             bankAccountRepository.save(acc);
             return ResponseEntity.ok("New account created.");

@@ -72,7 +72,7 @@ public class UserService {
     public ResponseEntity<String> postNewUserService(User user) {
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encryptedPassword);
-        user.setregisterDate(LocalDate.now());
+        user.setRegisterDate(LocalDate.now());
         repository.save(user);
         return ResponseEntity.ok("New user created.");
     }
