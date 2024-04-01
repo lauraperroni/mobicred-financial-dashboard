@@ -155,11 +155,11 @@ public class User extends RepresentationModel<User> implements UserDetails {
         this.password = password;
     }
 
-    public LocalDate getregisterDate() {
+    public LocalDate getRegisterDate() {
         return registerDate;
     }
 
-    public void setregisterDate(LocalDate registerDate) {
+    public void setRegisterDate(LocalDate registerDate) {
         this.registerDate = registerDate;
     }
 
