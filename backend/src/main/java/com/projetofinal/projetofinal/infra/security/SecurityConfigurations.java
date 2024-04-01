@@ -29,14 +29,29 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        // Auth endpoints
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        // BankAccount endpoints
+                        .requestMatchers(HttpMethod.GET, "/bankaccounts/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/bankaccounts/all").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/bankaccounts/new").hasRole("USER")
+                        // FinancialGoal endpoints
+                        .requestMatchers(HttpMethod.GET, "/financialgoals/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/financialgoals/all").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/financialgoals/new").hasRole("USER")
+                        // Category endpoints
+                        .requestMatchers(HttpMethod.GET, "/categories/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/categories/all").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/categories/new").hasRole("USER")
+                        // Transaction endpoints
+                        .requestMatchers(HttpMethod.GET, "/transactions/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/transactions/all").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/users/all").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users/new").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/transactions/new").hasRole("USER")
+                        // User endpoints
+                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/users/all").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/users/new").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
