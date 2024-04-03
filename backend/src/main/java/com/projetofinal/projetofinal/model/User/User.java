@@ -92,7 +92,7 @@ public class User extends RepresentationModel<User> implements UserDetails {
 
     // Construtor all args
     public User(Integer id, String cpf, String name, String email, String password, String street, Integer number,
-            String district, String complement, String city, String state, String zipCode, LocalDate registerDate) {
+            String district, String complement, String city, String state, String zipCode) {
         this.id = id;
         this.cpf = cpf;
         this.name = name;
