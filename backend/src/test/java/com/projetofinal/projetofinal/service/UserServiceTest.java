@@ -4,8 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import com.projetofinal.projetofinal.dtos.User.UserResponseDto;
 import com.projetofinal.projetofinal.model.User.User;
@@ -69,4 +73,19 @@ public class UserServiceTest {
         assertEquals("User not found.", exception.getMessage());
     }
 
+    @SuppressWarnings("null")
+    @Test
+    void testPostNewUserService() {
+        // Arrange
+        User user = new User();
+        user.setName("testUser");
+        user.setPassword("testPassword");
+        // Act
+        ResponseEntity<String> response = service.postNewUserService(user);
+        // Assert
+        assertEquals("New user created.", response.getBody());
+        verify(repository).save(user);
+        assertEquals(LocalDate.now(), user.getRegisterDate());
+        verify(repository).save(argThat(savedUser -> savedUser.getPassword().startsWith("$2a$")));
+    }
 }
