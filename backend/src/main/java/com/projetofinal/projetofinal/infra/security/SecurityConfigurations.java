@@ -63,6 +63,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/users/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users/all").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/users/new").hasRole("ADMIN")
+                        // Swagger endpoints
+                        .requestMatchers("/swagger-ui/", "/docs", "/api-docs/").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
