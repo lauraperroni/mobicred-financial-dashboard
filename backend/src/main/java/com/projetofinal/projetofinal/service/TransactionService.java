@@ -1,5 +1,7 @@
 package com.projetofinal.projetofinal.service;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,5 +127,62 @@ public class TransactionService {
         } else {
             throw new EntityNotFoundException("Transaction not found.");
         }
+    }
+
+    // Métodos extras
+
+    // Método para pesquisar e ordenar transações por preço
+    public List<TransactionResponseDto> searchAndSortTransactionsByPrice(Double minPrice, Double maxPrice) {
+        List<Transaction> transactions = transactionRepository.findAll();
+        List<Transaction> filteredTransactions = transactions.stream()
+                .filter(transaction -> transaction.getAmount() >= minPrice && transaction.getAmount() <= maxPrice)
+                .collect(Collectors.toList());
+        return mapTransactionListToTransactionDtoListService(filteredTransactions);
+    }
+
+    // Método para pesquisar e ordenar transações por data
+    public List<TransactionResponseDto> searchAndSortTransactionsByDate(LocalDate startDate, LocalDate endDate) {
+        List<Transaction> transactions = transactionRepository.findAll();
+        List<Transaction> filteredTransactions = transactions.stream()
+                .filter(transaction -> transaction.getDate().isAfter(startDate)
+                        && transaction.getDate().isBefore(endDate))
+                .collect(Collectors.toList());
+        return mapTransactionListToTransactionDtoListService(filteredTransactions);
+    }
+
+    // Método para pesquisar e ordenar transações por categoria
+    public List<TransactionResponseDto> searchAndSortTransactionsByCategory(Integer categoryId) {
+        List<Transaction> transactions = transactionRepository.findAll();
+        List<Transaction> filteredTransactions = transactions.stream()
+                .filter(transaction -> transaction.getCategory().getId() == categoryId)
+                .collect(Collectors.toList());
+        return mapTransactionListToTransactionDtoListService(filteredTransactions);
+    }
+
+    // Método para ordenar transações por preço
+    public List<TransactionResponseDto> sortTransactionsByPrice() {
+        List<Transaction> transactions = transactionRepository.findAll();
+        return transactions.stream()
+                .sorted(Comparator.comparing(Transaction::getAmount))
+                .map(this::mapTransactionToTransactionDtoService)
+                .collect(Collectors.toList());
+    }
+
+    // Método para ordenar transações por data
+    public List<TransactionResponseDto> sortTransactionsByDate() {
+        List<Transaction> transactions = transactionRepository.findAll();
+        return transactions.stream()
+                .sorted(Comparator.comparing(Transaction::getDate))
+                .map(this::mapTransactionToTransactionDtoService)
+                .collect(Collectors.toList());
+    }
+
+    // Método para ordenar transações por categoria
+    public List<TransactionResponseDto> sortTransactionsByCategory() {
+        List<Transaction> transactions = transactionRepository.findAll();
+        return transactions.stream()
+                .sorted(Comparator.comparing(transaction -> transaction.getCategory().getName()))
+                .map(this::mapTransactionToTransactionDtoService)
+                .collect(Collectors.toList());
     }
 }
