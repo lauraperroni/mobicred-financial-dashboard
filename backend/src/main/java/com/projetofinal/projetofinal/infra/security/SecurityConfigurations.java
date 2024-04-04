@@ -48,6 +48,12 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/transactions/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/transactions/all").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/transactions/new").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/transactions/sort/bankaccount/{bankAccountId}")
+                        .hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/transactions/sort/bankaccount/all").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/transactions/sort/category/{categoryId}").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/transactions/sort/price").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/transactions/sort/date").hasRole("USER")
                         // User endpoints
                         .requestMatchers(HttpMethod.GET, "/users/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users/all").hasRole("USER")
