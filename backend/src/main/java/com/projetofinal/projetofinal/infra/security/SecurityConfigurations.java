@@ -40,6 +40,11 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/financialgoals/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/financialgoals/all").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/financialgoals/new").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/financialgoals/byPeriod/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/financialgoals/daysUntilDeadline/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/financialgoals/orderByAmount").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/financialgoals/orderByDeadline").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/financialgoals/orderByType").hasRole("USER")
                         // Category endpoints
                         .requestMatchers(HttpMethod.GET, "/categories/{id}").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/categories/all").hasRole("USER")
