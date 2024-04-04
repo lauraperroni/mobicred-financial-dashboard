@@ -115,4 +115,16 @@ public class ControllerTransactions {
     public List<TransactionResponseDto> sortTransactionsByCategory() {
         return service.sortTransactionsByCategory();
     }
+
+    // Endpoint para ordenar transações por conta bancária
+    @GetMapping("/sort/bankaccount/{bankAccountId}")
+    public List<TransactionResponseDto> sortTransactionsByBankAccount(@PathVariable Integer bankAccountId) {
+        return service.sortTransactionsByBankAccount(bankAccountId);
+    }
+
+    // Endpoint para ordenar todas as transações por conta bancária
+    @GetMapping("/sort/bankaccount/all")
+    public List<TransactionResponseDto> sortAllTransactionsByBankAccount() {
+        return service.sortAllTransactionsByBankAccount();
+    }
 }

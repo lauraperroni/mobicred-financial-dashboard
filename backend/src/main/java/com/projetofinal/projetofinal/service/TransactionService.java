@@ -185,4 +185,22 @@ public class TransactionService {
                 .map(this::mapTransactionToTransactionDtoService)
                 .collect(Collectors.toList());
     }
+
+    // Método para ordenar transações por conta bancária
+    public List<TransactionResponseDto> sortTransactionsByBankAccount(Integer bankAccountId) {
+        List<Transaction> transactions = transactionRepository.findAll();
+        List<Transaction> filteredTransactions = transactions.stream()
+                .filter(transaction -> transaction.getBankAccount().getId().equals(bankAccountId))
+                .collect(Collectors.toList());
+        return mapTransactionListToTransactionDtoListService(filteredTransactions);
+    }
+
+    // Método para ordenar todas as transações por conta bancária
+    public List<TransactionResponseDto> sortAllTransactionsByBankAccount() {
+        List<Transaction> transactions = transactionRepository.findAll();
+        return transactions.stream()
+                .sorted(Comparator.comparing(transaction -> transaction.getBankAccount().getId()))
+                .map(this::mapTransactionToTransactionDtoService)
+                .collect(Collectors.toList());
+    }
 }
