@@ -1,5 +1,6 @@
 package com.projetofinal.projetofinal.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -66,4 +67,36 @@ public class ControllerFinancialGoal {
     public ResponseEntity<String> deleteFinancialGoalId(@PathVariable Integer id) {
         return service.deleteFinancialGoalIdService(id);
     }
+
+    // Endpoint para retornar todas as metas financeiras dentro de um período
+    @GetMapping("/byPeriod/{startDate}/{endDate}")
+    public List<FinancialGoalResponseDto> getFinancialGoalsByPeriod(@PathVariable LocalDate startDate,
+            @PathVariable LocalDate endDate) {
+        return service.getFinancialGoalsByPeriodService(startDate, endDate);
+    }
+
+    // Endpoint para calcular quantos dias faltam até o prazo de uma meta específica
+    @GetMapping("/daysUntilDeadline/{id}")
+    public long daysUntilDeadline(@PathVariable Integer id) {
+        return service.daysUntilDeadline(id);
+    }
+
+    // Endpoint para retornar todas as metas financeiras ordenadas por valor
+    @GetMapping("/orderByAmount")
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByAmount() {
+        return service.getFinancialGoalsOrderByAmountService();
+    }
+
+    // Endpoint para retornar todas as metas financeiras ordenadas por prazo
+    @GetMapping("/orderByDeadline")
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByDeadline() {
+        return service.getFinancialGoalsOrderByDeadlineService();
+    }
+
+    // Endpoint para retornar todas as metas financeiras ordenadas por tipo
+    @GetMapping("/orderByType")
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByType() {
+        return service.getFinancialGoalsOrderByTypeService();
+    }
+
 }
