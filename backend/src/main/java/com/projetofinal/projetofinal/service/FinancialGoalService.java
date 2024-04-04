@@ -1,7 +1,10 @@
 package com.projetofinal.projetofinal.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Sort;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -105,4 +108,37 @@ public class FinancialGoalService {
             throw new EntityNotFoundException("Financial Goal not found.");
         }
     }
+
+    // Retorna uma lista de metas financeiras dentro de um determinado período
+    public List<FinancialGoalResponseDto> getFinancialGoalsByPeriodService(LocalDate startDate, LocalDate endDate) {
+        List<FinancialGoal> goals = financialGoalRepository.findByCreationDateBetween(startDate, endDate);
+        return mapGoalListToGoalDtoListService(goals);
+    }
+
+    // Calcula quantos dias faltam até o prazo de uma meta específica
+    public long daysUntilDeadline(Integer id) {
+        FinancialGoal goal = getFinancialGoalIdService(id);
+        LocalDate today = LocalDate.now();
+        LocalDate deadline = goal.getDeadline();
+        return ChronoUnit.DAYS.between(today, deadline);
+    }
+
+    // Retorna uma lista de metas financeiras ordenadas por valor
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByAmountService() {
+        List<FinancialGoal> goals = financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "amount"));
+        return mapGoalListToGoalDtoListService(goals);
+    }
+
+    // Retorna uma lista de metas financeiras ordenadas por prazo
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByDeadlineService() {
+        List<FinancialGoal> goals = financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "deadline"));
+        return mapGoalListToGoalDtoListService(goals);
+    }
+
+    // Retorna uma lista de metas financeiras ordenadas por tipo
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByTypeService() {
+        List<FinancialGoal> goals = financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "type"));
+        return mapGoalListToGoalDtoListService(goals);
+    }
+
 }
