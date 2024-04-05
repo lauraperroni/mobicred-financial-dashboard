@@ -8,9 +8,11 @@ import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.service.TransactionService;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,66 +67,30 @@ public class ControllerTransactions {
         return service.deleteTransactionIdService(id);
     }
 
-    // Outros endpoints
+    // Outros endpoints ===================================
 
     // Endpoint para buscar e ordenar transações por preço
-    @GetMapping("/search/price")
-    public List<TransactionResponseDto> searchAndSortTransactionsByPrice(
-            @RequestParam(value = "minPrice", required = false) Double minPrice,
-            @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
-        if (minPrice == null && maxPrice == null) {
-            // Se nenhum filtro de preço for fornecido, retornar todas as transações
-            return service.getAllTransactionsDtoService();
-        }
-        return service.searchAndSortTransactionsByPrice(minPrice, maxPrice);
-    }
-
     // Endpoint para buscar e ordenar transações por data
-    @GetMapping("/search/date")
-    public List<TransactionResponseDto> searchAndSortTransactionsByDate(
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        if (startDate == null && endDate == null) {
-            // Se nenhum filtro de data for fornecido, retornar todas as transações
-            return service.getAllTransactionsDtoService();
-        }
-        return service.searchAndSortTransactionsByDate(startDate, endDate);
-    }
-
     // Endpoint para buscar e ordenar transações por categoria
-    @GetMapping("/search/category")
-    public List<TransactionResponseDto> searchAndSortTransactionsByCategory(
-            @RequestParam(value = "categoryId") Integer categoryId) {
-        return service.searchAndSortTransactionsByCategory(categoryId);
-    }
-
     // Endpoint para ordenar transações por preço
-    @GetMapping("/sort/price")
-    public List<TransactionResponseDto> sortTransactionsByPrice() {
-        return service.sortTransactionsByPrice();
-    }
 
-    // Endpoint para ordenar transações por data
+    // Endpoint para buscar transações por data - OK TESTADO
     @GetMapping("/sort/date")
-    public List<TransactionResponseDto> sortTransactionsByDate() {
-        return service.sortTransactionsByDate();
+    public List<TransactionResponseDto> sortTransactionsByDate(@RequestBody Map<String, String> request) {
+        String dateString = request.get("date");
+        LocalDate parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        return service.sortTransactionsByDate(parsedDate);
     }
 
-    // Endpoint para ordenar transações por categoria
+    // Endpoint para buscar transações por categoria - OK TESTADO
     @GetMapping("/sort/category")
-    public List<TransactionResponseDto> sortTransactionsByCategory() {
-        return service.sortTransactionsByCategory();
+    public List<TransactionResponseDto> sortTransactionsByCategory(@RequestParam Integer categoryId) {
+        return service.sortTransactionsByCategory(categoryId);
     }
 
-    // Endpoint para ordenar transações por conta bancária
+    // Endpoint para buscar transações por conta bancária - OK TESTADO
     @GetMapping("/sort/bankaccount/{bankAccountId}")
     public List<TransactionResponseDto> sortTransactionsByBankAccount(@PathVariable Integer bankAccountId) {
         return service.sortTransactionsByBankAccount(bankAccountId);
-    }
-
-    // Endpoint para ordenar todas as transações por conta bancária
-    @GetMapping("/sort/bankaccount/all")
-    public List<TransactionResponseDto> sortAllTransactionsByBankAccount() {
-        return service.sortAllTransactionsByBankAccount();
     }
 }
