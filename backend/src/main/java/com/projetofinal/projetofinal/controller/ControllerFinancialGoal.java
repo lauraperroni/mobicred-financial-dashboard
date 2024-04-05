@@ -1,6 +1,5 @@
 package com.projetofinal.projetofinal.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalResponseDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
@@ -69,71 +67,53 @@ public class ControllerFinancialGoal {
         return service.deleteFinancialGoalIdService(id);
     }
 
-    // Retorna uma lista de metas financeiras dentro de um determinado período entre
-    // duas datas crescente
-    @GetMapping("/between-dates-ascending")
-    public List<FinancialGoal> getFinancialGoalsBetweenDatesAscending(
-            @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate) {
-        LocalDate start = LocalDate.parse(startDate);
-        LocalDate end = LocalDate.parse(endDate);
-        return service.getFinancialGoalsBetweenDatesAscending(start, end);
-    }
+    // Relatórios
+    // =======================================================================
 
-    // Retorna uma lista de metas financeiras dentro de um determinado período entre
-    // duas datas decrescente
-    @GetMapping("/between-dates-descending")
-    public List<FinancialGoal> getFinancialGoalsBetweenDatesDescending(
-            @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate) {
-        LocalDate start = LocalDate.parse(startDate);
-        LocalDate end = LocalDate.parse(endDate);
-        return service.getFinancialGoalsBetweenDatesDescending(start, end);
-    }
-
-    // Calcula quantos dias faltam até o deadline de uma meta específica
-    @GetMapping("/days-until-deadline/{id}")
-    public long daysUntilDeadline(@PathVariable Integer id) {
-        return service.daysUntilDeadline(id);
-    }
-
-    // Retorna uma lista de metas financeiras ordenadas por amount (crescente)
-    @GetMapping("/ordered-by-amount-ascending")
-    public List<FinancialGoal> getFinancialGoalsOrderedByAmountAscending() {
+    @GetMapping("/sort/amount/asc") // OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByAmountAscending() {
         return service.getFinancialGoalsOrderedByAmountAscending();
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por amount (decrescente)
-    @GetMapping("/ordered-by-amount-descending")
-    public List<FinancialGoal> getFinancialGoalsOrderedByAmountDescending() {
+    @GetMapping("/sort/amount/desc") // OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByAmountDescending() {
         return service.getFinancialGoalsOrderedByAmountDescending();
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por deadline (da mais longe
-    // para a mais próxima)
-    @GetMapping("/ordered-by-deadline-far-to-near")
-    public List<FinancialGoal> getFinancialGoalsOrderedByDeadlineFarToNear() {
-        return service.getFinancialGoalsOrderedByDeadlineFarToNear();
+    // ================================
+
+    // Endpoint para retornar todas as metas financeiras ordenadas pelo prazo de
+    // vencimento de forma ascendente
+    @GetMapping("/sort/deadline/asc") // OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByDeadlineAscending() {
+        return service.getFinancialGoalsOrderedByDeadlineAscending();
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por deadline (da mais
-    // próxima para a mais longe)
-    @GetMapping("/ordered-by-deadline-near-to-far")
-    public List<FinancialGoal> getFinancialGoalsOrderedByDeadlineNearToFar() {
-        return service.getFinancialGoalsOrderedByDeadlineNearToFar();
+    // Endpoint para retornar todas as metas financeiras ordenadas pelo prazo de
+    // vencimento de forma descendente
+    @GetMapping("/sort/deadline/desc") // OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByDeadlineDescending() {
+        return service.getFinancialGoalsOrderedByDeadlineDescending();
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por name (em ordem
-    // alfabética crescente)
-    @GetMapping("/ordered-by-name-ascending")
-    public List<FinancialGoal> getFinancialGoalsOrderedByNameAscending() {
+    // Endpoint para retornar todas as metas financeiras ordenadas pelo nome em
+    // ordem ascendente
+    @GetMapping("/sort/name/asc") // OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByNameAscending() {
         return service.getFinancialGoalsOrderedByNameAscending();
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por name (em ordem
-    // alfabética decrescente)
-    @GetMapping("/ordered-by-name-descending")
-    public List<FinancialGoal> getFinancialGoalsOrderedByNameDescending() {
+    // Endpoint para retornar todas as metas financeiras ordenadas pelo nome em
+    // ordem descendente
+    @GetMapping("/sort/name/desc") // OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByNameDescending() {
         return service.getFinancialGoalsOrderedByNameDescending();
+    }
+
+    // =======================================================
+
+    @GetMapping("/search/name/{name}") // OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsByName(@PathVariable String name) {
+        return service.getFinancialGoalsByName(name);
     }
 }

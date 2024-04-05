@@ -1,10 +1,13 @@
 package com.projetofinal.projetofinal.dtos.FinancialGoal;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 
 public class FinancialGoalResponseDto {
     private Integer id;
+    private String name;
     private String description;
     private Double amount;
     private LocalDate creationDate;
@@ -18,20 +21,23 @@ public class FinancialGoalResponseDto {
 
     // Construtor all args
     public FinancialGoalResponseDto(Integer id, String description, Double amount, LocalDate creationDate,
-            LocalDate deadline) {
+            LocalDate deadline, String name) {
         this.id = id;
         this.description = description;
         this.amount = amount;
         this.creationDate = creationDate;
         this.deadline = deadline;
+        this.name = name;
     }
 
     // Construtor sem id
-    public FinancialGoalResponseDto(String description, Double amount, LocalDate creationDate, LocalDate deadline) {
+    public FinancialGoalResponseDto(String description, Double amount, LocalDate creationDate, LocalDate deadline,
+            String name) {
         this.description = description;
         this.amount = amount;
         this.creationDate = creationDate;
         this.deadline = deadline;
+        this.name = name;
     }
 
     // Construtor usando model
@@ -42,6 +48,7 @@ public class FinancialGoalResponseDto {
         creationDate = goals.getCreationDate();
         creationDate = goals.getCreationDate();
         deadline = goals.getDeadline();
+        name = goals.getName();
     }
 
     // Getters e Setters ========================================================
@@ -84,6 +91,19 @@ public class FinancialGoalResponseDto {
 
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public static List<FinancialGoalResponseDto> fromEntities(List<FinancialGoal> goals) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fromEntities'");
     }
 
 }

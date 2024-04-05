@@ -1,11 +1,9 @@
 package com.projetofinal.projetofinal.service;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-import org.springframework.data.domain.Sort;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -113,108 +111,90 @@ public class FinancialGoalService {
     // Relatórios
     // ====================================================================
 
-    // Retorna uma lista de metas financeiras dentro de um determinado período entre
-    // duas datas
-    public List<FinancialGoal> getFinancialGoalsWithinPeriod(LocalDate startDate, LocalDate endDate) {
-        return financialGoalRepository.findAll().stream()
-                .filter(goal -> !goal.getDeadline().isBefore(startDate) && !goal.getCreationDate().isAfter(endDate))
-                .collect(Collectors.toList());
-    }
-
-    // Calcula quantos dias faltam até o deadline de uma meta específica
-    public long getDaysUntilDeadline(Integer id) {
-        @SuppressWarnings("null")
-        FinancialGoal goal = financialGoalRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Financial Goal not found."));
-        return ChronoUnit.DAYS.between(LocalDate.now(), goal.getDeadline());
-    }
-
-    // Retorna uma lista de metas financeiras ordenadas por amount
-    public List<FinancialGoal> getFinancialGoalsSortedByAmount() {
-        return financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "amount"));
-    }
-
-    // Retorna uma lista de metas financeiras ordenadas por deadline
-    public List<FinancialGoal> getFinancialGoalsSortedByDeadline() {
-        return financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "deadline"));
-    }
-
-    // No seu serviço FinancialGoalService
-    public List<FinancialGoal> getFinancialGoalsSortedByName() {
-        List<FinancialGoal> goals = financialGoalRepository.findAll();
-        goals.sort(Comparator.comparing(FinancialGoal::getName));
-        return goals;
-    }
-
-    // Retorna uma lista de metas financeiras dentro de um determinado período entre
-    // duas datas crescente
-    public List<FinancialGoal> getFinancialGoalsBetweenDatesAscending(LocalDate startDate, LocalDate endDate) {
-        return financialGoalRepository.findByDeadlineBetweenOrderByDeadlineAsc(startDate, endDate);
-    }
-
-    // Retorna uma lista de metas financeiras dentro de um determinado período entre
-    // duas datas decrescente
-    public List<FinancialGoal> getFinancialGoalsBetweenDatesDescending(LocalDate startDate, LocalDate endDate) {
-        return financialGoalRepository.findByDeadlineBetweenOrderByDeadlineAsc(startDate, endDate);
-    }
-
-    // Calcula quantos dias faltam até o deadline de uma meta específica
-    public long daysUntilDeadline(Integer id) {
-        FinancialGoal goal = getFinancialGoalIdService(id);
-        LocalDate deadline = goal.getDeadline();
-        LocalDate currentDate = LocalDate.now();
-        return currentDate.until(deadline).getDays();
-    }
-
-    // Retorna uma lista de metas financeiras ordenadas por amount (crescente)
-    public List<FinancialGoal> getFinancialGoalsOrderedByAmountAscending() {
-        return financialGoalRepository.findAll()
+    // Retorna todas as metas financeiras ordenadas por quantidade em ordem
+    // ascendente - OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByAmountAscending() {
+        List<FinancialGoal> financialGoals = financialGoalRepository.findAll()
                 .stream()
                 .sorted(Comparator.comparingDouble(FinancialGoal::getAmount))
                 .collect(Collectors.toList());
+        return financialGoals.stream()
+                .map(FinancialGoalResponseDto::new)
+                .collect(Collectors.toList());
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por amount (decrescente)
-    public List<FinancialGoal> getFinancialGoalsOrderedByAmountDescending() {
-        return financialGoalRepository.findAll()
+    // Retorna todas as metas financeiras ordenadas por quantidade em ordem
+    // descendente - OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByAmountDescending() {
+        List<FinancialGoal> financialGoals = financialGoalRepository.findAll()
                 .stream()
                 .sorted(Comparator.comparingDouble(FinancialGoal::getAmount).reversed())
                 .collect(Collectors.toList());
-    }
-
-    // Retorna uma lista de metas financeiras ordenadas por deadline (da mais longe
-    // para a mais próxima)
-    public List<FinancialGoal> getFinancialGoalsOrderedByDeadlineFarToNear() {
-        return financialGoalRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(FinancialGoal::getDeadline).reversed())
+        return financialGoals.stream()
+                .map(FinancialGoalResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por deadline (da mais
-    // próxima para a mais longe)
-    public List<FinancialGoal> getFinancialGoalsOrderedByDeadlineNearToFar() {
-        return financialGoalRepository.findAll()
+    // ====================================
+
+    // Método para retornar todas as metas financeiras ordenadas pelo prazo de perto
+    // para longe - OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByDeadlineAscending() {
+        List<FinancialGoal> financialGoals = financialGoalRepository.findAll()
                 .stream()
                 .sorted(Comparator.comparing(FinancialGoal::getDeadline))
                 .collect(Collectors.toList());
-    }
-
-    // Retorna uma lista de metas financeiras ordenadas por name (em ordem
-    // alfabética crescente)
-    public List<FinancialGoal> getFinancialGoalsOrderedByNameAscending() {
-        return financialGoalRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(FinancialGoal::getName))
+        return financialGoals.stream()
+                .map(FinancialGoalResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por name (em ordem
-    // alfabética decrescente)
-    public List<FinancialGoal> getFinancialGoalsOrderedByNameDescending() {
-        return financialGoalRepository.findAll()
+    // Método para retornar todas as metas financeiras ordenadas pelo prazo de longe
+    // para perto - OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByDeadlineDescending() {
+        List<FinancialGoal> financialGoals = financialGoalRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(FinancialGoal::getName).reversed())
+                .filter(goal -> Objects.nonNull(goal.getDeadline())) // Verificar se o prazo de vencimento não é nulo
+                .sorted(Comparator.comparing(FinancialGoal::getDeadline).reversed()) // Ordenar de forma descendente
+                .collect(Collectors.toList());
+        return financialGoals.stream()
+                .map(FinancialGoalResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    // Método para retornar todas as metas financeiras ordenadas pelo nome em ordem
+    // ascendente - OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByNameAscending() {
+        List<FinancialGoal> financialGoals = financialGoalRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(FinancialGoal::getName)) // Ordenar pelo nome em ordem ascendente
+                .collect(Collectors.toList());
+        return financialGoals.stream()
+                .map(FinancialGoalResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    // Método para retornar todas as metas financeiras ordenadas pelo nome em ordem
+    // descendente - OK TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsOrderedByNameDescending() {
+        List<FinancialGoal> financialGoals = financialGoalRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(FinancialGoal::getName).reversed()) // Ordenar pelo nome em ordem
+                                                                                 // descendente
+                .collect(Collectors.toList());
+        return financialGoals.stream()
+                .map(FinancialGoalResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    // ==================================================================
+
+    // Método para retornar todas as metas financeiras com um nome específico - OK
+    // TESTADO E FUNCIONANDO
+    public List<FinancialGoalResponseDto> getFinancialGoalsByName(String name) {
+        List<FinancialGoal> financialGoals = financialGoalRepository.findByName(name);
+        return financialGoals.stream()
+                .map(FinancialGoalResponseDto::new)
                 .collect(Collectors.toList());
     }
 
