@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/transactions")
@@ -67,12 +66,44 @@ public class ControllerTransactions {
         return service.deleteTransactionIdService(id);
     }
 
-    // Outros endpoints ===================================
+    // ========================================================================================
 
-    // Endpoint para buscar e ordenar transações por preço
-    // Endpoint para buscar e ordenar transações por data
-    // Endpoint para buscar e ordenar transações por categoria
-    // Endpoint para ordenar transações por preço
+    // Endpoint para ordenar transações por preço CRESCENTE - OK TESTADO
+    @GetMapping("/sort/price/asc")
+    public List<TransactionResponseDto> sortTransactionsByAmountAscending() {
+        return service.sortTransactionsByAmountAscending();
+    }
+
+    // Endpoint para ordenar transações por preço DECRESCENTE - OK TESTADO
+    @GetMapping("/sort/price/desc")
+    public List<TransactionResponseDto> sortTransactionsByAmountDescending() {
+        return service.sortTransactionsByAmountDescending();
+    }
+
+    // Endpoint para ordenar transações por data CRESCENTE - OK TESTADO
+    @GetMapping("/sort/date/asc")
+    public List<TransactionResponseDto> sortTransactionsByDateAscending() {
+        return service.sortTransactionsByDateAscending();
+    }
+
+    // Endpoint para ordenar transações por data DECRESCENTE - OK TESTADO
+    @GetMapping("/sort/date/desc")
+    public List<TransactionResponseDto> sortTransactionsByDateDescending() {
+        return service.sortTransactionsByDateDescending();
+    }
+
+    // Endpoint para ordenar transações por categoria CRESCENTE - OK TESTADO
+    @GetMapping("/sort/category/asc")
+    public List<TransactionResponseDto> sortTransactionsByCategoryAscending() {
+        return service.sortTransactionsByCategoryAscending();
+    }
+
+    // Endpoint para ordenar transações por categoria DECRESCENTE - OK TESTADO
+    @GetMapping("/sort/category/desc")
+    public List<TransactionResponseDto> sortTransactionsByCategoryDescending() {
+        return service.sortTransactionsByCategoryDescending();
+    }
+    // ========================================================================================
 
     // Endpoint para buscar transações por data - OK TESTADO
     @GetMapping("/sort/date")
@@ -83,8 +114,8 @@ public class ControllerTransactions {
     }
 
     // Endpoint para buscar transações por categoria - OK TESTADO
-    @GetMapping("/sort/category")
-    public List<TransactionResponseDto> sortTransactionsByCategory(@RequestParam Integer categoryId) {
+    @GetMapping("/sort/category/{categoryId}")
+    public List<TransactionResponseDto> sortTransactionsByCategory(@PathVariable Integer categoryId) {
         return service.sortTransactionsByCategory(categoryId);
     }
 

@@ -53,10 +53,10 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/transactions/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/transactions/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/transactions/new").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/transactions/sort/bankaccount/{bankAccountId}")
+                        .requestMatchers(HttpMethod.GET, "/transactions/sort/bankaccount/")
                         .hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/transactions/sort/bankaccount/all").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/transactions/sort/category/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/transactions/sort/category/{categoryId}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/transactions/sort/price").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/transactions/sort/date").hasRole("ADMIN")
                         // User endpoints
