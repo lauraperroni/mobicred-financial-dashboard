@@ -17,7 +17,7 @@ public class FinancialGoal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    private String name;
     private String description;
     private Double amount;
     private LocalDate creationDate;
@@ -35,11 +35,12 @@ public class FinancialGoal {
     public FinancialGoal() {
     }
 
-    public FinancialGoal(String description, Double amount, LocalDate date, LocalDate deadline) {
+    public FinancialGoal(String description, Double amount, LocalDate date, LocalDate deadline, String name) {
         this.description = description;
         this.amount = amount;
         this.creationDate = LocalDate.now();
         this.deadline = deadline;
+        this.name = name;
     }
 
     // Getters e Setters =======================================================
@@ -90,6 +91,14 @@ public class FinancialGoal {
 
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     // Métodos de relacionamento entre tabelas

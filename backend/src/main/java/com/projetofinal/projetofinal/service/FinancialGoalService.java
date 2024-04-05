@@ -2,6 +2,7 @@ package com.projetofinal.projetofinal.service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
@@ -80,7 +81,7 @@ public class FinancialGoalService {
     public ResponseEntity<String> postNewFinancialGoalDtoService(FinancialGoalRequestDto goal) {
         User user = userRepository.findById(goal.userid()).get();
         FinancialGoal fingo = new FinancialGoal(goal.description(), goal.amount(), goal.creationDate(),
-                goal.deadline());
+                goal.deadline(), goal.name());
         user.addFinancialGoalToList(fingo);
         financialGoalRepository.save(fingo);
         return ResponseEntity.ok("New financial goal created.");
@@ -109,36 +110,112 @@ public class FinancialGoalService {
         }
     }
 
-    // Retorna uma lista de metas financeiras dentro de um determinado período
-    public List<FinancialGoalResponseDto> getFinancialGoalsByPeriodService(LocalDate startDate, LocalDate endDate) {
-        List<FinancialGoal> goals = financialGoalRepository.findByCreationDateBetween(startDate, endDate);
-        return mapGoalListToGoalDtoListService(goals);
+    // Relatórios
+    // ====================================================================
+
+    // Retorna uma lista de metas financeiras dentro de um determinado período entre
+    // duas datas
+    public List<FinancialGoal> getFinancialGoalsWithinPeriod(LocalDate startDate, LocalDate endDate) {
+        return financialGoalRepository.findAll().stream()
+                .filter(goal -> !goal.getDeadline().isBefore(startDate) && !goal.getCreationDate().isAfter(endDate))
+                .collect(Collectors.toList());
     }
 
-    // Calcula quantos dias faltam até o prazo de uma meta específica
+    // Calcula quantos dias faltam até o deadline de uma meta específica
+    public long getDaysUntilDeadline(Integer id) {
+        @SuppressWarnings("null")
+        FinancialGoal goal = financialGoalRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Financial Goal not found."));
+        return ChronoUnit.DAYS.between(LocalDate.now(), goal.getDeadline());
+    }
+
+    // Retorna uma lista de metas financeiras ordenadas por amount
+    public List<FinancialGoal> getFinancialGoalsSortedByAmount() {
+        return financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "amount"));
+    }
+
+    // Retorna uma lista de metas financeiras ordenadas por deadline
+    public List<FinancialGoal> getFinancialGoalsSortedByDeadline() {
+        return financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "deadline"));
+    }
+
+    // No seu serviço FinancialGoalService
+    public List<FinancialGoal> getFinancialGoalsSortedByName() {
+        List<FinancialGoal> goals = financialGoalRepository.findAll();
+        goals.sort(Comparator.comparing(FinancialGoal::getName));
+        return goals;
+    }
+
+    // Retorna uma lista de metas financeiras dentro de um determinado período entre
+    // duas datas crescente
+    public List<FinancialGoal> getFinancialGoalsBetweenDatesAscending(LocalDate startDate, LocalDate endDate) {
+        return financialGoalRepository.findByDeadlineBetweenOrderByDeadlineAsc(startDate, endDate);
+    }
+
+    // Retorna uma lista de metas financeiras dentro de um determinado período entre
+    // duas datas decrescente
+    public List<FinancialGoal> getFinancialGoalsBetweenDatesDescending(LocalDate startDate, LocalDate endDate) {
+        return financialGoalRepository.findByDeadlineBetweenOrderByDeadlineAsc(startDate, endDate);
+    }
+
+    // Calcula quantos dias faltam até o deadline de uma meta específica
     public long daysUntilDeadline(Integer id) {
         FinancialGoal goal = getFinancialGoalIdService(id);
-        LocalDate today = LocalDate.now();
         LocalDate deadline = goal.getDeadline();
-        return ChronoUnit.DAYS.between(today, deadline);
+        LocalDate currentDate = LocalDate.now();
+        return currentDate.until(deadline).getDays();
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por valor
-    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByAmountService() {
-        List<FinancialGoal> goals = financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "amount"));
-        return mapGoalListToGoalDtoListService(goals);
+    // Retorna uma lista de metas financeiras ordenadas por amount (crescente)
+    public List<FinancialGoal> getFinancialGoalsOrderedByAmountAscending() {
+        return financialGoalRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparingDouble(FinancialGoal::getAmount))
+                .collect(Collectors.toList());
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por prazo
-    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByDeadlineService() {
-        List<FinancialGoal> goals = financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "deadline"));
-        return mapGoalListToGoalDtoListService(goals);
+    // Retorna uma lista de metas financeiras ordenadas por amount (decrescente)
+    public List<FinancialGoal> getFinancialGoalsOrderedByAmountDescending() {
+        return financialGoalRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparingDouble(FinancialGoal::getAmount).reversed())
+                .collect(Collectors.toList());
     }
 
-    // Retorna uma lista de metas financeiras ordenadas por tipo
-    public List<FinancialGoalResponseDto> getFinancialGoalsOrderByTypeService() {
-        List<FinancialGoal> goals = financialGoalRepository.findAll(Sort.by(Sort.Direction.ASC, "type"));
-        return mapGoalListToGoalDtoListService(goals);
+    // Retorna uma lista de metas financeiras ordenadas por deadline (da mais longe
+    // para a mais próxima)
+    public List<FinancialGoal> getFinancialGoalsOrderedByDeadlineFarToNear() {
+        return financialGoalRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(FinancialGoal::getDeadline).reversed())
+                .collect(Collectors.toList());
+    }
+
+    // Retorna uma lista de metas financeiras ordenadas por deadline (da mais
+    // próxima para a mais longe)
+    public List<FinancialGoal> getFinancialGoalsOrderedByDeadlineNearToFar() {
+        return financialGoalRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(FinancialGoal::getDeadline))
+                .collect(Collectors.toList());
+    }
+
+    // Retorna uma lista de metas financeiras ordenadas por name (em ordem
+    // alfabética crescente)
+    public List<FinancialGoal> getFinancialGoalsOrderedByNameAscending() {
+        return financialGoalRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(FinancialGoal::getName))
+                .collect(Collectors.toList());
+    }
+
+    // Retorna uma lista de metas financeiras ordenadas por name (em ordem
+    // alfabética decrescente)
+    public List<FinancialGoal> getFinancialGoalsOrderedByNameDescending() {
+        return financialGoalRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(FinancialGoal::getName).reversed())
+                .collect(Collectors.toList());
     }
 
 }

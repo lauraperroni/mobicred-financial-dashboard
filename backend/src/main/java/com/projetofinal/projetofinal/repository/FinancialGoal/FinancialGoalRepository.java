@@ -13,4 +13,6 @@ public interface FinancialGoalRepository extends JpaRepository<FinancialGoal, In
 
     List<FinancialGoal> findByCreationDateBetween(LocalDate startDate, LocalDate endDate);
 
+    List<FinancialGoal> findByDeadlineBetweenOrderByDeadlineAsc(LocalDate startDate, LocalDate endDate);
+
 }
