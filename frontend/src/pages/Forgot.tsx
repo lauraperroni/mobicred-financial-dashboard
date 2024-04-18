@@ -1,5 +1,4 @@
-import React from 'react';
-import unicredLogo from '../assets/unicred.png';
+import mobicredLogo from '../assets/mobicred.png';
 import { useNavigate } from 'react-router-dom';
 
 const Forgot = () => {
@@ -28,7 +27,7 @@ const Forgot = () => {
                     <div className="flex flex-col sm:mx-auto sm:w-full sm:max-w-sm justify-center ">
                         {/*LOGO*/}
                         <div className="flex justify-center">
-                            <img src={unicredLogo} alt="Logo" style={{ width: '50%' }} />
+                            <img src={mobicredLogo} alt="Logo" style={{ width: '50%' }} />
                         </div>
                         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                             Reset your password

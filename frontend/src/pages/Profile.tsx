@@ -1,12 +1,13 @@
-import React from 'react'
-import unicredLogo from '../assets/unicred.png';
+import Header from "../components/Header";
+import ProfileEdit from "../components/ProfileEdit";
 
-const Home = () => {
+const Profile = () => {
     return (
-        <>
-
-        </>
-    )
+        <div>
+            <Header />
+            <ProfileEdit />
+        </div>
+    );
 };
 
-export default Home
+export default Profile;

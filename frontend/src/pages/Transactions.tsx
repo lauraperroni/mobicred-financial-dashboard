@@ -1,18 +1,18 @@
 import Header from "../components/Header";
 import HelloPeriod from "../components/HelloPeriod";
-import IncomeExpenseBalance from "../components/IncomeExpenseBalance";
+import IncomeExpenseBalanceButtons from "../components/IncomeExpenseBalanceButtons";
 
-const Home = () => {
+const Transactions = () => {
 
     return (
         <>
         <div className="bg-gray-50">
             <Header />
             <HelloPeriod />
-            <IncomeExpenseBalance />
+            <IncomeExpenseBalanceButtons />
             </div>
         </>
     )
 };
 
-export default Home;
+export default Transactions;
