@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import HelloPeriod from "../components/HelloPeriod";
 import IncomeExpenseBalanceButtons from "../components/IncomeExpenseBalanceButtons";
+import TransactionList from "../components/TransactionList";
 
 const Transactions = () => {
 
@@ -8,8 +9,11 @@ const Transactions = () => {
         <>
         <div className="bg-gray-50">
             <Header />
-            <HelloPeriod />
+            <HelloPeriod handlePeriodChange={function (period: string): void {
+                    throw new Error("Function not implemented.");
+                } } />
             <IncomeExpenseBalanceButtons />
+            <TransactionList period={""} />
             </div>
         </>
     )

@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import CalendarIcon from "../assets/calendar.svg"
-function HelloPeriod() {
+import CalendarIcon from "../assets/calendar.svg";
+
+interface HelloPeriodProps {
+    handlePeriodChange: (period: string) => void;
+}
+
+function HelloPeriod({ handlePeriodChange }: HelloPeriodProps) {
     const [activeButton, setActiveButton] = React.useState("");
     const [startDate, setStartDate] = useState<Date | null>(null);
 
     const handleButtonClick = (label: string) => {
         setActiveButton(label);
+        handlePeriodChange(label); // Chamando a função handlePeriodChange ao clicar no botão
     };
 
     return (

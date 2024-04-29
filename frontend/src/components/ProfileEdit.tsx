@@ -44,7 +44,7 @@ const Profile = () => {
         <div>
             <div>
                 {/* CABEÇALHO */}
-                <div className="flex justify-center mx-auto items-center flex-col text-center gap-4">
+                <div className="flex justify-center m-4 mx-auto items-center flex-col text-center gap-4">
                     <div tabIndex={0} className="circle avatar">
                         <div className="relative w-12 h-12 overflow-hidden bg-green-100 rounded-full dark:bg-gray-600">
                             <svg className="absolute w-19 h-19 text-black-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
