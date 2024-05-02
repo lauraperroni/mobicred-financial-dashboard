@@ -38,6 +38,7 @@ const Header = () => {
                     <NavLink to="/transactions" label="Transactions" />
                     <NavLink to="/goals" label="Goals" />
                     <NavLink to="/bank-accounts" label="Bank Accounts" />
+                    <NavLink to="/calculators" label="Calculators" />
                 </ul>
             </div>
             <div className="flex items-center">

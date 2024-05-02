@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import CalendarIcon from "../assets/calendar.svg";
+import CalendarIcon from "../assets/calendar.svg"
 
 interface HelloPeriodProps {
     handlePeriodChange: (period: string) => void;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AddTransactionModal from '../cards/AddTransactionModal';
 
 // Enum para representar o tipo de transação
 enum TransactionType {
@@ -46,10 +47,11 @@ const defaultTransactions: Transaction[] = [
 // Props para o componente TransactionList
 interface TransactionListProps {
   period: string;
+  onAddTransaction: (newTransaction: Transaction) => void; // Adicionado prop para adicionar transação
 }
 
 // Componente TransactionList
-const TransactionList: React.FC<TransactionListProps> = ({ period }) => {
+const TransactionList: React.FC<TransactionListProps> = ({ period, onAddTransaction }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>(defaultTransactions);
@@ -108,6 +110,8 @@ const TransactionList: React.FC<TransactionListProps> = ({ period }) => {
     <div className="container mx-auto p-8 bg-gray-50">
       <h2 className="text-2xl font-semibold mb-4">Last Transactions</h2>
       <p className="mb-4">Check your last transactions</p>
+      {/* Adicionando botão para adicionar transação */}
+      <button onClick={() => setShowModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">Add Transaction</button>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg z-0"> {/* Define uma classe e um z-index menor para a tabela de transações */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <colgroup>
@@ -158,47 +162,16 @@ const TransactionList: React.FC<TransactionListProps> = ({ period }) => {
         </table>
       </div>
       {/* Renderizando o modal apenas se showModal for verdadeiro */}
-      {showModal && selectedTransaction && (
+      {showModal && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
           <div className="bg-white p-8 rounded-xl">
-            <h2 className="text-lg font-semibold mb-4">Edit Transaction</h2>
-            <input
-              type="text"
-              value={selectedTransaction.description}
-              onChange={(e) => setSelectedTransaction({ ...selectedTransaction, description: e.target.value })}
-              className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
+            <h2 className="text-lg font-semibold mb-4">Add Transaction</h2>
+            <AddTransactionModal
+              isOpen={showModal}
+              onClose={() => setShowModal(false)}
+              onAddTransaction={addTransaction} // Passa a função de adição de transação como prop
             />
-            <input
-              type="text"
-              value={selectedTransaction.method}
-              onChange={(e) => setSelectedTransaction({ ...selectedTransaction, method: e.target.value })}
-              className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
-            />
-            <input
-              type="date"
-              value={selectedTransaction.date}
-              onChange={(e) => setSelectedTransaction({ ...selectedTransaction, date: e.target.value })}
-              className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
-            />
-            <input
-              type="number"
-              value={selectedTransaction.amount}
-              onChange={(e) => setSelectedTransaction({ ...selectedTransaction, amount: parseFloat(e.target.value) })}
-              className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
-            />
-            <label className="block mb-2">
-              Type:
-              <select
-                value={selectedTransaction.type}
-                onChange={(e) => setSelectedTransaction({ ...selectedTransaction, type: parseInt(e.target.value) as TransactionType })}
-                className="w-full border border-gray-300 rounded px-3 py-2"
-              >
-                <option value={TransactionType.Expense}>Expense/Transfer</option>
-                <option value={TransactionType.Credit}>Credit</option>
-              </select>
-            </label>
-            <button onClick={() => handleDone(selectedTransaction)} className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2">Done</button>
-            <button onClick={() => setShowModal(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md">Cancel</button>
+
           </div>
         </div>
       )}

@@ -1,16 +1,16 @@
 // Componente do botão de adicionar cartões novos (AddCard.tsx)
 import React from 'react';
 
-interface AddCardProps {
+interface AddTransactionProps {
     onClick: () => void;
 }
 
-const AddCard: React.FC<AddCardProps> = ({ onClick }) => {
+const AddTransaction: React.FC<AddTransactionProps> = ({ onClick }) => {
     return (
         <button className="bg-green-500 max-w-25 max-h-30 rounded-md p-2 m-2 font-semibold text-white" onClick={onClick}>
-            Add new account
+            Add transaction
         </button>
     );
 }
 
-export default AddCard;
+export default AddTransaction;

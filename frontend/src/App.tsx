@@ -8,11 +8,13 @@ import Forgot from './pages/Forgot'
 import ForgotSent from './pages/ForgotSent'
 import RegisterSent from './pages/RegisterSent'
 import Home from './pages/Home'
-import Transactions from './pages/Transactions'
 import Goals from './pages/Goals'
 import BankAccounts from './pages/BankAccounts'
-import Calculators from './pages/Calculators'
 import Profile from './pages/Profile'
+import Transaction from './pages/Transaction'
+import Savings from './pages/Calculators/Savings'
+import CompoundInterest from './pages/Calculators/CompoundInterest'
+import CalculatorMenu from './pages/CalculatorMenu'
 
 
 function App() {
@@ -26,11 +28,13 @@ function App() {
           <Route path='/forgot-password' element={<Forgot/>} />
           <Route path='/forgot-sent' element={<ForgotSent/>} />
           <Route path='/home' element={<Home/>} />
-          <Route path='/transactions' element={<Transactions/>} />
+          <Route path='/transactions' element={<Transaction/>} />
           <Route path='/goals' element={<Goals/>} />
           <Route path='/profile' element={<Profile/>} />
           <Route path='/bank-accounts' element={<BankAccounts/>} />
-          <Route path='/calculators' element={<Calculators/>} />
+            <Route path='/calculators' element={<CalculatorMenu/>} />
+            <Route path='/calculators/savings' element={<Savings/>} />
+            <Route path='/calculators/compound-interest' element={<CompoundInterest/>} />
         </Routes>
       </BrowserRouter>
     </>

@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import HelloPeriod from "../components/HelloPeriod";
 import HomeChart from "../components/HomeChart";
 import IncomeExpenseBalance from "../components/IncomeExpenseBalance";
-import TransactionList from "../components/TransactionList";
+import TransactionListNoEdit from "../components/lists/TransactionListNoEdit";
 
 const Home = () => {
     return (
@@ -16,7 +16,7 @@ const Home = () => {
             </div>
             <div className="flex mx-32"> {/* Aumentei o espaçamento horizontal para mx-16 */}
                 <HomeChart />
-                <TransactionList period={""} />
+                <TransactionListNoEdit period={""} />
             </div>
         </div>
     )

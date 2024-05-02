@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Transaction } from "./TransactionList";
+import { Transaction } from "../lists/TransactionList";
+import ActionButton from "./ActionButton";
+import AddTransactionModal from "../cards/AddTransactionModal";
 
 interface MoneyCardProps {
     title: string;
@@ -41,55 +43,6 @@ function MoneyCard({
     );
 }
 
-interface ActionButtonProps {
-    onClick: () => void;
-    imageSrc: string;
-    altText: string;
-    title: string;
-    description: string;
-    type: "income" | "expense" | "transfer";
-    addTransaction: (transaction: Transaction) => void;
-}
-
-function ActionButton({
-    onClick,
-    imageSrc,
-    altText,
-    title,
-    description,
-    type,
-    addTransaction,
-}: ActionButtonProps) {
-    const [isHovered, setIsHovered] = useState(false);
-
-    return (
-        <button
-            className={`flex flex-1 p-3 bg-white rounded-xl border border-gray-100 border-solid max-w-xs ${isHovered ? "shadow-md" : ""
-                }`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onClick={() => {
-                onClick();
-            }}
-        >
-            <img
-                loading="lazy"
-                src={imageSrc}
-                className="shrink-0 w-8 h-8"
-                alt={altText}
-            />
-            <div className="flex flex-col flex-1 self-center ml-2">
-                <div className="text-base font-semibold leading-6 text-gray-700">
-                    {title}
-                </div>
-                <div className="text-sm leading-5 text-ellipsis text-slate-600">
-                    {description}
-                </div>
-            </div>
-        </button>
-    );
-}
-
 function IncomeExpenseBalanceButtons() {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedType, setSelectedType] = useState<"income" | "expense" | "transfer">("income");
@@ -103,9 +56,9 @@ function IncomeExpenseBalanceButtons() {
         type: 1,
     });
 
-    const addTransaction = () => {
-        console.log("Adding transaction:", formData);
-        setTransactions([...transactions, formData]);
+    const addTransaction = (transaction: Transaction) => {
+        console.log("Adding transaction:", transaction);
+        setTransactions([...transactions, transaction]);
         setShowModal(false);
     };
 
@@ -149,6 +102,8 @@ function IncomeExpenseBalanceButtons() {
                     description="Create an income manually"
                     type="income"
                     addTransaction={addTransaction}
+                    formData={formData} // Adiciona formData como prop
+                    setFormData={setFormData} // Adiciona setFormData como prop
                 />
                 <ActionButton
                     onClick={() => openModal("expense")}
@@ -158,6 +113,8 @@ function IncomeExpenseBalanceButtons() {
                     description="Create an expense manually"
                     type="expense"
                     addTransaction={addTransaction}
+                    formData={formData} // Adiciona formData como prop
+                    setFormData={setFormData} // Adiciona setFormData como prop
                 />
                 <ActionButton
                     onClick={() => openModal("transfer")}
@@ -167,59 +124,18 @@ function IncomeExpenseBalanceButtons() {
                     description="Select the amount and make a transfer"
                     type="transfer"
                     addTransaction={addTransaction}
+                    formData={formData} // Adiciona formData como prop
+                    setFormData={setFormData} // Adiciona setFormData como prop
                 />
             </div>
 
-            
+
             {showModal && (
-                <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
-                    <div className="bg-white p-8 rounded-xl">
-                        <h2 className="text-lg font-semibold mb-4">Add {selectedType}</h2>
-                        <input
-                            type="text"
-                            placeholder="Description"
-                            className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        />
-                        <input
-                            type="text"
-                            placeholder="Method"
-                            className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
-                            onChange={(e) => setFormData({ ...formData, method: e.target.value })}
-                        />
-                        <input
-                            type="date"
-                            placeholder="Date"
-                            className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
-                            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                        />
-                        <input
-                            type="number"
-                            placeholder="Amount"
-                            className="mb-4 w-full border border-gray-300 rounded px-3 py-2"
-                            onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
-                        />
-                        <label className="block mb-2">
-                            Type:
-                            <select
-                                value={formData.type}
-                                onChange={(e) => setFormData({ ...formData, type: parseInt(e.target.value) as (1 | 2) })}
-                                className="w-full border border-gray-300 rounded px-3 py-2"
-                            >
-                                <option value={1}>Income</option>
-                                <option value={2}>Expense</option>
-                                <option value={3}>Transfer</option>
-                            </select>
-                        </label>
-                        <button
-                            onClick={addTransaction}
-                            className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
-                        >
-                            Add
-                        </button>
-                        <button onClick={() => setShowModal(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md">Cancel</button>
-                    </div>
-                </div>
+                <AddTransactionModal
+                    isOpen={showModal}
+                    onClose={() => setShowModal(false)}
+                    onAddTransaction={addTransaction} // Passa a função de adição de transação como prop
+                />
             )}
         </div>
     );

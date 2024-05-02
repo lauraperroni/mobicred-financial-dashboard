@@ -111,6 +111,9 @@ const GoalsList: React.FC = () => {
         <div className="container mx-auto p-8 bg-gray-50">
             <h2 className="text-2xl font-semibold mb-4">Your Goals</h2>
             <p className="mb-4">Check your financial goals</p>
+            <button onClick={() => setShowModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">
+                Add New Goal
+            </button>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <colgroup>
@@ -160,9 +163,7 @@ const GoalsList: React.FC = () => {
                     </tbody>
                 </table>
             </div>
-            <button onClick={() => setShowModal(true)} className="mt-4 bg-green-600 text-white px-4 py-2 rounded-md">
-                Add New Goal
-            </button>
+
             {showModal && (
                 <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
                     <div className="bg-white p-8 rounded-xl">

@@ -1,6 +1,5 @@
-import Accounts from "../components/Accounts";
+import Accounts from "../components/lists/Accounts";
 import Header from "../components/Header";
-import TransactionList from "../components/TransactionList";
 
 const BankAccounts = () => {
 
@@ -8,10 +7,6 @@ const BankAccounts = () => {
         <>
             <Header />
             <Accounts />
-            <div>
-                <TransactionList period={''} />
-            </div>
-
         </>
     )
 };
