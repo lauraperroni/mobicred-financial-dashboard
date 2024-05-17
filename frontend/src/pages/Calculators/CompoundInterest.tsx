@@ -6,7 +6,10 @@ const CompoundInterest = () => {
     return (
         <>
             <Header />
+            <div>
             <CalculateCompoundInterest />
+            </div>
+            
         </>
     )
 };

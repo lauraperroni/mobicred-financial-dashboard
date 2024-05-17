@@ -10,13 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/chart.js": "^2.9.41",
     "apexcharts": "^3.48.0",
     "axios": "^1.6.8",
+    "chart.js": "^3.7.0",
     "date-fns": "^3.6.0",
     "flowbite": "^2.3.0",
     "react": "^18.2.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.4",
     "react-icons": "^5.1.0",
     "react-router-dom": "^6.22.3"
   },

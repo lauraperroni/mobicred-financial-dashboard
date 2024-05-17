@@ -3,37 +3,20 @@ import React from "react";
 interface MoneyCardProps {
     title: string;
     amount: number;
-    percentage: number;
-    imageSrc: string;
-    altText: string;
+    icon: JSX.Element; // Tipo para o ícone
 }
 
-interface PercentageIconProps {
-    percentage: number;
-    altText: string;
-}
-
-const PercentageIcon: React.FC<PercentageIconProps> = ({ percentage, altText }) => (
-    <div className="flex items-center gap-1 py-0.5 px-2 text-xs font-medium leading-4 text-center bg-white rounded-md border border-gray-300 border-solid text-zinc-800">
-        <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/dafa6cc42fc2797fdbe88d07494905f335c4ad9cedf460bf9f06d8a5505ad602?"
-            className="shrink-0 w-2.5 h-2.5"
-            alt={altText}
-        />
-        <div>{percentage}%</div>
-    </div>
-);
-
-const MoneyCard: React.FC<MoneyCardProps> = ({ title, amount, percentage, imageSrc, altText }) => (
+const MoneyCard: React.FC<MoneyCardProps> = ({ title, amount, icon }) => (
     <div className="flex flex-col w-full max-w-xs">
         <div className="flex flex-col grow p-4 mx-auto w-full whitespace-nowrap bg-white rounded-xl border border-gray-100 border-solid shadow-sm">
-            <div className="text-sm font-medium leading-5 text-slate-600">{title}</div>
+            <div className="flex items-center justify-between mb-2">
+                <div className="text-sm font-medium leading-5 text-slate-600">{title}</div>
+                {icon}
+            </div>
             <div className="flex gap-2 mt-2">
                 <div className="text- font-semibold tracking-tighter leading-8 text-zinc-800">
                     ${amount.toFixed(2)}
                 </div>
-                <PercentageIcon percentage={percentage} altText={altText} />
             </div>
         </div>
     </div>
@@ -44,23 +27,24 @@ const IncomeExpenseBalance: React.FC = () => {
         {
             title: "Balance",
             amount: 5502.45,
-            percentage: 12.5,
-            imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/dafa6cc42fc2797fdbe88d07494905f335c4ad9cedf460bf9f06d8a5505ad602?",
-            altText: "Percentage Icon"
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>,
         },
         {
             title: "Incomes",
             amount: 9450.00,
-            percentage: 27,
-            imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/dafa6cc42fc2797fdbe88d07494905f335c4ad9cedf460bf9f06d8a5505ad602?",
-            altText: "Percentage Icon"
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>,
         },
         {
             title: "Expenses",
             amount: 3945.55,
-            percentage: -15,
-            imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/1c6d15ee7f1e2f87dd26fb18555cd52a4e74b03d1221ae1b519f3e8ee27e7cad?",
-            altText: "Percentage Icon"
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14.828V8a2 2 0 0-2-2H7a2 2 0 0-2 2v6.828a4 4 0 0 0 1.474 3.101l4.526 3.016a2 2 0 0 0 2.948 0l4.526-3.016A4 4 0 0 0 19 14.828z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 12l4-4m0 0l4 4m-4-4v9" />
+            </svg>,
         }
     ];
 
