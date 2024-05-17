@@ -8,6 +8,6 @@ public record FinancialGoalRequestDto(
         String description,
         Integer userid,
         LocalDate deadline,
-        String name) {
-
+        String name,
+        Integer type) {
 }

@@ -79,7 +79,7 @@ public class FinancialGoalService {
     public ResponseEntity<String> postNewFinancialGoalDtoService(FinancialGoalRequestDto goal) {
         User user = userRepository.findById(goal.userid()).get();
         FinancialGoal fingo = new FinancialGoal(goal.description(), goal.amount(), goal.creationDate(),
-                goal.deadline(), goal.name());
+                goal.deadline(), goal.name(), goal.type());
         user.addFinancialGoalToList(fingo);
         financialGoalRepository.save(fingo);
         return ResponseEntity.ok("New financial goal created.");

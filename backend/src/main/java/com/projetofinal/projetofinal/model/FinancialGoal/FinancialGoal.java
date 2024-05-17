@@ -21,6 +21,7 @@ public class FinancialGoal {
     private String description;
     private Double amount;
     private LocalDate creationDate;
+    private Integer type;
 
     @Future
     private LocalDate deadline;
@@ -35,12 +36,13 @@ public class FinancialGoal {
     public FinancialGoal() {
     }
 
-    public FinancialGoal(String description, Double amount, LocalDate date, LocalDate deadline, String name) {
+    public FinancialGoal(String description, Double amount, LocalDate date, LocalDate deadline, String name, Integer type) {
         this.description = description;
         this.amount = amount;
         this.creationDate = LocalDate.now();
         this.deadline = deadline;
         this.name = name;
+        this.type = type;
     }
 
     // Getters e Setters =======================================================
@@ -99,6 +101,14 @@ public class FinancialGoal {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     // Métodos de relacionamento entre tabelas
