@@ -3,7 +3,6 @@ package com.projetofinal.projetofinal.model.User;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
-import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,11 +18,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Users")
@@ -35,62 +29,39 @@ public class User extends RepresentationModel<User> implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
-    @CPF
-    @NotBlank(message = "CPF is mandatory")
     private String cpf;
 
-    @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @Email(message = "Invalid email address")
-    @NotBlank(message = "Email is mandatory")
     private String email;
 
-    @NotBlank(message = "Password is mandatory")
-    @Size(min = 8, message = "Password must be at least 8 characters long")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\\\\\"|,.<>\\/?])[\\w!@#$%^&*()_+\\-=\\[\\]{};':\\\\\"|,.<>\\/?]{8,}$", message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
     private String password;
 
-    @NotBlank(message = "Street is mandatory")
     private String street;
 
-    @NotNull(message = "Number is mandatory")
     private Integer number;
 
-    @NotBlank(message = "District is mandatory")
     private String district;
 
     private String complement;
 
-    @NotBlank(message = "City is mandatory")
     private String city;
 
-    @NotBlank(message = "State is mandatory")
-    @Size(min = 2, max = 2, message = "State abbreviation must have 2 characters")
     private String state;
 
-    @NotBlank(message = "Zip Code is mandatory")
-    @Pattern(regexp = "\\d{5}-\\d{3}", message = "Invalid ZIP code format. Should be XXXXX-XXX")
     private String zipCode;
 
     private LocalDate registerDate;
-    // Listas de relacionamento entre tabelas
 
-    // User - BankAcconut
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<BankAccount> bankAccounts;
 
-    // User - FinancialGoal
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FinancialGoal> financialGoals;
 
-    // Construtores ============================================================
-
-    // Construtor sem argumentos
     public User() {
     }
 
-    // Construtor all args
     public User(Integer id, String cpf, String name, String email, String password, String street, Integer number,
             String district, String complement, String city, String state, String zipCode) {
         this.id = id;
@@ -114,7 +85,6 @@ public class User extends RepresentationModel<User> implements UserDetails {
         this.role = role;
     }
 
-    // Getters e Setters =======================================================
     public Integer getId() {
         return id;
     }
@@ -175,8 +145,8 @@ public class User extends RepresentationModel<User> implements UserDetails {
         return number;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setNumber(Integer integer) {
+        this.number = integer;
     }
 
     public String getDistrict() {
@@ -227,21 +197,15 @@ public class User extends RepresentationModel<User> implements UserDetails {
         this.role = role;
     }
 
-    // Método de relação entre tabelas ================================
-
-    // User - BankAccount 1-*
     public void addBankAccountToList(BankAccount bankAccount) {
         bankAccounts.add(bankAccount);
         bankAccount.setUser(this);
     }
 
-    // User - FinancialGoal 1-*
     public void addFinancialGoalToList(FinancialGoal financialGoal) {
         financialGoals.add(financialGoal);
         financialGoal.setUser(this);
     }
-
-    // UserDetails Methods ============================================
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

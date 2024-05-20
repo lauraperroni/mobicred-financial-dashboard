@@ -22,7 +22,6 @@ public class SecurityConfigurations {
     SecurityFilter securityFilter;
 
     // A corrente de filtros (métodos) para fazer validações
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity

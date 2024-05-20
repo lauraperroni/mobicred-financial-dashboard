@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import com.projetofinal.projetofinal.dtos.User.RegisterDTO;
 import com.projetofinal.projetofinal.dtos.User.UserResponseDto;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
@@ -18,57 +18,38 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class UserService {
 
-    // Cria a dependencia do repository pra conversar com banco de dados
     @Autowired
     private UserRepository repository;
 
-    // Métodos que os Endpoints usam ==========================================
-
-    // Trazer todos os usuários ===============================================
     public List<User> getAllUserService() {
         return repository.findAll();
     }
 
-    // Trazer todos os usuários DTO ===========================================
     public List<UserResponseDto> getAllUserDtoService() {
         List<User> users = repository.findAll();
         return mapUserListToUserDtoListService(users);
     }
 
-    // Método para converter uma lista de objetos users em uma lista de objetos
-    // usersDto
     private List<UserResponseDto> mapUserListToUserDtoListService(List<User> users) {
         return users.stream()
                 .map(this::mapUserToUserDtoService)
                 .collect(Collectors.toList());
     }
 
-    // Converte um Usuário em um UsuarioDto
     private UserResponseDto mapUserToUserDtoService(User user) {
         UserResponseDto dto = new UserResponseDto(user);
         return dto;
     }
 
-    // Traz um usuário pelo id ================================================
-    @SuppressWarnings("null")
     public User getUserIdService(Integer id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found."));
     }
 
-    // Traz um usuário pelo id DTO ============================================
-    @SuppressWarnings("null")
     public UserResponseDto getUserIdDtoService(Integer id) {
-        if (repository.existsById(id)) {
-            User user = repository.findById(id).get();
-            UserResponseDto dto = new UserResponseDto(user);
-            return dto;
-        } else {
-            throw new EntityNotFoundException("User not found.");
-        }
+        User user = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found."));
+        return new UserResponseDto(user);
     }
 
-    // Adicionar novo usuário =================================================
-    @SuppressWarnings("null")
     public ResponseEntity<String> postNewUserService(User user) {
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encryptedPassword);
@@ -77,8 +58,6 @@ public class UserService {
         return ResponseEntity.ok("New user created.");
     }
 
-    // Update de um usuário por id ============================================
-    @SuppressWarnings("null")
     public ResponseEntity<String> putUpdateUserService(Integer id, User user) {
         if (repository.existsById(id)) {
             user.setId(id);
@@ -89,14 +68,34 @@ public class UserService {
         }
     }
 
-    // Deletar um usuário por id =============================================
-    @SuppressWarnings("null")
-    public ResponseEntity<String> deleteUserIdService(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteUserIdService(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return ResponseEntity.ok("User deleted.");
         } else {
             throw new EntityNotFoundException("User not found.");
         }
+    }
+
+    public ResponseEntity<String> registerUser(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setEmail(registerDTO.getEmail());
+        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
+        user.setPassword(encryptedPassword);
+        user.setRegisterDate(LocalDate.now());
+
+        // Adicione os campos adicionais aqui
+        user.setCpf(registerDTO.getCpf());
+        user.setName(registerDTO.getName());
+        user.setNumber(registerDTO.getNumber());
+        user.setZipCode(registerDTO.getZipCode());
+        user.setStreet(registerDTO.getStreet());
+        user.setDistrict(registerDTO.getDistrict());
+        user.setState(registerDTO.getState());
+        user.setCity(registerDTO.getCity());
+        user.setComplement(registerDTO.getComplement());
+
+        repository.save(user);
+        return ResponseEntity.ok("New user registered.");
     }
 }
