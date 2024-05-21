@@ -6,7 +6,7 @@ interface AddBankCardModalProps {
     onAddCard: (formData: any) => void;
     formData: {
         bankName: string;
-        currentBalance: string;
+        balance: string;
         nextBillingDate: string;
         billingBalance: string;
     };
@@ -36,8 +36,8 @@ const AddBankCardModal: React.FC<AddBankCardModalProps> = ({ isOpen, onClose, on
                                     <input type="text" id="bankName" name="bankName" value={formData.bankName} onChange={handleInputChange} required className="border border-gray-300 rounded-md px-3 py-2" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="currentBalance" className="text-gray-800">Current Balance:</label>
-                                    <input type="number" id="currentBalance" name="currentBalance" value={formData.currentBalance} onChange={handleInputChange} step="0.01" required className="border border-gray-300 rounded-md px-3 py-2" />
+                                    <label htmlFor="balance" className="text-gray-800">Current Balance:</label>
+                                    <input type="number" id="balance" name="balance" value={formData.balance} onChange={handleInputChange} step="0.01" required className="border border-gray-300 rounded-md px-3 py-2" />
                                 </div>
                                 <div className="flex flex-col">
                                     <label htmlFor="nextBillingDate" className="text-gray-800">Next Billing Date:</label>

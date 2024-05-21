@@ -9,7 +9,7 @@ export interface RegisterForm {
     password: string;
     cpf: string;
     name: string;
-    number: string;
+    number: number;
     zipCode: string;
     street: string;
     district: string;
@@ -24,7 +24,7 @@ const Register = () => {
     const { formState: { errors }, register, handleSubmit } = useForm<RegisterForm>()
 
     async function submit(data: RegisterForm) {
-        // Preenche os campos não preenchidos no formulário com valores padrão
+        console.log("teste", data)
         const userData = {
             ...data,
             cpf: data.cpf || " ",
@@ -38,7 +38,8 @@ const Register = () => {
             complement: data.complement || " "
         };
 
-        const { status } = await RegisterService.register(data)
+        const { status } = await RegisterService.register(userData)
+        console.log("teste 2", userData)
         if (status === 200) {
             console.log('registered')
             navigate('/register-sent')

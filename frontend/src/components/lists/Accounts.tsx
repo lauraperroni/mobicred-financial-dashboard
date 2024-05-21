@@ -1,23 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BankCard from '../cards/BankCard';
 import AddCard from '../buttons/AddCard';
 import BankCardDetailsModal from '../cards/BankCardDetails';
 import AddBankCardModal from '../cards/AddBankCardModal';
 import TransactionListNoEdit from './TransactionListNoEdit';
+import { BankAccountsService } from '../../services';
+
+
+// {bankName: 'Inter', idDto: 1, accountTypeDto: 'Poupança', balanceD: 10}
+// {id: 3, accountType: 'aaaaaaaaaaaaaaaaaaaa', balance: 10, bankName: 'aaaaaaaaaaaaa'}
+
+// export interface PostBankAccountsForm {
+//     balance: number
+//     bankName: string
+//     nextBillingDate: string
+//     billingBalance: number
+//     accountType: string
+//     userId: number
+// }
+
+export interface BankAccountsCards {
+    balance: number;
+    bankName: string;
+    nextBillingDate: string;
+    billingBalance: number;
+    accountType: string;
+    id: number;
+}
+
 
 const Accounts: React.FC = () => {
-    const [cards, setCards] = useState([
-        { bankName: 'Inter', currentBalance: 200, nextBillingDate: '04/05', billingBalance: 159.65 },
-        { bankName: 'Nubank', currentBalance: 1000, nextBillingDate: '06/05', billingBalance: 2000.65 },
-        { bankName: 'Santander', currentBalance: 1000, nextBillingDate: '06/05', billingBalance: 2000.65 }
-    ]);
+
+    const [cards, setCards] = useState<BankAccountsCards[]>([]);
+
+    useEffect(() => {
+        async function getConta() {
+            const response = await BankAccountsService.getBankAccounts();
+            if (response && response.status === 200) {
+                console.log('Dados recebidos da API:', response.data);
+                setCards(response.data); // Atualiza o estado com os dados recebidos da API
+            } else {
+                console.error('Erro ao buscar contas:', response);
+            }
+        }
+        getConta();
+    }, []);
+
+
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [selectedBankCard, setSelectedBankCard] = useState<any>(null);
+
     const [formData, setFormData] = useState({
         bankName: '',
-        currentBalance: '',
+        balance: '',
         nextBillingDate: '',
-        billingBalance: ''
+        billingBalance: '',
+        accountType: '',
+        id: ''
     });
 
     const handleOpenAddModal = () => {
@@ -31,7 +70,7 @@ const Accounts: React.FC = () => {
     const handleAddCard = (formData: any) => {
         const newCard = {
             ...formData,
-            currentBalance: parseFloat(formData.currentBalance),
+            balance: parseFloat(formData.balance),
             billingBalance: parseFloat(formData.billingBalance)
         };
 
@@ -77,12 +116,13 @@ const Accounts: React.FC = () => {
                     <BankCard
                         key={index}
                         bankName={card.bankName}
-                        currentBalance={card.currentBalance}
+                        balance={card.balance !== null ? card.balance.toFixed(2) : ''}
                         nextBillingDate={card.nextBillingDate}
                         billingBalance={card.billingBalance}
                         onDelete={() => handleDeleteCard(index)}
                         onOpenModal={() => handleOpenModalBankCard(card)}
                     />
+
                 ))}
             </div>
             <TransactionListNoEdit period={''} />
@@ -96,7 +136,7 @@ const Accounts: React.FC = () => {
                     isOpen={true} // Corrigir para isOpen={selectedBankCard !== null}
                     onCloseModal={handleCloseModalBankCard}
                     bankName={selectedBankCard.bankName}
-                    currentBalance={selectedBankCard.currentBalance}
+                    balance={selectedBankCard.balance}
                     nextBillingDate={selectedBankCard.nextBillingDate}
                     billingBalance={selectedBankCard.billingBalance}
                 />

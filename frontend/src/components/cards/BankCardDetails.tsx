@@ -6,12 +6,12 @@ interface BankCardDetailsProps {
     isOpen: boolean; // Estado que controla se o modal está aberto ou fechado
     onCloseModal: () => void; // Função para fechar o modal
     bankName: string;
-    currentBalance: number;
+    balance: number;
     nextBillingDate: string;
     billingBalance: number;
 }
 
-const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal, bankName, currentBalance, nextBillingDate, billingBalance }) => {
+const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal, bankName, balance, nextBillingDate, billingBalance }) => {
     if (!isOpen) return null;
 
     return (
@@ -21,7 +21,7 @@ const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal,
                     <h2 className="text-xl font-semibold">Bank {bankName} Details</h2>
                 </div>
                 <div className="p-4">
-                    <p className="mb-2"><span className="font-semibold">Balance:</span> $ {currentBalance.toFixed(2)}</p>
+                    <p className="mb-2"><span className="font-semibold">Balance:</span> $ {balance.toFixed(2)}</p>
                     <p className="mb-2"><span className="font-semibold">Due date:</span> {nextBillingDate}</p>
                     <p><span className="font-semibold">Amount:</span> $ {billingBalance.toFixed(2)}</p>
                     <button onClick={onCloseModal} className="bg-gray-200 px-4 py-2 mt-4 rounded-md">Close</button>
