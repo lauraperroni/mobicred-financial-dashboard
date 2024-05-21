@@ -17,7 +17,10 @@ import com.projetofinal.projetofinal.dtos.Category.CategoryResponseDto;
 import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.service.CategoryService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/categories")
 public class ControllerCategory {
 

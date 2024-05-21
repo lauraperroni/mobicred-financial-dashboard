@@ -4,10 +4,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountResponseDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
+import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.service.BankAccountService;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/bankaccounts")
 public class ControllerBankAccount {
 
@@ -45,10 +53,20 @@ public class ControllerBankAccount {
 
     // Adicionar nova account bancaria ===========================================
     @PostMapping("/new")
-    public ResponseEntity<String> postNewBankAccount(@RequestBody BankAccountRequestDto account) {
-        service.postNewBankAccountDtoService(account);
-        return ResponseEntity.ok("New bank account registered.");
+    public ResponseEntity<String> postNewBankAccount(@AuthenticationPrincipal User user,
+            @RequestBody BankAccountRequestDto account) {
+        if (account.userId() == user.getId()) {
+            try {
+                service.postNewBankAccountDtoService(account, user);
+                return ResponseEntity.ok("New bank account registered. controller");
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não criou catch.");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não criou.");
+        }
     }
+
 
     // Update de um usuário por id =============================================
     @PutMapping("/update/{id}")

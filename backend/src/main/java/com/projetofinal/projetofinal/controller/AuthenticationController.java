@@ -15,9 +15,11 @@ import com.projetofinal.projetofinal.infra.security.TokenService;
 import com.projetofinal.projetofinal.service.AuthorizationService;
 import com.projetofinal.projetofinal.service.UserService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("auth")
 public class AuthenticationController {
 

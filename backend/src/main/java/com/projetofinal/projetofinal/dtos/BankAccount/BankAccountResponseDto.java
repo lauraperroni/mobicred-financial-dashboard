@@ -7,8 +7,26 @@ public class BankAccountResponseDto {
     private String accountType;
     private Double balance;
     private String bankName;
+    private Double billingBalance;
+    private String nextBillingDate;
 
     // Construtores ============================================================
+
+    public String getNextBillingDate() {
+        return nextBillingDate;
+    }
+
+    public void setNextBillingDate(String nextBillingDate) {
+        this.nextBillingDate = nextBillingDate;
+    }
+
+    public Double getBillingBalance() {
+        return billingBalance;
+    }
+
+    public void setBillingBalance(Double billingBalance) {
+        this.billingBalance = billingBalance;
+    }
 
     // Construtor no args
     public BankAccountResponseDto() {
@@ -24,27 +42,27 @@ public class BankAccountResponseDto {
 
     // Getters e Setters =======================================================
 
-    public Integer getIdDto() {
+    public Integer getId() {
         return id;
     }
 
-    public void setIdDto(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getAccountTypeDto() {
+    public String getAccountType() {
         return accountType;
     }
 
-    public void setAccountTypeDto(String accountType) {
+    public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
 
-    public Double getBalanceDto() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalanceDto(Double balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 

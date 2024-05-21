@@ -18,7 +18,10 @@ import com.projetofinal.projetofinal.dtos.User.UserResponseDto;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.service.UserService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/users")
 public class ControllerUser {
 

@@ -7,6 +7,8 @@ import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.service.TransactionService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/transactions")
 public class ControllerTransactions {
 

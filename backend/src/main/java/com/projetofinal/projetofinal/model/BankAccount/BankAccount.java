@@ -25,6 +25,24 @@ public class BankAccount {
     private String accountType;
     private Double balance;
     private String bankName;
+    private Double billingBalance;
+    public Double getBillingBalance() {
+        return billingBalance;
+    }
+
+    public void setBillingBalance(Double billingBalance) {
+        this.billingBalance = billingBalance;
+    }
+
+    private String nextBillingDate;
+
+    public String getNextBillingDate() {
+        return nextBillingDate;
+    }
+
+    public void setNextBillingDate(String nextBillingDate) {
+        this.nextBillingDate = nextBillingDate;
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_id")
