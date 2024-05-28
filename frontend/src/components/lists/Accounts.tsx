@@ -6,49 +6,44 @@ import AddBankCardModal from '../cards/AddBankCardModal';
 import TransactionListNoEdit from './TransactionListNoEdit';
 import { BankAccountsService } from '../../services';
 
-
-// {bankName: 'Inter', idDto: 1, accountTypeDto: 'Poupança', balanceD: 10}
-// {id: 3, accountType: 'aaaaaaaaaaaaaaaaaaaa', balance: 10, bankName: 'aaaaaaaaaaaaa'}
-
-// export interface PostBankAccountsForm {
-//     balance: number
-//     bankName: string
-//     nextBillingDate: string
-//     billingBalance: number
-//     accountType: string
-//     userId: number
-// }
-
 export interface BankAccountsCards {
     balance: number;
     bankName: string;
-    nextBillingDate: string;
-    billingBalance: number;
+    nextBillingDate: string; // Atualizado para aceitar nulo
+    billingBalance: number; // Atualizado para aceitar nulo
     accountType: string;
     id: number;
 }
 
-
 const Accounts: React.FC = () => {
-
     const [cards, setCards] = useState<BankAccountsCards[]>([]);
 
     useEffect(() => {
-        async function getConta() {
-            const response = await BankAccountsService.getBankAccounts();
-            if (response && response.status === 200) {
-                console.log('Dados recebidos da API:', response.data);
-                setCards(response.data); // Atualiza o estado com os dados recebidos da API
-            } else {
-                console.error('Erro ao buscar contas:', response);
+        async function fetchAccounts() {
+            try {
+                const response = await BankAccountsService.getBankAccounts();
+                if (response && response.status === 200) {
+                    console.log('Dados recebidos da API:', response.data);
+                    const formattedData = response.data.map((item: any) => ({
+                        ...item,
+                        nextBillingDate: item.nextBillingDate || 'N/A', // Definido como 'N/A' se nulo
+                        billingBalance: item.billingBalance ?? null // Mantém nulo se for nulo
+                    }));
+                    setCards(formattedData);
+                } else {
+                    console.error('Erro ao buscar contas:', response);
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
             }
         }
-        getConta();
+        fetchAccounts();
     }, []);
 
+    // Restante do código permanece o mesmo
 
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-    const [selectedBankCard, setSelectedBankCard] = useState<any>(null);
+    const [selectedBankCard, setSelectedBankCard] = useState<BankAccountsCards | null>(null);
 
     const [formData, setFormData] = useState({
         bankName: '',
@@ -68,23 +63,23 @@ const Accounts: React.FC = () => {
     };
 
     const handleAddCard = (formData: any) => {
-        const newCard = {
+        const newCard: BankAccountsCards = {
             ...formData,
             balance: parseFloat(formData.balance),
-            billingBalance: parseFloat(formData.billingBalance)
+            billingBalance: formData.billingBalance ? parseFloat(formData.billingBalance) : null,
+            nextBillingDate: formData.nextBillingDate || null,
+            id: Date.now() // Gerando um id único para o novo cartão
         };
 
         setCards(prevCards => [...prevCards, newCard]);
         handleCloseAddModal();
     };
 
-    const handleDeleteCard = (index: number) => {
-        const updatedCards = [...cards];
-        updatedCards.splice(index, 1);
-        setCards(updatedCards);
+    const handleDeleteCard = (id: number) => {
+        setCards(prevCards => prevCards.filter(card => card.id !== id));
     };
 
-    const handleOpenModalBankCard = (card: any) => {
+    const handleOpenModalBankCard = (card: BankAccountsCards) => {
         setSelectedBankCard(card);
     };
 
@@ -112,18 +107,22 @@ const Accounts: React.FC = () => {
             </div>
 
             <div className='flex justify-center bg-gray-50'>
-                {cards.map((card, index) => (
-                    <BankCard
-                        key={index}
-                        bankName={card.bankName}
-                        balance={card.balance !== null ? card.balance.toFixed(2) : ''}
-                        nextBillingDate={card.nextBillingDate}
-                        billingBalance={card.billingBalance}
-                        onDelete={() => handleDeleteCard(index)}
-                        onOpenModal={() => handleOpenModalBankCard(card)}
-                    />
-
-                ))}
+                {cards.length > 0 ? (
+                    cards.map((card) => (
+                        <BankCard
+                            key={card.id}
+                            bankName={card.bankName}
+                            balance={card.balance}
+                            nextBillingDate={card.nextBillingDate}
+                            billingBalance={card.billingBalance}
+                            onDelete={() => handleDeleteCard(card.id)} // Adicione esta linha para chamar a função handleDeleteCard com o ID da conta bancária
+                            onOpenModal={() => handleOpenModalBankCard(card)} // Adicione esta linha para chamar a função handleOpenModalBankCard com os dados da conta bancária
+                            id={card.id} // Adicione o ID da conta bancária como uma propriedade
+                        />
+                    ))
+                ) : (
+                    <p>Nenhum cartão encontrado.</p>
+                )}
             </div>
             <TransactionListNoEdit period={''} />
 
@@ -133,7 +132,7 @@ const Accounts: React.FC = () => {
             {/* Modal de detalhes do cartão */}
             {selectedBankCard && (
                 <BankCardDetailsModal
-                    isOpen={true} // Corrigir para isOpen={selectedBankCard !== null}
+                    isOpen={true}
                     onCloseModal={handleCloseModalBankCard}
                     bankName={selectedBankCard.bankName}
                     balance={selectedBankCard.balance}
@@ -141,7 +140,6 @@ const Accounts: React.FC = () => {
                     billingBalance={selectedBankCard.billingBalance}
                 />
             )}
-
         </>
     );
 };

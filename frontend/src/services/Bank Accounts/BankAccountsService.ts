@@ -1,24 +1,10 @@
-// import { PostBankAccountsForm } from "../../components/lists/Accounts"
-import { Api } from "../../providers"
+import { Api } from "../../providers";
 
 const getToken = () => Promise.resolve(localStorage.getItem('token'));
 
-// // POST nova conta bancária
-// const postBankAccount = async  (data: PostBankAccountsForm) =>  {
-//     const token = await getToken();
-//     if(token){
-//         return Api.post('/bankaccounts/new', data, {
-//             headers: {
-//                 'Authorization': `Bearer ${token}`
-//             }
-//         });
-//     }
-// }
-
-// GET todas as contas bancárias
-const getBankAccounts = async  () =>  {
+const getBankAccounts = async () => {
     const token = await getToken();
-    if(token){
+    if (token) {
         return Api.get('/bankaccounts/all', {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -27,7 +13,18 @@ const getBankAccounts = async  () =>  {
     }
 }
 
+export const deleteBankAccounts = async (id: number) => {
+    const token = await getToken();
+    if (token) {
+        return Api.delete(`/bankaccounts/delete/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
+}
+
 export const BankAccountsService = {
-    // postBankAccount, 
+    deleteBankAccounts,
     getBankAccounts
 }
