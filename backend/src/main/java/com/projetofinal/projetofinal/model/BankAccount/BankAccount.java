@@ -59,10 +59,12 @@ public class BankAccount {
     }
 
     // Construtor all args
-    public BankAccount(String accountType, Double balance, String bankName) {
+    public BankAccount(String accountType, Double balance, String bankName, String nextBillingDate, Double billingBalance) {
         this.accountType = accountType;
         this.balance = balance;
         this.bankName = bankName;
+        this.billingBalance = billingBalance;
+        this.nextBillingDate = nextBillingDate;
     }
 
     // Getters e Setters =======================================================

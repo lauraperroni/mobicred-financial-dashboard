@@ -77,11 +77,12 @@ public class BankAccountService {
     // Adicionar nova account DTO ============================================
     @SuppressWarnings({ "null", "rawtypes" })
     public ResponseEntity postNewBankAccountDtoService(BankAccountRequestDto account, User user) {
-            user = userRepository.findById(account.userId()).get();
-            BankAccount acc = new BankAccount(account.accountType(), account.balance(), account.bankName());
-            user.addBankAccountToList(acc);
-            bankAccountRepository.save(acc);
-            return ResponseEntity.ok("New account created. service");
+        user = userRepository.findById(account.userId()).get();
+        BankAccount acc = new BankAccount(account.accountType(), account.balance(), account.bankName(),
+                account.nextBillingDate(), account.billingBalance());
+        user.addBankAccountToList(acc);
+        bankAccountRepository.save(acc);
+        return ResponseEntity.ok("New account created. service");
     }
 
     // Update de um usuário por id ==============================================

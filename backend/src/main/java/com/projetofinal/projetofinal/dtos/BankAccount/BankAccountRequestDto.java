@@ -4,6 +4,7 @@ public record BankAccountRequestDto(
         String bankName,
         String accountType,
         Double balance,
-        Integer userId) {
-
+        Integer userId,
+        String nextBillingDate,
+        Double billingBalance) {
 }
