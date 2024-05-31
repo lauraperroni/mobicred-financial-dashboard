@@ -17,4 +17,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     List<Transaction> findByBankAccountId(Integer bankAccountId);
 
+    List<Transaction> findByUserId(Integer id);
+
 }

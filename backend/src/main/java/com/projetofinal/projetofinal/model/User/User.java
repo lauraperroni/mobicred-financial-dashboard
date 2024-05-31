@@ -33,6 +33,7 @@ public class User extends RepresentationModel<User> implements UserDetails {
 
     private String name;
 
+    
     private String email;
 
     private String password;

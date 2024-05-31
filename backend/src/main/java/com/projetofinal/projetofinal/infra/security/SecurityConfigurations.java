@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                         // BankAccount endpoints
                         .requestMatchers(HttpMethod.GET, "/bankaccounts/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/bankaccounts/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/bankaccounts/user/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/bankaccounts/new").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/bankaccounts/delete/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/financialgoals/name/asc").hasRole("ADMIN")

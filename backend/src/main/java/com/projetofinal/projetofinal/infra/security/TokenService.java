@@ -24,7 +24,8 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                     .withIssuer("auth-api")
-                    .withSubject(user.getEmail())
+                    .withSubject(user.getUsername())
+                    .withClaim("id", String.valueOf(user.getId()))
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
             return token;
@@ -34,6 +35,7 @@ public class TokenService {
     }
 
     // método que valida o token do usuário
+    // método que valida o token do usuário
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -42,7 +44,9 @@ public class TokenService {
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch (JWTVerificationException exception) {
+        } catch (JWTVerificationException | IllegalArgumentException exception) {
+            // Se houver uma exceção durante a verificação do token
+            // ou se o token for inválido, retorna uma string vazia
             return "";
         }
     }

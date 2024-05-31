@@ -3,13 +3,10 @@ package com.projetofinal.projetofinal.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountResponseDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
-import com.projetofinal.projetofinal.exception.RestExceptionHandler;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.BankAccount.BankAccountRepository;
@@ -74,15 +71,16 @@ public class BankAccountService {
         bankAccountRepository.save(account);
     }
 
-    // Adicionar nova account DTO ============================================
-    @SuppressWarnings({ "null", "rawtypes" })
-    public ResponseEntity postNewBankAccountDtoService(BankAccountRequestDto account, User user) {
-        user = userRepository.findById(account.userId()).get();
-        BankAccount acc = new BankAccount(account.accountType(), account.balance(), account.bankName(),
-                account.nextBillingDate(), account.billingBalance());
+    // Adicionar nova account DTO =============================================
+    @SuppressWarnings({ "rawtypes"})
+    public ResponseEntity postNewBankAccountDtoService(String userName, BankAccountRequestDto account) {
+        BankAccount acc = new BankAccount(account);
+        
+        User user = (User) userRepository.findByEmail(userName);
+        acc.setUser(user);
         user.addBankAccountToList(acc);
         bankAccountRepository.save(acc);
-        return ResponseEntity.ok("New account created. service");
+        return ResponseEntity.ok("Nova conta criada.");
     }
 
     // Update de um usuário por id ==============================================
@@ -107,4 +105,14 @@ public class BankAccountService {
             throw new EntityNotFoundException("Bank account not found.");
         }
     }
+
+    // Trazer todas as accounts Dto de um user ===========================================
+
+    public List<BankAccountResponseDto> getAllBankAccountDtoServicebyUser(User user) {
+        User user2 = (User) userRepository.findByEmail(user.getUsername());
+
+        List<BankAccount> accounts = bankAccountRepository.findByUserId(user2.getId());
+        return mapBankAccountListToBankAccountDtoListService(accounts);
+    }
+
 }

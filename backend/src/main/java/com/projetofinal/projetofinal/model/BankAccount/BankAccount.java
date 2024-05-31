@@ -2,6 +2,7 @@ package com.projetofinal.projetofinal.model.BankAccount;
 
 import java.util.List;
 
+import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.model.User.User;
 
@@ -59,12 +60,21 @@ public class BankAccount {
     }
 
     // Construtor all args
-    public BankAccount(String accountType, Double balance, String bankName, String nextBillingDate, Double billingBalance) {
+    public BankAccount(String accountType, Double balance, String bankName, String nextBillingDate, Double billingBalance, User user) {
         this.accountType = accountType;
         this.balance = balance;
         this.bankName = bankName;
-        this.billingBalance = billingBalance;
         this.nextBillingDate = nextBillingDate;
+        this.billingBalance = billingBalance;
+        this.user = user;
+    }
+
+    public BankAccount(BankAccountRequestDto dto){
+        this.accountType = dto.accountType();
+        this.balance = dto.balance();
+        this.bankName = dto.bankName();
+        this.nextBillingDate = dto.nextBillingDate();
+        this.billingBalance = dto.billingBalance();
     }
 
     // Getters e Setters =======================================================

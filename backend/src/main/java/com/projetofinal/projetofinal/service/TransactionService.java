@@ -13,9 +13,11 @@ import com.projetofinal.projetofinal.exception.RestExceptionHandler;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
+import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.BankAccount.BankAccountRepository;
 import com.projetofinal.projetofinal.repository.Category.CategoryRepository;
 import com.projetofinal.projetofinal.repository.Transaction.TransactionRepository;
+import com.projetofinal.projetofinal.repository.User.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -31,6 +33,9 @@ public class TransactionService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     // Métodos que os Endpoints usam ============================================
 
@@ -212,4 +217,22 @@ public class TransactionService {
         List<Transaction> transactions = transactionRepository.findByBankAccountId(bankAccountId);
         return mapTransactionListToTransactionDtoListService(transactions);
     }
+
+
+    // Traz todas as transactions de um usuário 
+    public List<TransactionResponseDto> getAllTransactionsDtoServicebyUser(User user) {
+        User user2 = (User) userRepository.findByEmail(user.getUsername());
+
+        
+        List<Transaction> transactions = transactionRepository.findByUserId(user2.getId());
+        return mapTransactionListToTransactionDtoListService(transactions);
+    }
+
+    /*    public List<BankAccountResponseDto> getAllBankAccountDtoServicebyUser(User user) {
+        User user2 = (User) userRepository.findByEmail(user.getUsername());
+
+        List<BankAccount> accounts = bankAccountRepository.findByUserId(user2.getId());
+        return mapBankAccountListToBankAccountDtoListService(accounts);
+    }
+ */
 }

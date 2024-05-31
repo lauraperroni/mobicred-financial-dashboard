@@ -38,6 +38,8 @@ public class BankAccountResponseDto {
         accountType = contas.getAccountType();
         balance = contas.getBalance();
         bankName = contas.getBankName();
+        billingBalance = contas.getBillingBalance();
+        nextBillingDate = contas.getNextBillingDate();
     }
 
     // Getters e Setters =======================================================

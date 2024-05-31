@@ -39,6 +39,12 @@ public class ControllerBankAccount {
         return service.getAllBankAccountDtoService();
     }
 
+    // Trazer todas as accounts bancarias DTO ====================================
+    @GetMapping("/user/all")
+    public List<BankAccountResponseDto> getAllBankAccountDtoby(@AuthenticationPrincipal User user) {
+        return service.getAllBankAccountDtoServicebyUser(user);
+    }
+
     // Traz uma account pelo id DTO ==============================================
     @GetMapping("/{id}")
     public ResponseEntity<?> getBankAccountId(@PathVariable Integer id) {
@@ -54,18 +60,16 @@ public class ControllerBankAccount {
     @PostMapping("/new")
     public ResponseEntity<String> postNewBankAccount(@AuthenticationPrincipal User user,
             @RequestBody BankAccountRequestDto account) {
-        if (account.userId() == user.getId()) {
-            try {
-                service.postNewBankAccountDtoService(account, user);
-                return ResponseEntity.ok("New bank account registered. controller");
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não criou catch.");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Não criou.");
+        try {
+
+            String email = user.getUsername();
+            service.postNewBankAccountDtoService(email, account);
+            return ResponseEntity.ok("Nova conta bancária registrada.");
+        } catch (Exception e) {
+            e.printStackTrace(); // Para depuração
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Erro ao criar nova conta bancária.");
         }
     }
-
 
     // Update de um usuário por id =============================================
     @PutMapping("/update/{id}")

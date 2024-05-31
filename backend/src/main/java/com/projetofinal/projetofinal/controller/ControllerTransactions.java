@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionResponseDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
+import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.service.TransactionService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +39,12 @@ public class ControllerTransactions {
     // =============================================================================
 
     // Trazer todas as transacoes DTO =============================================
+    @GetMapping("/user/all")
+    public List<TransactionResponseDto> getAllTransactionDto(@AuthenticationPrincipal User user) {
+        return service.getAllTransactionsDtoServicebyUser(user);
+    }
+
+    // Trazer todas as transacoes DTO  de um usuário=============================================
     @GetMapping("/all")
     public List<TransactionResponseDto> getAllTransactionDto() {
         return service.getAllTransactionsDtoService();
