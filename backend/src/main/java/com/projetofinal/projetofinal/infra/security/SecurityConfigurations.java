@@ -52,6 +52,7 @@ public class SecurityConfigurations {
                         // Transaction endpoints
                         .requestMatchers(HttpMethod.GET, "/transactions/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/transactions/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/transactions/user/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/transactions/new").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/transactions/sort/bankaccount/")
                         .hasRole("ADMIN")

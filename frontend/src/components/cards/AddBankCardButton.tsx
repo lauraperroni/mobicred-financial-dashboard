@@ -1,18 +1,15 @@
-// AddBankCardButton.tsx
 import React, { useState } from 'react';
 import AddBankCardModal from './AddBankCardModal';
+import { BankAccountsService } from '../../services/Bank Accounts/BankAccountsService';
 
-interface AddBankCardButtonProps {
-    onAddCard: (formData: any) => void;
-}
-
-const AddBankCardButton: React.FC<AddBankCardButtonProps> = ({ onAddCard }) => {
+const AddBankCardButton: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         bankName: '',
         balance: '',
         nextBillingDate: '',
-        billingBalance: ''
+        billingBalance: '',
+        accountType: ''
     });
 
     const handleOpenModal = () => {
@@ -31,14 +28,26 @@ const AddBankCardButton: React.FC<AddBankCardButtonProps> = ({ onAddCard }) => {
         }));
     };
 
+    const handleAddCard = async (formData: any) => {
+        try {
+            // Remove o campo id antes de enviar a requisição
+            const { id, ...dataToSend } = formData;
+            await BankAccountsService.postBankAccounts(dataToSend);
+            console.log('Conta bancária adicionada com sucesso');
+        } catch (error) {
+            console.error('Erro ao adicionar nova conta bancária:', error);
+        }
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onAddCard(formData);
+        handleAddCard(formData);
         setFormData({
             bankName: '',
             balance: '',
             nextBillingDate: '',
-            billingBalance: ''
+            billingBalance: '',
+            accountType: ''
         });
         handleCloseModal();
     };

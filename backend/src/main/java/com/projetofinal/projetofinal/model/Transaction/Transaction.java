@@ -1,6 +1,7 @@
 package com.projetofinal.projetofinal.model.Transaction;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.Category.Category;
@@ -12,8 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
+
 
 @Entity
 @Table(name = "transactions")
@@ -21,15 +21,9 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private Double amount;
-
     private Integer type;
-
-    @NotNull(message = "Date is mandatory")
-    @PastOrPresent(message = "Date must be in the past or present")
     private LocalDate date;
-
     private Double balanceAfterTransaction;
 
     // Relações entre tabelas
@@ -111,6 +105,11 @@ public class Transaction {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Collection<Transaction> getTransactions() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTransactions'");
     }
 
     // Métodos de relação entre tabelas ===================================

@@ -103,6 +103,9 @@ public class TransactionService {
                 bank.withdraw(transactionDto.amount(), trans);
             }
             bank.addTransactionToList(trans);
+
+            trans.setBankAccount(bank);
+
             transactionRepository.save(trans);
             bankAccountRepository.save(bank);
             return ResponseEntity.ok("New transaction created.");
@@ -218,21 +221,17 @@ public class TransactionService {
         return mapTransactionListToTransactionDtoListService(transactions);
     }
 
+    // Traz todas as transactions de um usuário
+    // Traz todas as transactions de um usuário
+    public List<TransactionResponseDto> getAllTransactionsDtoServiceByUser(User user) {
+        User userEntity = (User) userRepository.findByEmail(user.getUsername());
 
-    // Traz todas as transactions de um usuário 
-    public List<TransactionResponseDto> getAllTransactionsDtoServicebyUser(User user) {
-        User user2 = (User) userRepository.findByEmail(user.getUsername());
+        List<Transaction> transactions = userEntity.getBankAccounts().stream()
+                .flatMap(bankAccount -> bankAccount.getTransactions().stream())
+                .collect(Collectors.toList());
 
-        
-        List<Transaction> transactions = transactionRepository.findByUserId(user2.getId());
-        return mapTransactionListToTransactionDtoListService(transactions);
+        return transactions.stream()
+                .map(this::mapTransactionToTransactionDtoService)
+                .collect(Collectors.toList());
     }
-
-    /*    public List<BankAccountResponseDto> getAllBankAccountDtoServicebyUser(User user) {
-        User user2 = (User) userRepository.findByEmail(user.getUsername());
-
-        List<BankAccount> accounts = bankAccountRepository.findByUserId(user2.getId());
-        return mapBankAccountListToBankAccountDtoListService(accounts);
-    }
- */
 }

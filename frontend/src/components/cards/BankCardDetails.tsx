@@ -7,9 +7,10 @@ interface BankCardDetailsProps {
     balance: number;
     nextBillingDate: string;
     billingBalance: number;
+    accountType: string; // Adicionada a propriedade accountType
 }
 
-const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal, bankName, balance, nextBillingDate, billingBalance }) => {
+const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal, bankName, balance, nextBillingDate, billingBalance, accountType }) => {
     if (!isOpen) return null;
 
     return (
@@ -19,6 +20,7 @@ const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal,
                     <h2 className="text-xl font-semibold">{bankName} Details</h2>
                 </div>
                 <div className="p-4">
+                    <p className="mb-2"><span className="font-semibold">Account Type:</span> {accountType}</p>
                     <p className="mb-2"><span className="font-semibold">Balance:</span> $ {balance.toFixed(2)}</p>
                     <p className="mb-2"><span className="font-semibold">Due date:</span> {nextBillingDate}</p>
                     {billingBalance !== null && ( // Verifica se billingBalance não é nulo antes de acessar toFixed

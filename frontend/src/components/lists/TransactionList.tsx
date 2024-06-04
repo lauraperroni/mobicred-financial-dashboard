@@ -1,48 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddTransactionModal from '../cards/AddTransactionModal';
+import { TransactionsService } from '../../services/Transactions/TransactionsService'; // Importe o serviço de transações
 
 // Enum para representar o tipo de transação
 enum TransactionType {
-  Expense = 1,
-  Credit = 2,
+  Expense = 2,
+  Credit = 1,
 }
 
-export interface Transaction {
+// Remova o campo id do tipo Transaction
+interface Transaction {
   id: number;
   description: string;
   method: string;
   date: string;
   amount: number;
-  type: 1 | 2; // Adicionado o campo "type"
+  type: 1 | 2;
+  categoryId: number;
+  bankAccountId: number;
 }
-
-// Lista de transações padrão
-const defaultTransactions: Transaction[] = [
-  {
-    id: 1,
-    description: 'Groceries',
-    method: 'Credit Card',
-    date: '2024-04-19',
-    amount: 50.00,
-    type: TransactionType.Expense,
-  },
-  {
-    id: 2,
-    description: 'Restaurant',
-    method: 'Cash',
-    date: '2024-04-18',
-    amount: 30.00,
-    type: TransactionType.Expense,
-  },
-  {
-    id: 3,
-    description: 'Online Shopping',
-    method: 'PayPal',
-    date: '2024-04-17',
-    amount: 100.00,
-    type: TransactionType.Credit,
-  }
-];
 
 // Props para o componente TransactionList
 interface TransactionListProps {
@@ -54,7 +30,27 @@ interface TransactionListProps {
 const TransactionList: React.FC<TransactionListProps> = ({ period, onAddTransaction }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-  const [transactions, setTransactions] = useState<Transaction[]>(defaultTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  // Função para buscar as transações do back-end
+  const fetchTransactions = async () => {
+    try {
+      const response = await TransactionsService.getTransactions();
+      if (response && response.status === 200) {
+        console.log('Dados recebidos das transações:', response.data);
+        setTransactions(response.data);
+      } else {
+        console.error('Error fetching transactions:', response);
+      }
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+    }
+  };
+
+  // UseEffect para buscar as transações quando o componente for montado
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
 
   // Função para lidar com a edição de uma transação
   const handleEdit = (transaction: Transaction) => {
@@ -72,11 +68,23 @@ const TransactionList: React.FC<TransactionListProps> = ({ period, onAddTransact
   };
 
   // Função para lidar com a exclusão de uma transação
-  const handleDelete = (transaction: Transaction) => {
+  const handleDelete = async (transaction: Transaction) => {
     const confirmed = window.confirm('Are you sure you want to delete this transaction?');
     if (confirmed) {
-      setTransactions(transactions.filter(item => item.id !== transaction.id));
-      setShowModal(false);
+      try {
+        const response = await TransactionsService.deleteTransactions(transaction.id);
+        console.log("Trying to delete");
+        if (response && response.status === 200) {
+          // Atualiza a lista de transações após a exclusão bem-sucedida
+          await fetchTransactions();
+          setShowModal(false);
+          console.log("If Delete");
+        } else {
+          console.error('Else Error deleting transaction:', response);
+        }
+      } catch (error) {
+        console.error('Catch Error deleting transaction:', error);
+      }
     }
   };
 
@@ -106,6 +114,8 @@ const TransactionList: React.FC<TransactionListProps> = ({ period, onAddTransact
     }
   };
 
+  const filteredTransactions = transactions.filter(filterTransactionsByPeriod);
+
   return (
     <div className="container mx-auto p-8 bg-gray-50">
       <h2 className="text-2xl font-semibold mb-4">Last Transactions</h2>
@@ -113,53 +123,57 @@ const TransactionList: React.FC<TransactionListProps> = ({ period, onAddTransact
       {/* Adicionando botão para adicionar transação */}
       <button onClick={() => setShowModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">Add Transaction</button>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg z-0"> {/* Define uma classe e um z-index menor para a tabela de transações */}
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <colgroup>
-            <col style={{ width: '30%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '20%' }} />
-          </colgroup>
-          <thead className="text-xs bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Description
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Method
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Date
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Amount
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Type
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Options
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.filter(filterTransactionsByPeriod).map(transaction => (
-              <tr key={transaction.id} className={transaction.type === TransactionType.Expense ? "bg-red-100 border-b dark:bg-gray-800" : "bg-green-100 border-b dark:bg-gray-800"}>
-                <td className="px-6 py-4 font-medium whitespace-nowrap">{transaction.description}</td>
-                <td className="px-6 py-4">{transaction.method}</td>
-                <td className="px-6 py-4">{transaction.date}</td>
-                <td className="px-6 py-4">${transaction.amount.toFixed(2)}</td>
-                <td className="px-6 py-4">{transaction.type === TransactionType.Expense ? "Expense/Transfer" : "Credit"}</td>
-                <td className="px-6 py-4 text-right">
-                  <button onClick={() => handleEdit(transaction)} className="mr-2 bg-yellow-500 text-white px-2 py-1 rounded-md">Edit</button>
-                  <button onClick={() => handleDelete(transaction)} className="bg-red-500 text-white px-2 py-1 rounded-md">Delete</button>
-                </td>
+        {filteredTransactions.length === 0 ? (
+          <p className="text-center text-black p-4">You have no transactions registered.</p>
+        ) : (
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <colgroup>
+              <col style={{ width: '30%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '20%' }} />
+            </colgroup>
+            <thead className="text-xs bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Description
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Method
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Date
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Amount
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Type
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Options
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredTransactions.map(transaction => (
+                <tr key={transaction.id} className={transaction.type === TransactionType.Expense ? "bg-red-100 border-b dark:bg-gray-800" : "bg-green-100 border-b dark:bg-gray-800"}>
+                  <td className="px-6 py-4 font-medium whitespace-nowrap">{transaction.description}</td>
+                  <td className="px-6 py-4">{transaction.method}</td>
+                  <td className="px-6 py-4">{transaction.date}</td>
+                  <td className="px-6 py-4">${transaction.amount.toFixed(2)}</td>
+                  <td className="px-6 py-4">{transaction.type === TransactionType.Expense ? "Expense/Transfer" : "Credit"}</td>
+                  <td className="px-6 py-4 text-right">
+                    <button onClick={() => handleEdit(transaction)} className="mr-2 bg-yellow-500 text-white px-2 py-1 rounded-md">Edit</button>
+                    <button onClick={() => handleDelete(transaction)} className="bg-red-500 text-white px-2 py-1 rounded-md">Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
       {/* Renderizando o modal apenas se showModal for verdadeiro */}
       {showModal && (
@@ -169,9 +183,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ period, onAddTransact
             <AddTransactionModal
               isOpen={showModal}
               onClose={() => setShowModal(false)}
-              onAddTransaction={addTransaction} // Passa a função de adição de transação como prop
             />
-
           </div>
         </div>
       )}

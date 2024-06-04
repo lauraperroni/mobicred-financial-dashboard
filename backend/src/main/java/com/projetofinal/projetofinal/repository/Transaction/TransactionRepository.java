@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionResponseDto;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 
 @Repository
@@ -17,6 +18,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     List<Transaction> findByBankAccountId(Integer bankAccountId);
 
-    List<Transaction> findByUserId(Integer id);
+    List<TransactionResponseDto> findAllTransactionsByBankAccountUserId(Integer id);
 
 }

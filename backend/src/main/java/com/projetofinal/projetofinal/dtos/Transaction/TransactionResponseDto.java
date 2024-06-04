@@ -9,39 +9,36 @@ public class TransactionResponseDto {
     private Double amount;
     private Integer type;
     private LocalDate date;
-    private String bankName;
-    private String categoryName;
+    
 
-    // Construtores =============================================================
+    // Constructors =============================================================
 
-    // Construtor no args
+    // No-args constructor
     public TransactionResponseDto() {
     }
 
-    // Construtor usando Transacoes como args
+    // Constructor using Transaction as an argument
     public TransactionResponseDto(Transaction transaction) {
-        id = transaction.getId();
-        amount = transaction.getAmount();
-        type = transaction.getType();
-        date = transaction.getDate();
-        bankName = transaction.getBankAccount().getBankName();
-        categoryName = transaction.getCategory().getName();
+        this.id = transaction.getId(); // Assuming the Transaction class has a getId() method
+        this.amount = transaction.getAmount();
+        this.type = transaction.getType();
+        this.date = transaction.getDate();
     }
 
-    // Getters e Setters ========================================================
-    public Integer getIdDto() {
+    // Getters and Setters ======================================================
+    public Integer getId() {
         return id;
     }
 
-    public void setIdDto(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Double getAmountDto() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmountDto(Double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -53,22 +50,6 @@ public class TransactionResponseDto {
         this.date = date;
     }
 
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
     public Integer getType() {
         return type;
     }
@@ -76,5 +57,4 @@ public class TransactionResponseDto {
     public void setType(Integer type) {
         this.type = type;
     }
-
 }

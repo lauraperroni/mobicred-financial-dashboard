@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { TransactionsService } from '../../services/Transactions/TransactionsService';
 
 // Enum para representar o tipo de transação
 enum TransactionType {
@@ -15,34 +16,6 @@ export interface Transaction {
   type: 1 | 2; // Adicionado o campo "type"
 }
 
-// Lista de transações padrão
-const defaultTransactions: Transaction[] = [
-  {
-    id: 1,
-    description: 'Groceries',
-    method: 'Credit Card',
-    date: '2024-04-19',
-    amount: 50.00,
-    type: TransactionType.Expense,
-  },
-  {
-    id: 2,
-    description: 'Restaurant',
-    method: 'Cash',
-    date: '2024-04-18',
-    amount: 30.00,
-    type: TransactionType.Expense,
-  },
-  {
-    id: 3,
-    description: 'Online Shopping',
-    method: 'PayPal',
-    date: '2024-04-17',
-    amount: 100.00,
-    type: TransactionType.Credit,
-  }
-];
-
 // Props para o componente TransactionList
 interface TransactionListProps {
   period: string;
@@ -52,8 +25,26 @@ interface TransactionListProps {
 const TransactionList: React.FC<TransactionListProps> = ({ period }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-  const [transactions, setTransactions] = useState<Transaction[]>(defaultTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
+  useEffect(() => {
+    // Função para carregar as transações do backend
+    const fetchTransactions = async () => {
+      try {
+        const response = await TransactionsService.getTransactions();
+        if (response && response.status === 200) {
+          console.log('Dados recebidos da API:', response.data);
+          setTransactions(response.data);
+        } else {
+          console.error('Error fetching transactions:', response);
+        }
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      }
+    };
+
+    fetchTransactions();
+  }, []); // Executa apenas uma vez, quando o componente é montado
 
   // Função para lidar com a conclusão da edição de uma transação
   const handleDone = (updatedTransaction: Transaction) => {
@@ -93,7 +84,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ period }) => {
     <div className="container mx-auto p-8 bg-gray-50">
       <h2 className="text-2xl font-semibold mb-4">Last Transactions</h2>
       <p className="mb-4">Check your last transactions</p>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg z-0"> {/* Define uma classe e um z-index menor para a tabela de transações */}
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg z-0">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <colgroup>
             <col style={{ width: '30%' }} />
@@ -134,7 +125,6 @@ const TransactionList: React.FC<TransactionListProps> = ({ period }) => {
           </tbody>
         </table>
       </div>
-      {/* Renderizando o modal apenas se showModal for verdadeiro */}
       {showModal && selectedTransaction && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
           <div className="bg-white p-8 rounded-xl">
@@ -170,7 +160,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ period }) => {
                 onChange={(e) => setSelectedTransaction({ ...selectedTransaction, type: parseInt(e.target.value) as TransactionType })}
                 className="w-full border border-gray-300 rounded px-3 py-2"
               >
-                <option value={TransactionType.Expense}>Expense/Transfer</option>
+                <option value={TransactionType.Expense}>Expense</option>
                 <option value={TransactionType.Credit}>Credit</option>
               </select>
             </label>

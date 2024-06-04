@@ -49,8 +49,8 @@ public class TransactionServiceTest {
 
         // Verificação
         assertEquals(transactions.size(), transactionDtos.size());
-        assertEquals(transactions.get(0).getAmount(), transactionDtos.get(0).getAmountDto());
-        assertEquals(transactions.get(1).getAmount(), transactionDtos.get(1).getAmountDto());
+        assertEquals(transactions.get(0).getAmount(), transactionDtos.get(0).getAmount());
+        assertEquals(transactions.get(1).getAmount(), transactionDtos.get(1).getAmount());
     }
 
     @Test

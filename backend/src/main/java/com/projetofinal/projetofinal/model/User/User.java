@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
+import com.projetofinal.projetofinal.model.Transaction.Transaction;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,7 +34,6 @@ public class User extends RepresentationModel<User> implements UserDetails {
     private String cpf;
 
     private String name;
-
     
     private String email;
 
@@ -240,4 +241,9 @@ public class User extends RepresentationModel<User> implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public List<BankAccount> getBankAccounts() {
+        return bankAccounts;
+    }
+    
 }

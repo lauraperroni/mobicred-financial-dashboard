@@ -3,12 +3,13 @@ import React from 'react';
 interface AddBankCardModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onAddCard: (formData: any) => void;
+    onAddCard: (formData: any) => void; // Atualizado para aceitar formData
     formData: {
         bankName: string;
         balance: string;
         nextBillingDate: string;
         billingBalance: string;
+        accountType: string;
     };
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -17,7 +18,8 @@ const AddBankCardModal: React.FC<AddBankCardModalProps> = ({ isOpen, onClose, on
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onAddCard(formData);
+        onAddCard(formData); // Chama onAddCard com o formsData
+        console.log('Dados a enviar para a API:', formData);
         onClose();
     };
 
@@ -47,16 +49,19 @@ const AddBankCardModal: React.FC<AddBankCardModalProps> = ({ isOpen, onClose, on
                                     <label htmlFor="billingBalance" className="text-gray-800">Billing Balance:</label>
                                     <input type="number" id="billingBalance" name="billingBalance" value={formData.billingBalance} onChange={handleInputChange} step="0.01" required className="border border-gray-300 rounded-md px-3 py-2" />
                                 </div>
+                                <div className="flex flex-col">
+                                    <label htmlFor="accountType" className="text-gray-800">Account Type:</label>
+                                    <input type="text" id="accountType" name="accountType" value={formData.accountType} onChange={handleInputChange} required className="border border-gray-300 rounded-md px-3 py-2" />
+                                </div>
                                 <div className="flex justify-end">
                                     <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md">Add Card</button>
-                                    <button onClick={onClose} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md ml-2">Cancel</button>
+                                    <button type="button" onClick={onClose} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md ml-2">Cancel</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             )}
-
         </>
     );
 };

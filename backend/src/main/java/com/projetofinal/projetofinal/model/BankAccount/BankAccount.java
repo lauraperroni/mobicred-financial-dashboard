@@ -1,5 +1,6 @@
 package com.projetofinal.projetofinal.model.BankAccount;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
@@ -22,11 +23,22 @@ public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    
+    private Integer bankNumber;
     private String accountType;
     private Double balance;
     private String bankName;
     private Double billingBalance;
+
+
+    public Integer getBankNumber() {
+        return bankNumber;
+    }
+
+    public void setBankNumber(Integer bankNumber) {
+        this.bankNumber = bankNumber;
+    }
+
     public Double getBillingBalance() {
         return billingBalance;
     }
@@ -136,5 +148,9 @@ public class BankAccount {
     public void withdraw(Double amount, Transaction transaction) {
         this.balance -= amount;
         transaction.setBalanceAfterTransaction(this.balance);
+    }
+
+    public Collection<Transaction> getTransactions() {
+        return transactions;
     }
 }

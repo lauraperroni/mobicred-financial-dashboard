@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projetofinal.projetofinal.dtos.Category.CategoryRequestDto;
 import com.projetofinal.projetofinal.dtos.Category.CategoryResponseDto;
 import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.service.CategoryService;
@@ -44,7 +45,7 @@ public class ControllerCategory {
 
     // Adicionar novo usuário ======================================================
     @PostMapping("/new")
-    public ResponseEntity<String> postNewCategory(@RequestBody Category category) {
+    public ResponseEntity<String> postNewCategory(@RequestBody CategoryRequestDto category) {
         service.postNewCategoryService(category);
         return ResponseEntity.ok("New category registered.");
     }

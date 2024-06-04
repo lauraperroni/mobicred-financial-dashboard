@@ -2,10 +2,10 @@ import { Api } from "../../providers";
 
 const getToken = () => Promise.resolve(localStorage.getItem('token'));
 
-const getBankAccounts = async () => {
+const getTransactions = async () => {
     const token = await getToken();
     if (token) {
-        return Api.get('/bankaccounts/user/all', {
+        return Api.get('/transactions/user/all', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -13,10 +13,10 @@ const getBankAccounts = async () => {
     }
 }
 
-export const deleteBankAccounts = async (id: number) => {
+export const deleteTransactions = async (id: number) => {
     const token = await getToken();
     if (token) {
-        return Api.delete(`/bankaccounts/delete/${id}`, {
+        return Api.delete(`/transactions/delete/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -24,10 +24,10 @@ export const deleteBankAccounts = async (id: number) => {
     }
 }
 
-export const postBankAccounts = async (formData: any) => { // Recebe formData para enviar os dados da nova conta bancária
+export const postTransactions = async (formData: any) => { 
     const token = await getToken();
     if (token) {
-        return Api.post(`/bankaccounts/new`, formData, { // Envia formData na requisição POST
+        return Api.post(`/transactions/new`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -35,8 +35,8 @@ export const postBankAccounts = async (formData: any) => { // Recebe formData pa
     }
 }
 
-export const BankAccountsService = {
-    deleteBankAccounts,
-    getBankAccounts,
-    postBankAccounts // Adiciona a função postBankAccounts ao serviço
+export const TransactionsService = {
+    getTransactions,
+    deleteTransactions,
+    postTransactions // Certifique-se de exportar a função de deletar transações
 }

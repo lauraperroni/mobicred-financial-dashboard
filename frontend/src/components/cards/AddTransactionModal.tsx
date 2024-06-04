@@ -1,73 +1,106 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BankAccountsService, postTransactions } from '../../services'; // Importando o serviço de contas bancárias
+import { CategoryService } from '../../services/Category/CategoryService';
 
-// Definição da interface Transaction
-interface Transaction {
+interface BankAccount {
     id: number;
-    description: string;
-    method: string;
-    date: string;
-    amount: number;
-    type: 1 | 2; // Tipo definido como 1 (Expense) ou 2 (Credit)
+    bankName: string;
 }
 
-// Definição do enum TransactionType
-enum TransactionType {
-    Expense = 1,
-    Credit = 2,
+interface Category {
+    id: number;
+    name: string;
+}
+
+interface Transaction {
+    amount: number;
+    date: string;
+    type: 1 | 2;
+    categoryId: number;
+    bankAccountId: number;
+    method: string;
+    description: string;
 }
 
 interface AddTransactionModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onAddTransaction: (newTransaction: Transaction) => void;
 }
 
-// Interface para os dados do formulário de transação
-interface TransactionFormData {
-    description: string;
-    method: string;
-    date: string;
-    amount: number; // Alterado para número
-    type: string;
-}
-
-
-const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClose, onAddTransaction }) => {
-    const [formData, setFormData] = useState<TransactionFormData>({
+const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClose }) => {
+    const [formData, setFormData] = useState<Transaction>({
         description: '',
         method: '',
         date: '',
-        amount: 0, // Inicializado como string vazia
-        type: '1', // Default type
+        amount: 0,
+        type: 1,
+        categoryId: 0,
+        bankAccountId: 0
     });
 
-    const handleSubmit = () => {
-        console.log("Form submitted!");
+    const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    useEffect(() => {
+        const fetchAccounts = async () => {
+            try {
+                const response = await BankAccountsService.getBankAccounts();
+                if (response && response.status === 200) {
+                    setBankAccounts(response.data);
+                } else {
+                    console.error('Erro ao buscar contas bancárias:', response);
+                }
+            } catch (error) {
+                console.error('Erro na requisição de contas bancárias:', error);
+            }
+        };
+
+        const fetchCategories = async () => {
+            try {
+                const response = await CategoryService.getCategory();
+                if (response && response.status === 200) {
+                    setCategories(response.data);
+                } else {
+                    console.error('Erro ao buscar categorias:', response);
+                }
+            } catch (error) {
+                console.error('Erro na requisição de categorias:', error);
+            }
+        };
+
+        fetchAccounts();
+        fetchCategories();
+    }, []);
+
+    const handleSubmit = async () => {
         const newTransaction: Transaction = {
-            id: Date.now(),
             description: formData.description,
             method: formData.method,
             date: formData.date,
             amount: formData.amount,
-            type: parseInt(formData.type) as (1 | 2),
+            type: formData.type,
+            categoryId: formData.categoryId,
+            bankAccountId: formData.bankAccountId
         };
 
-        console.log("New transaction:", newTransaction);
-
-        // Chama a função onAddTransaction com a nova transação
-        onAddTransaction(newTransaction);
-        // Limpa o formulário após a adição da transação
-        setFormData({
-            description: '',
-            method: '',
-            date: '',
-            amount: 0,
-            type: '1', // Resetando para o tipo padrão
-        });
-
-        // Fecha o modal após a adição da transação
-        onClose();
+        // Emitir o evento para adicionar transação com o novo objeto de transação
+        if (newTransaction.description && newTransaction.method && newTransaction.date && newTransaction.amount && newTransaction.type && newTransaction.categoryId && newTransaction.bankAccountId) {
+            try {
+                const response = await postTransactions(newTransaction);
+                if (response && response.status === 200) {
+                    console.log("Transaction added successfully:", response.data);
+                    onClose(); // Fechar o modal após o sucesso da transação
+                } else {
+                    console.error("Error adding transaction:", response);
+                }
+            } catch (error) {
+                console.error("Error adding transaction:", error);
+            }
+        } else {
+            console.error("Form data is incomplete");
+        }
     };
+
     return (
         <>
             {isOpen && (
@@ -106,11 +139,37 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClo
                             Type:
                             <select
                                 value={formData.type}
-                                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                                onChange={(e) => setFormData({ ...formData, type: parseInt(e.target.value) as (1 | 2) })}
                                 className="w-full border border-gray-300 rounded px-3 py-2"
                             >
-                                <option value="1">Expense</option>
-                                <option value="2">Credit</option>
+                                <option value={2}>Expense</option>
+                                <option value={1}>Credit</option>
+                            </select>
+                        </label>
+                        <label className="block mb-2">
+                            Category:
+                            <select
+                                value={formData.categoryId}
+                                onChange={(e) => setFormData({ ...formData, categoryId: parseInt(e.target.value) })}
+                                className="w-full border border-gray-300 rounded px-3 py-2"
+                            >
+                                <option value={0}>Select a category...</option>
+                                {categories.map(category => (
+                                    <option key={category.id} value={category.id}>{category.name}</option>
+                                ))}
+                            </select>
+                        </label>
+                        <label className="block mb-2">
+                            Bank Account:
+                            <select
+                                value={formData.bankAccountId}
+                                onChange={(e) => setFormData({ ...formData, bankAccountId: parseInt(e.target.value) })}
+                                className="w-full border border-gray-300 rounded px-3 py-2"
+                            >
+                                <option value={0}>Select a bank account...</option>
+                                {bankAccounts.map(account => (
+                                    <option key={account.id} value={account.id}>{account.bankName}</option>
+                                ))}
                             </select>
                         </label>
                         <button onClick={handleSubmit} className="bg-green-500 text-white px-4 py-2 rounded-md mr-2">Add</button>

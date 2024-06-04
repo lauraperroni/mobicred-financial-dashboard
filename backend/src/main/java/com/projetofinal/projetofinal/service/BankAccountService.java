@@ -110,7 +110,6 @@ public class BankAccountService {
 
     public List<BankAccountResponseDto> getAllBankAccountDtoServicebyUser(User user) {
         User user2 = (User) userRepository.findByEmail(user.getUsername());
-
         List<BankAccount> accounts = bankAccountRepository.findByUserId(user2.getId());
         return mapBankAccountListToBankAccountDtoListService(accounts);
     }

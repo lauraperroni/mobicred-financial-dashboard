@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import com.projetofinal.projetofinal.dtos.Category.CategoryRequestDto;
 import com.projetofinal.projetofinal.dtos.Category.CategoryResponseDto;
 import com.projetofinal.projetofinal.model.Category.Category;
 import com.projetofinal.projetofinal.repository.Category.CategoryRepository;
@@ -53,8 +55,9 @@ public class CategoryService {
 
     // Adicionar novo usuário =================================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> postNewCategoryService(Category category) {
-        categoryRepository.save(category);
+    public ResponseEntity<String> postNewCategoryService(CategoryRequestDto category) {
+        Category category2 = new Category(category.name());
+        categoryRepository.save(category2);
         return ResponseEntity.ok("New category created.");
     }
 
