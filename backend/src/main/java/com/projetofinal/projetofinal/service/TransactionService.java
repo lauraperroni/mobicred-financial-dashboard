@@ -94,7 +94,7 @@ public class TransactionService {
                     .orElseThrow(EntityNotFoundException::new);
             Category category = categoryRepository.findById(transactionDto.categoryId())
                     .orElseThrow(EntityNotFoundException::new);
-            Transaction trans = new Transaction(transactionDto.amount(), transactionDto.date(), transactionDto.type());
+            Transaction trans = new Transaction(transactionDto.amount(), transactionDto.date(), transactionDto.type(), transactionDto.description(), transactionDto.method());
 
             trans.setCategory(category);
             if (transactionDto.type() == 1) { // Crédito

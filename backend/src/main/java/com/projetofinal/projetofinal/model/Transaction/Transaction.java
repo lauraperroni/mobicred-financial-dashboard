@@ -14,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "transactions")
 public class Transaction {
@@ -22,6 +21,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double amount;
+    private String method;
+
+    private String description;
     private Integer type;
     private LocalDate date;
     private Double balanceAfterTransaction;
@@ -43,10 +45,12 @@ public class Transaction {
     }
 
     // Construtor all args
-    public Transaction(Double amount, LocalDate date, Integer type) {
+    public Transaction(Double amount, LocalDate date, Integer type, String method, String description) {
         this.amount = amount;
         this.date = date;
         this.type = type;
+        this.description = description;
+        this.method = method;
     }
 
     // Getters e Setters =======================================================
@@ -105,6 +109,22 @@ public class Transaction {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Collection<Transaction> getTransactions() {

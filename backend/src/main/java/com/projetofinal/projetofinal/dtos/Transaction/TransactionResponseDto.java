@@ -9,9 +9,26 @@ public class TransactionResponseDto {
     private Double amount;
     private Integer type;
     private LocalDate date;
+    private String description;
+    private String method;
     
 
     // Constructors =============================================================
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
 
     // No-args constructor
     public TransactionResponseDto() {
@@ -23,6 +40,8 @@ public class TransactionResponseDto {
         this.amount = transaction.getAmount();
         this.type = transaction.getType();
         this.date = transaction.getDate();
+        this.method = transaction.getMethod();
+        this.description = transaction.getDescription();
     }
 
     // Getters and Setters ======================================================
