@@ -1,182 +1,81 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns'; // Importe a função format do date-fns
+import { UserService } from '../../services/User/UserService';
 
-const Profile = () => {
+interface User {
+    id: number;
+    role: string;
+    cpf: string;
+    name: string;
+    email: string;
+    password: string;
+    street: string;
+    number: number;
+    district: string;
+    complement: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    registerDate: string;
+}
 
-    // ===========================================================================================
-    // CPF 
+const ProfileEdits = () => {
+    const [user, setUser] = useState<User | null>(null);
 
-    const [cpf, setCpf] = useState('');
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await UserService.getUser();
 
-    const formatCpf = (value: string) => {
-        // Remove caracteres indesejados
-        value = value.replace(/\D/g, '');
+                if (response && response.data) {
+                    // Formate a data de registro para dd/mm/yyyy
+                    const formattedRegisterDate = format(new Date(response.data.registerDate), 'dd/MM/yyyy');
+                    // Adicione a data formatada ao objeto do usuário
+                    response.data.registerDate = formattedRegisterDate;
+                    setUser(response.data);
+                    console.log("API results: ", response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
 
-        // Adiciona pontos e traço conforme digitação
-        value = value.replace(/^(\d{3})(\d)/, '$1.$2');
-        value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-        value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
-
-        return value;
-    };
-
-    const handleCpfChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const formattedCpf = formatCpf(event.target.value);
-        setCpf(formattedCpf);
-    };
-    // ===========================================================================================
-    // CEP - ZIP CODE
-
-    const [zipCode, setZipCode] = useState('');
-
-    const handleZipCodeChange = (event: { target: { value: string; }; }) => {
-        let formattedZipCode = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-
-        if (formattedZipCode.length > 5) {
-            formattedZipCode = formattedZipCode.replace(/^(\d{5})(\d{1,3})/, "$1-$2"); // Insere o hífen após os primeiros cinco dígitos, se houver mais dígitos
-        }
-
-        setZipCode(formattedZipCode);
-    };
-
-    // ===========================================================================================
+        fetchUser();
+    }, []);
 
     return (
-        <div>
-            <div>
-                {/* CABEÇALHO */}
-                <div className="flex justify-center m-4 mx-auto items-center flex-col text-center gap-4">
-                    <div tabIndex={0} className="circle avatar">
-                        <div className="relative w-12 h-12 overflow-hidden bg-green-100 rounded-full dark:bg-gray-600">
-                            <svg className="absolute w-19 h-19 text-black-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
-                        </div>
-
-                    </div>
-                    <div className="font-medium dark:text-white">
+        <div className="flex justify-center items-center h-full p-8 bg-gray-50">
+            {user && (
+                <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                    <h3 className="text-lg font-bold mb-4">User Information</h3>
+                    <div className="grid grid-cols-2 gap-4">
                         <div>
-                            Jese Leos
+                            <p className="text-sm font-semibold text-gray-600">Full name:</p>
+                            <p className="text-sm text-gray-800">{user.name}</p>
                         </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">Joined in August 2014</div>
+                        <div>
+                            <p className="text-sm font-semibold text-gray-600">Email address:</p>
+                            <p className="text-sm text-gray-800">{user.email}</p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold text-gray-600">CPF:</p>
+                            <p className="text-sm text-gray-800">{user.cpf}</p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold text-gray-600">Address:</p>
+                            <p className="text-sm text-gray-800">{user.street}, {user.number}</p>
+                            <p className="text-sm text-gray-800">{user.district}, {user.city}, {user.state}, {user.zipCode}</p>
+                        </div>
+                        <div>
+                            {/* Exiba a data de registro formatada */}
+                            <p className="text-sm font-semibold text-gray-600">User since {user.registerDate}</p>
+                        </div>
                     </div>
+                    {/* Adicione mais campos conforme necessário */}
                 </div>
-
-                {/* FORMULÁRIO */}
-                <form className="max-w-md mx-auto">
-                    <form className="max-w-md mx-auto">
-
-                        {/*EMAIL*/}
-                        <div className="relative z-0 w-full mb-5 group">
-                            <input
-                                type="email"
-                                name="floating_email"
-                                id="floating_email"
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
-                                placeholder=" "
-                                required
-                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                            />
-                            <label htmlFor="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 md:gap-6">
-
-                            {/*FIRST NAME*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input type="text" name="floating_first_name" id="floating_first_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                                <label htmlFor="floating_first_name" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
-                            </div>
-
-                            {/*LAST NAME*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input type="text" name="floating_last_name" id="floating_last_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                                <label htmlFor="floating_last_name" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
-                            </div>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 md:gap-6">
-                            {/*CPF*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input
-                                    type="text"
-                                    name="cpf"
-                                    id="cpf"
-                                    value={cpf}
-                                    maxLength={14}
-                                    onChange={handleCpfChange}
-                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
-                                    placeholder=" "
-                                    required
-                                />
-                                <label htmlFor="cpf" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">CPF</label>
-
-                            </div>
-
-                            {/*STREET*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input type="text" name="street" id="street" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                                <label htmlFor="street" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
-                            </div>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 md:gap-6">
-
-                            {/*NUMBER*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input type="number" name="number" id="number" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                                <label htmlFor="number" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Number</label>
-                            </div>
-
-                            {/*DISTRICT*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input type="text" name="district" id="district" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                                <label htmlFor="district" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">District</label>
-                            </div>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 md:gap-6">
-
-                            {/*COMPLEMENT*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input type="text" name="complement" id="complement" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                                <label htmlFor="complement" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Complement</label>
-                            </div>
-
-                            {/*CITY*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input type="text" name="city" id="city" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                                <label htmlFor="city" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
-                            </div>
-                        </div>
-
-                        {/*STATE*/}
-                        <div className="grid md:grid-cols-2 md:gap-6">
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input type="text" name="state" id="state" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " required />
-                                <label htmlFor="state" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">State</label>
-                            </div>
-
-                            {/*ZIP CODE*/}
-                            <div className="relative z-0 w-full mb-5 group">
-                                <input
-                                    type="text"
-                                    name="zip_code"
-                                    id="zip_code"
-                                    value={zipCode}
-                                    maxLength={8}
-                                    onChange={handleZipCodeChange}
-                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
-                                    placeholder=" "
-                                    required
-                                />
-                                <label htmlFor="zip_code" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Zip Code</label>
-
-                            </div>
-                        </div>
-                    </form>
-                    <button type="submit" className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Update</button>
-                </form>
-            </div>
+            )}
         </div>
     );
 };
 
-export default Profile;
+export default ProfileEdits;

@@ -1,22 +1,35 @@
+// Accounts component
 import React, { useEffect, useState } from 'react';
 import BankCard from '../cards/BankCard';
 import AddCard from '../buttons/AddCard';
-import BankCardDetailsModal from '../cards/BankCardDetails';
+import BankCardDetails from '../cards/BankCardDetails';
 import AddBankCardModal from '../cards/AddBankCardModal';
-import TransactionListNoEdit from './TransactionListNoEdit';
 import { BankAccountsService } from '../../services';
 
-export interface BankAccountsCards {
+interface BankAccountsCards {
     balance: number;
     bankName: string;
-    nextBillingDate: string; // Atualizado para aceitar nulo
-    billingBalance: number; // Atualizado para aceitar nulo
+    nextBillingDate: string;
+    billingBalance: number;
     accountType: string;
-    id: number;
+    id: number; // Adicionando a propriedade id
+    userId: number; // Adicionando a propriedade userId
+    bankNumber: number; // Adicionando a propriedade bankNumber
 }
+
 
 const Accounts: React.FC = () => {
     const [cards, setCards] = useState<BankAccountsCards[]>([]);
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [selectedBankCard, setSelectedBankCard] = useState<BankAccountsCards | null>(null);
+    const [formData, setFormData] = useState({
+        bankName: '',
+        balance: '',
+        nextBillingDate: '',
+        billingBalance: '',
+        accountType: '',
+        userId: 0
+    });
 
     const fetchAccounts = async () => {
         try {
@@ -25,8 +38,8 @@ const Accounts: React.FC = () => {
                 console.log('Dados recebidos da API:', response.data);
                 const formattedData = response.data.map((item: any) => ({
                     ...item,
-                    nextBillingDate: item.nextBillingDate || 'N/A', // Definido como 'N/A' se nulo
-                    billingBalance: item.billingBalance ?? null // Mantém nulo se for nulo
+                    nextBillingDate: item.nextBillingDate || 'N/A',
+                    billingBalance: item.billingBalance ?? null
                 }));
                 setCards(formattedData);
             } else {
@@ -41,17 +54,6 @@ const Accounts: React.FC = () => {
         fetchAccounts();
     }, []);
 
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-    const [selectedBankCard, setSelectedBankCard] = useState<BankAccountsCards | null>(null);
-
-    const [formData, setFormData] = useState({
-        bankName: '',
-        balance: '',
-        nextBillingDate: '',
-        billingBalance: '',
-        accountType: ''
-    });
-
     const handleOpenAddModal = () => {
         setIsAddModalOpen(true);
     };
@@ -62,10 +64,7 @@ const Accounts: React.FC = () => {
 
     const handleAddCard = async (formData: any) => {
         try {
-            // Remove o campo id antes de enviar a requisição
-            const { id, ...dataToSend } = formData;
-            await BankAccountsService.postBankAccounts(dataToSend);
-            // Recarrega a lista de contas após adicionar uma nova
+            await BankAccountsService.postBankAccounts(formData);
             fetchAccounts();
             console.log('Conta bancária adicionada com sucesso');
         } catch (error) {
@@ -76,7 +75,6 @@ const Accounts: React.FC = () => {
     const handleDeleteCard = async (id: number) => {
         try {
             await BankAccountsService.deleteBankAccounts(id);
-            // Após a exclusão bem-sucedida, refaça a chamada dos dados do backend
             fetchAccounts();
         } catch (error) {
             console.error('Erro ao deletar conta bancária:', error);
@@ -98,6 +96,29 @@ const Accounts: React.FC = () => {
             [name]: value
         }));
     };
+    
+    const handleSaveChanges = async () => {
+        try {
+            console.log('FormData:', formData); // Console.log do formData
+            if (!selectedBankCard) {
+                console.error('Dados da conta bancária não encontrados.');
+                return;
+            }
+            const originalData = selectedBankCard; // Dados originais da conta bancária selecionada
+            const updatedData = { ...originalData, ...formData }; // Combinando dados originais com dados do formulário
+    
+            // Enviar solicitação PUT com todos os dados do cartão
+            await BankAccountsService.putBankAccounts(originalData.id, updatedData);
+    
+            fetchAccounts();
+            console.log('Conta bancária atualizada com sucesso');
+            handleCloseModalBankCard();
+        } catch (error) {
+            console.error('Erro ao atualizar conta bancária:', error);
+        }
+    };
+    
+
 
     return (
         <>
@@ -119,23 +140,20 @@ const Accounts: React.FC = () => {
                             balance={card.balance}
                             nextBillingDate={card.nextBillingDate}
                             billingBalance={card.billingBalance}
-                            onDelete={() => handleDeleteCard(card.id)} // Chama handleDeleteCard com o ID da conta bancária
-                            onOpenModal={() => handleOpenModalBankCard(card)} // Chama handleOpenModalBankCard com os dados da conta bancária
-                            id={card.id} // Adiciona o ID da conta bancária como uma propriedade
+                            onDelete={() => handleDeleteCard(card.id)}
+                            onOpenModal={() => handleOpenModalBankCard(card)}
+                            id={card.id}
                         />
                     ))
                 ) : (
                     <p>Nenhum cartão encontrado.</p>
                 )}
             </div>
-            <TransactionListNoEdit />
 
-            {/* Modal de adição de cartão */}
             <AddBankCardModal isOpen={isAddModalOpen} onClose={handleCloseAddModal} onAddCard={handleAddCard} formData={formData} handleInputChange={handleInputChange} />
 
-            {/* Modal de detalhes do cartão */}
             {selectedBankCard && (
-                <BankCardDetailsModal
+                <BankCardDetails
                     isOpen={true}
                     onCloseModal={handleCloseModalBankCard}
                     bankName={selectedBankCard.bankName}
@@ -143,6 +161,10 @@ const Accounts: React.FC = () => {
                     nextBillingDate={selectedBankCard.nextBillingDate}
                     billingBalance={selectedBankCard.billingBalance}
                     accountType={selectedBankCard.accountType}
+                    id={selectedBankCard.id}
+                    userId={selectedBankCard.userId}
+                    bankNumber={selectedBankCard.bankNumber}
+                    onSaveChanges={handleSaveChanges}
                 />
             )}
         </>

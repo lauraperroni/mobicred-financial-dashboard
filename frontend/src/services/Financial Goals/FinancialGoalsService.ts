@@ -2,53 +2,53 @@ import { Api } from "../../providers";
 
 const getToken = () => Promise.resolve(localStorage.getItem('token'));
 
-const getBankAccounts = async () => {
+const getFinancialGoals = async () => {
     const token = await getToken();
     if (token) {
-        return Api.get('/bankaccounts/user/all', {
+        return Api.get('/financialgoals/user/all', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
     }
-}
+};
 
-export const deleteBankAccounts = async (id: number) => {
+export const deleteFinancialGoals = async (id: number) => {
     const token = await getToken();
     if (token) {
-        return Api.delete(`/bankaccounts/delete/${id}`, {
+        return Api.delete(`/financialgoals/delete/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
     }
-}
+};
 
-export const postBankAccounts = async (formData: any) => {
+export const postFinancialGoals = async (formData: any) => {
     const token = await getToken();
     if (token) {
-        return Api.post(`/bankaccounts/new`, formData, {
+        return Api.post(`/financialgoals/new`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
     }
-}
+};
 
-export const putBankAccounts = async (id: number, formData: any) => {
+export const putFinancialGoals = async (id: number, formData: any) => {
     const token = await getToken();
     if (token) {
-        return Api.put(`/bankaccounts/update/${id}`, formData, {
+        return Api.put(`/financialgoals/update/${id}`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
     }
-}
+};
 
-export const BankAccountsService = {
-    deleteBankAccounts,
-    putBankAccounts,
-    getBankAccounts,
-    postBankAccounts
-}
+export const FinancialGoalsService = {
+    deleteFinancialGoals,
+    putFinancialGoals,
+    getFinancialGoals,
+    postFinancialGoals
+};

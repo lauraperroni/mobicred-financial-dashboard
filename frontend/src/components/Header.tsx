@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import mobicredLogo from '../assets/mobicred.png';
 
@@ -26,6 +26,9 @@ const Header = () => {
             </Link>
         </li>
     );
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+    };
 
     return (
         <div className="navbar flex items-center justify-between bg-white border border-gray-100 border-solid shadow-sm">
@@ -51,7 +54,7 @@ const Header = () => {
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         <li><Link to="/profile">Profile</Link></li>
                         <li><Link to="/settings">Settings</Link></li>
-                        <li><Link to="/logout">Logout</Link></li>
+                        <li><Link to="/" onClick={handleLogout}>Logout</Link></li> {/* Adicionando evento onClick */}
                     </ul>
                 </div>
             </div>

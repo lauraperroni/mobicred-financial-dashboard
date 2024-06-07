@@ -1,13 +1,12 @@
 import Header from "../components/Header";
-import ProfileEdit from "../components/ProfileEdit";
+import ProfileDetails from "../components/lists/ProfileDetails";
 
-const Profile = () => {
-    return (
-        <div>
-            <Header />
-            <ProfileEdit />
-        </div>
-    );
-};
+const Profile = () => (
+    <div>
+        <Header />
+        <ProfileDetails />
+        
+    </div>
+);
 
 export default Profile;

@@ -1,16 +1,14 @@
-// BankCard.tsx
-
 import { BankAccountsService } from '../../services/Bank Accounts/BankAccountsService';
 import DeleteCard from '../buttons/DeleteCard';
 import DetailsCard from '../buttons/DetailsCard';
 
 interface BankCardProps {
-    id: number; // Adicione a propriedade id
+    id: number;
     bankName: string;
     balance: number;
     nextBillingDate: string;
     billingBalance: number;
-    onDelete?: (id: number) => void; // Atualize a assinatura da propriedade onDelete
+    onDelete?: () => void; // Atualizado para não receber o ID como argumento
     onOpenModal: () => void;
 }
 
@@ -18,15 +16,17 @@ function BankCard({ id, bankName, balance, nextBillingDate, billingBalance, onDe
 
     const handleDelete = async () => {
         try {
-            // Chame a função de serviço para deletar a conta bancária pelo ID
             await BankAccountsService.deleteBankAccounts(id);
-            // Se a exclusão for bem-sucedida, você pode realizar qualquer ação adicional, como atualizar a interface do usuário.
             console.log('Conta bancária deletada com sucesso');
+            // Se onDelete for definido, chame-o para executar qualquer ação adicional necessária após a exclusão
+            if (onDelete) {
+                onDelete();
+            }
         } catch (error) {
-            // Se ocorrer algum erro durante a exclusão, você pode lidar com ele aqui.
             console.error('Erro ao deletar conta bancária:', error);
         }
     };
+
     return (
         <div className="bg-gray-50 shadow-lg rounded-lg overflow-hidden max-w-80 w-72 m-4">
             <div className="bg-green-500 text-white px-4 py-2 p-8">
