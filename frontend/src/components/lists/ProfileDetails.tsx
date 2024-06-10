@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns'; // Importe a função format do date-fns
 import { UserService } from '../../services/User/UserService';
+import EditPasswordModal from '../cards/EditPasswordModal';
 
 interface User {
     id: number;
@@ -49,7 +50,7 @@ const ProfileDetails = () => {
     };
 
     return (
-        <div className="flex justify-center items-center h-full p-8 bg-gray-50">
+        <div className="flex justify-center items-center h-full p-16 bg-gray-50">
             {user && (
                 <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <h3 className="text-lg font-bold"> User Information</h3>
@@ -74,9 +75,12 @@ const ProfileDetails = () => {
                         </div>
 
                     </div>
-                    <div className="flex justify-center items-center mt-8">
-                        <div>
+                    <div className="flex justify-center items-center mt-4">
+                        <div className="flex justify-center">
                             <button onClick={handleEditClick} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-8 rounded">Edit</button>
+                        </div>
+                        <div className="flex justify-center">
+                            <EditPasswordModal />
                         </div>
                     </div>
                     {/* Adicione mais campos conforme necessário */}
@@ -118,7 +122,6 @@ const ProfileDetails = () => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 };

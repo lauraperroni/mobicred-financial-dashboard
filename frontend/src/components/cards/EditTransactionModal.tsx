@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BankAccountsService, postTransactions } from '../../services'; // Importando o serviço de contas bancárias
+import { useState, useEffect } from 'react';
+import { BankAccountsService, TransactionsService } from '../../services'; // Importando o serviço de contas bancárias
 import { CategoryService } from '../../services/Category/CategoryService';
 
 interface BankAccount {
@@ -13,32 +13,26 @@ interface Category {
 }
 
 interface Transaction {
+    id: number; // Adicionei o ID para identificar a transação que está sendo editada
     amount: number;
     date: string;
     type: 1 | 2;
     categoryId: number;
+    categoryName: string;
+    bankName: string;
     bankAccountId: number;
     method: string;
     description: string;
 }
 
-interface AddTransactionModalProps {
+interface EditTransactionModalProps {
     isOpen: boolean;
     onClose: () => void;
+    transaction: Transaction; // Recebe a transação que será editada
 }
 
-const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClose }) => {
-    const [formData, setFormData] = useState<Transaction>({
-        description: '',
-        method: '',
-        date: '',
-        amount: -1, // Definindo inicialmente como null
-        type: 1,
-        categoryId: 0,
-        bankAccountId: 0
-    });
-
-
+const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onClose, transaction }) => {
+    const [formData, setFormData] = useState<Transaction>(transaction);
     const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
 
@@ -49,10 +43,10 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClo
                 if (response && response.status === 200) {
                     setBankAccounts(response.data);
                 } else {
-                    console.error('Erro ao buscar transações:', response);
+                    console.error('Erro ao buscar contas bancárias:', response);
                 }
             } catch (error) {
-                console.error('Erro na requisição de transações:', error);
+                console.error('Erro na requisição de contas bancárias:', error);
             }
         };
 
@@ -71,43 +65,24 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClo
 
         fetchAccounts();
         fetchCategories();
+
+        if (transaction.date) {
+            const formattedDate = new Date(transaction.date).toISOString().split('T')[0];
+            setFormData(prevState => ({ ...prevState, date: formattedDate }));
+        }
     }, []);
 
     const handleSubmit = async () => {
-        const newTransaction: Transaction = {
-            description: formData.description,
-            method: formData.method,
-            date: formData.date,
-            amount: formData.amount,
-            type: formData.type,
-            categoryId: formData.categoryId,
-            bankAccountId: formData.bankAccountId
-        };
-
-        // Emitir o evento para adicionar transação com o novo objeto de transação
-        if (newTransaction.description && newTransaction.method && newTransaction.date && newTransaction.amount && newTransaction.type && newTransaction.categoryId && newTransaction.bankAccountId) {
-            try {
-                const response = await postTransactions(newTransaction);
-                if (response && response.status === 200) {
-                    console.log("Transaction added successfully:", response.data);
-                    onClose(); // Fechar o modal após o sucesso da transação
-                } else {
-                    console.error("Error adding transaction:", response);
-                }
-            } catch (error) {
-                console.error("Error adding transaction:", error);
-            }
-        } else {
-            console.error("Form data is incomplete");
-        }
+        // Lógica para enviar a transação editada para o backend
     };
+
     return (
         <>
             {isOpen && (
                 <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 z-50">
                     <div className="bg-gray-50 shadow-lg rounded-lg overflow-hidden max-w-xl w-4/5 m-4 z-50">
                         <div className="bg-green-500 text-white px-4 py-2">
-                            <h2 className="text-xl font-semibold">Post new transaction</h2>
+                            <h2 className="text-xl font-semibold">Edit Transaction</h2>
                         </div>
                         <div className="p-4">
                             <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
@@ -126,21 +101,36 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClo
                                         value={formData.method}
                                         onChange={(e) => setFormData({ ...formData, method: e.target.value })}
                                     />
+
                                     <input
                                         type="date"
                                         placeholder="Date"
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
-                                        value={formData.date}
+                                        value={formData.date || ''}
                                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                                     />
-                                    <input
-                                        type="number"
-                                        placeholder="Amount"
-                                        className="border border-gray-300 rounded-md px-3 py-2 mb-2"
-                                        value={formData.amount === -1 ? "" : formData.amount}
-                                        onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
-                                    />
+
+
+
+
+                                    <div className="flex items-center">
+                                        <input
+                                            type="text"
+                                            placeholder="Amount"
+                                            className="border border-gray-300 rounded-md px-3 py-2 mb-2"
+                                            style={{ width: "calc(100%)" }} // Ajustando a largura para incluir o símbolo "$"
+                                            value={"$" + formData.amount}
+                                            onChange={(e) => {
+                                                const value = e.target.value.replace("$", "");
+                                                setFormData({ ...formData, amount: parseFloat(value) });
+                                            }}
+                                        />
+                                    </div>
+
+
                                 </div>
+
+
                                 <div className="flex flex-col">
                                     <select
                                         value={formData.type}
@@ -151,28 +141,39 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClo
                                         <option value={2}>Expense</option>
                                         <option value={1}>Credit</option>
                                     </select>
+
+
+
                                     <select
                                         value={formData.categoryId}
                                         onChange={(e) => setFormData({ ...formData, categoryId: parseInt(e.target.value) })}
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
                                     >
-                                        <option value={0}>{formData.categoryId ? "" : "Select a category..."}</option>
+                                        <option value={0}>Select a category...</option>
                                         {categories.map(category => (
-                                            <option key={category.id} value={category.id}>{category.name}</option>
+                                            <option key={category.id} value={category.id} selected={category.name === formData.categoryName}>{category.name}</option>
                                         ))}
                                     </select>
+
+
+
+
                                     <select
                                         value={formData.bankAccountId}
                                         onChange={(e) => setFormData({ ...formData, bankAccountId: parseInt(e.target.value) })}
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
                                     >
-                                        <option value={0}>{formData.bankAccountId ? "" : "Select a bank account..."}</option>
+                                        <option value={0}>Select a bank account...</option>
                                         {bankAccounts.map(account => (
-                                            <option key={account.id} value={account.id}>{account.bankName}</option>
+                                            <option key={account.id} value={account.id} selected={account.bankName === formData.bankName}>{account.bankName}</option>
                                         ))}
                                     </select>
+
+
+
+
                                     <div className="flex justify-center">
-                                        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md w-full mr-2">Add</button>
+                                        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md w-full mr-2">Save</button>
                                         <button type="button" onClick={onClose} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md w-full">Cancel</button>
                                     </div>
                                 </div>
@@ -182,10 +183,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({ isOpen, onClo
                 </div>
             )}
         </>
-
-
     );
-
 };
 
-export default AddTransactionModal;
+export default EditTransactionModal;

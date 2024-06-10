@@ -5,6 +5,7 @@ import AddCard from '../buttons/AddCard';
 import BankCardDetails from '../cards/BankCardDetails';
 import AddBankCardModal from '../cards/AddBankCardModal';
 import { BankAccountsService } from '../../services';
+import TransactionLisNoEdit from "../../components/lists/TransactionListNoEdit";
 
 interface BankAccountsCards {
     balance: number;
@@ -17,13 +18,13 @@ interface BankAccountsCards {
     bankNumber: number; // Adicionando a propriedade bankNumber
 }
 
-
 const Accounts: React.FC = () => {
     const [cards, setCards] = useState<BankAccountsCards[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [selectedBankCard, setSelectedBankCard] = useState<BankAccountsCards | null>(null);
     const [formData, setFormData] = useState({
         bankName: '',
+        bankNumber: 0, // Adicionando bankNumber
         balance: '',
         nextBillingDate: '',
         billingBalance: '',
@@ -35,7 +36,7 @@ const Accounts: React.FC = () => {
         try {
             const response = await BankAccountsService.getBankAccounts();
             if (response && response.status === 200) {
-                console.log('Dados recebidos da API:', response.data);
+                console.log('Dados recebidos da API Accounts:', response.data);
                 const formattedData = response.data.map((item: any) => ({
                     ...item,
                     nextBillingDate: item.nextBillingDate || 'N/A',
@@ -74,7 +75,8 @@ const Accounts: React.FC = () => {
 
     const handleDeleteCard = async (id: number) => {
         try {
-            await BankAccountsService.deleteBankAccounts(id);
+            fetchAccounts();
+            console.log('Conta bancária deletada com sucesso acc');
             fetchAccounts();
         } catch (error) {
             console.error('Erro ao deletar conta bancária:', error);
@@ -96,7 +98,7 @@ const Accounts: React.FC = () => {
             [name]: value
         }));
     };
-    
+
     const handleSaveChanges = async () => {
         try {
             console.log('FormData:', formData); // Console.log do formData
@@ -106,10 +108,10 @@ const Accounts: React.FC = () => {
             }
             const originalData = selectedBankCard; // Dados originais da conta bancária selecionada
             const updatedData = { ...originalData, ...formData }; // Combinando dados originais com dados do formulário
-    
+
             // Enviar solicitação PUT com todos os dados do cartão
             await BankAccountsService.putBankAccounts(originalData.id, updatedData);
-    
+
             fetchAccounts();
             console.log('Conta bancária atualizada com sucesso');
             handleCloseModalBankCard();
@@ -117,8 +119,6 @@ const Accounts: React.FC = () => {
             console.error('Erro ao atualizar conta bancária:', error);
         }
     };
-    
-
 
     return (
         <>
@@ -149,6 +149,8 @@ const Accounts: React.FC = () => {
                     <p>Nenhum cartão encontrado.</p>
                 )}
             </div>
+
+            <TransactionLisNoEdit period={""} />
 
             <AddBankCardModal isOpen={isAddModalOpen} onClose={handleCloseAddModal} onAddCard={handleAddCard} formData={formData} handleInputChange={handleInputChange} />
 

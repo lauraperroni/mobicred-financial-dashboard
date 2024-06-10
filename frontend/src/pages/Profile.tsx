@@ -5,7 +5,6 @@ const Profile = () => (
     <div>
         <Header />
         <ProfileDetails />
-        
     </div>
 );
 

@@ -8,7 +8,7 @@ const BankAccounts = () => {
         <>
             <Header />
             <Accounts />
-            <TransactionLisNoEdit period={""} />
+            
         </>
     )
 };

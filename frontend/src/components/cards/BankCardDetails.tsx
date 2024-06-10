@@ -1,5 +1,5 @@
-// BankCardDetails component
 import React, { useState } from 'react';
+import EditBankAccountModal from './EditBankAccountModal'; // Importe o novo modal de edição
 
 interface BankCardDetailsProps {
     isOpen: boolean;
@@ -48,55 +48,42 @@ const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal,
     if (!isOpen) return null;
 
     return (
-        <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-black bg-opacity-50">
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-lg w-full m-4">
-                <div className="bg-green-500 text-white px-4 py-2">
-                    <h2 className="text-xl font-semibold">{isEdit ? 'Edit Bank Details' : 'Bank Details'}</h2>
-                </div>
-                <div className="p-4">
-                    {isEdit ? (
-                        <>
-                            <label className="block mb-2">Bank Name</label>
-                            <input type="text" name="bankName" value={formData.bankName} onChange={handleInputChange} className="w-full px-3 py-2 mb-2 border rounded-md" />
-
-                            <label className="block mb-2">Bank Number</label>
-                            <input type="text" name="bankNumber" value={formData.bankNumber} onChange={handleInputChange} className="w-full px-3 py-2 mb-2 border rounded-md" />
-
-                            <label className="block mb-2">Balance</label>
-                            <input type="number" name="balance" value={formData.balance} onChange={handleInputChange} className="w-full px-3 py-2 mb-2 border rounded-md" />
-
-                            <label className="block mb-2">Due Date</label>
-                            <input type="text" name="nextBillingDate" value={formData.nextBillingDate} onChange={handleInputChange} className="w-full px-3 py-2 mb-2 border rounded-md" />
-
-                            <label className="block mb-2">Amount</label>
-                            <input type="number" name="billingBalance" value={formData.billingBalance} onChange={handleInputChange} className="w-full px-3 py-2 mb-2 border rounded-md" />
-
-                            <label className="block mb-2">Account Type</label>
-                            <input type="text" name="accountType" value={formData.accountType} onChange={handleInputChange} className="w-full px-3 py-2 mb-2 border rounded-md" />
-                        </>
-                    ) : (
-                        <>
+        <>
+            {isEdit ? (
+                <EditBankAccountModal
+                    isOpen={isOpen}
+                    onCloseModal={onCloseModal}
+                    bankNumber={bankNumber}
+                    bankName={bankName}
+                    balance={balance}
+                    nextBillingDate={nextBillingDate}
+                    billingBalance={billingBalance}
+                    accountType={accountType}
+                    onSaveChanges={onSaveChanges}
+                />
+            ) : (
+                <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-black bg-opacity-50">
+                    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-lg w-full m-4">
+                        <div className="bg-green-500 text-white px-4 py-2">
+                            <h2 className="text-xl font-semibold">{isEdit ? 'Edit Bank Details' : 'Bank Details'}</h2>
+                        </div>
+                        <div className="p-4">
                             <p className="mb-2"><span className="font-semibold">Bank Number:</span> {bankNumber}</p>
                             <p className="mb-2"><span className="font-semibold">Account Type:</span> {accountType}</p>
                             <p className="mb-2"><span className="font-semibold">Bank Name:</span> {bankName}</p>
                             <p className="mb-2"><span className="font-semibold">Balance:</span> {balance}</p>
                             <p className="mb-2"><span className="font-semibold">Due Date:</span> {nextBillingDate}</p>
                             <p className="mb-2"><span className="font-semibold">Amount:</span> {billingBalance}</p>
-                        </>
-                    )}
-                    <div className="flex space-x-2 mt-4">
-                        <button onClick={onCloseModal} className="bg-gray-200 px-4 py-2 rounded-md">Close</button>
-                        {isEdit ? (
-                            <button onClick={handleSaveChanges} className="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
-                        ) : (
-                            <button onClick={() => setIsEdit(true)} className="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
-                        )}
+                            <div className="flex space-x-2 mt-4">
+                                <button onClick={onCloseModal} className="bg-gray-200 px-4 py-2 rounded-md">Close</button>
+                                <button onClick={() => setIsEdit(true)} className="bg-green-500 text-white px-4 py-2 rounded-md">Edit</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 };
 
 export default BankCardDetails;
-

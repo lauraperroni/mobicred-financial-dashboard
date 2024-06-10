@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { differenceInDays, format } from 'date-fns';
 import { FinancialGoalsService } from '../services/Financial Goals/FinancialGoalsService';
-
+import EditGoalModal from './cards/EditGoalModal'; // Importe o novo modal
 
 interface Goal {
+    name: string;
     id: number;
     description: string;
     method: string;
+    type: number;
     date: string;
     amount: number;
     daysLeft: number;
@@ -20,9 +22,11 @@ const GoalsList: React.FC = () => {
     const [description, setDescription] = useState<string>('');
     const [deadline, setDeadline] = useState<string>('');
     const [amount, setAmount] = useState<number>(0);
-    const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
     const [goals, setGoals] = useState<Goal[]>([]);
     const [selectedType, setSelectedType] = useState<number>(1);
+
+    const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
+    const [showEditModal, setShowEditModal] = useState<boolean>(false);
     const typeOptions: { [key: number]: string } = {
         1: 'Compras',
         2: 'Viagens',
@@ -63,7 +67,8 @@ const GoalsList: React.FC = () => {
         setDescription(goal.description);
         setDeadline(goal.deadline);
         setAmount(goal.amount);
-        setShowModal(true);
+        setSelectedType(goal.type);
+        setShowEditModal(true); // Mostrar o modal de edição ao invés do modal de adição
     };
 
     const handleDelete = async (goal: Goal) => {
@@ -101,6 +106,7 @@ const GoalsList: React.FC = () => {
         };
 
         console.log("New goal body:", newGoal);
+        fetchData();
 
         try {
             const response = await FinancialGoalsService.postFinancialGoals({
@@ -111,8 +117,6 @@ const GoalsList: React.FC = () => {
             if (response && response.data) {
                 await fetchData();
                 setShowModal(false);
-                console.log("If add");
-                setShowModal(false);
                 setDescription('');
                 setDeadline('');
                 setAmount(0);
@@ -122,6 +126,15 @@ const GoalsList: React.FC = () => {
         }
     };
 
+    const handleOpenAddGoalModal = () => {
+        // Resetar os estados para garantir que os campos do modal estejam vazios
+        setDescription('');
+        setDeadline('');
+        setAmount(0);
+        setSelectedType(1);
+        setShowModal(true);
+    };
+
     const handleSaveEdit = async () => {
         if (!selectedGoal) return;
 
@@ -129,20 +142,18 @@ const GoalsList: React.FC = () => {
             ...selectedGoal,
             description,
             deadline,
-            amount
+            amount,
+            type: selectedType,
+            name: typeOptions[selectedType]
         };
 
         try {
-            await FinancialGoalsService.putFinancialGoals(selectedGoal.id, {
-                ...updatedGoal,
-                type: selectedType,
-                name: typeOptions[selectedType]
-            });
+            await FinancialGoalsService.putFinancialGoals(selectedGoal.id, updatedGoal);
             const updatedGoals = goals.map(item =>
                 item.id === updatedGoal.id ? updatedGoal : item
             );
             setGoals(updatedGoals);
-            setShowModal(false);
+            setShowEditModal(false); // Fechar o modal de edição após salvar as alterações
             setDescription('');
             setDeadline('');
             setAmount(0);
@@ -155,13 +166,14 @@ const GoalsList: React.FC = () => {
         <div className="container mx-auto p-8 bg-gray-50">
             <h2 className="text-2xl font-semibold mb-4">Your Goals</h2>
             <p className="mb-4">Check your financial goals</p>
-            <button onClick={() => setShowModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">
+            <button onClick={handleOpenAddGoalModal} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">
                 Add New Goal
             </button>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <colgroup>
                         <col style={{ width: '25%' }} />
+                        <col style={{ width: '10%' }} />
                         <col style={{ width: '10%' }} />
                         <col style={{ width: '10%' }} />
                         <col style={{ width: '5%' }} />
@@ -174,6 +186,9 @@ const GoalsList: React.FC = () => {
                         <tr>
                             <th scope="col" className="px-6 py-3">
                                 Goal
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Type
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Starting Date
@@ -200,8 +215,9 @@ const GoalsList: React.FC = () => {
                     </thead>
                     <tbody>
                         {goals.map(goal => (
-                            <tr key={goal.id} className="bg-white border-b dark:bg-gray-800">
+                            <tr key={goal.id} className={`border-b ${goal.saved === goal.amount ? 'bg-green-100' : 'bg-white'} dark:bg-gray-800`}>
                                 <td className="px-6 py-4 font-medium whitespace-nowrap">{goal.description}</td>
+                                <td className="px-6 py-4 font-medium whitespace-nowrap">{goal.name}</td>
                                 <td className="px-6 py-4">{goal.creationDate}</td>
                                 <td className="px-6 py-4">{goal.deadline}</td>
                                 <td className="px-6 py-4">{goal.daysLeft}</td>
@@ -219,54 +235,74 @@ const GoalsList: React.FC = () => {
             </div>
 
             {showModal && (
-                <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
-                    <div className="bg-white p-8 rounded-xl">
-                        <h2 className="text-lg font-semibold mb-4">Add New Goal</h2>
-                        <input
-                            type="text"
-                            placeholder="Description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
-                        />
-                        <input
-                            type="date"
-                            placeholder="Deadline"
-                            value={deadline}
-                            onChange={(e) => setDeadline(e.target.value)}
-                            className="mb-2 w-full border border-gray-300 rounded px-3 py-2"
-                        />
-                        <input
-                            type="number"
-                            placeholder="Amount"
-                            value={amount}
-                            onChange={(e) => setAmount(parseFloat(e.target.value))}
-                            className="mb-4 w-full border border-gray-300 rounded px-3 py-2"
-                        />
+                <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 z-50">
+                    <div className="bg-gray-50 shadow-lg rounded-lg overflow-hidden max-w-xl w-96 m-4 z-50">
+                        <div className="bg-green-500 text-white px-4 py-2 p-8">
+                            <h2 className="text-xl font-semibold">Add New Goal</h2>
+                        </div>
+                        <div className="p-4">
+                            <form onSubmit={(e) => { e.preventDefault(); handleAddGoal(); }} className="space-y-4">
+                                <div className="flex flex-col">
+                                    <label htmlFor="description" className="text-gray-800">Description:</label>
+                                    <input type="text" id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)} required className="border border-gray-300 rounded-md px-3 py-2" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label htmlFor="deadline" className="text-gray-800">Deadline:</label>
+                                    <input type="date" id="deadline" name="deadline" value={deadline} onChange={(e) => setDeadline(e.target.value)} required className="border border-gray-300 rounded-md px-3 py-2" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label htmlFor="amount" className="text-gray-800">Amount:</label>
+                                    <input type="number" id="amount" name="amount" value={amount} onChange={(e) => setAmount(parseFloat(e.target.value))} step="0.01" required className="border border-gray-300 rounded-md px-3 py-2" />
+                                </div>
 
-                        <select
-                            value={selectedType}
-                            onChange={(e) => setSelectedType(parseInt(e.target.value))}
-                            className="mb-4 w-full border border-gray-300 rounded px-3 py-2"
-                        >
-                            {Object.keys(typeOptions).map(key => (
-                                <option key={key} value={parseInt(key)}>
-                                    {typeOptions[parseInt(key)]}
-                                </option>
-                            ))}
-                        </select>
+                                <div className="flex flex-col">
+                                    <label htmlFor="selectedType" className="text-gray-800">Type:</label>
+                                    <select
+                                        id="selectedType"
+                                        value={selectedType}
+                                        onChange={(e) => setSelectedType(parseInt(e.target.value))}
+                                        className="mb-4 w-full border border-gray-300 rounded px-3 py-2"
+                                    >
+                                        {Object.keys(typeOptions).map(key => (
+                                            <option key={key} value={parseInt(key)}>
+                                                {typeOptions[parseInt(key)]}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                        {selectedGoal ? (
-                            <button onClick={handleSaveEdit} className="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
-                        ) : (
-                            <button onClick={handleAddGoal} className="bg-green-500 text-white px-4 py-2 rounded-md">Create</button>
-                        )}
-                        <button onClick={() => setShowModal(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md ml-2">Cancel</button>
+                                <div className="flex justify-end">
+                                    <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md">Create</button>
+                                    <button type="button" onClick={() => setShowModal(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md ml-2">Cancel</button>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}
+
+            {/* Modal de Edição */}
+            <EditGoalModal
+                showModal={showEditModal}
+                setShowModal={setShowEditModal}
+                selectedGoal={selectedGoal}
+                setSelectedGoal={setSelectedGoal}
+                typeOptions={typeOptions}
+                selectedType={selectedType}
+                setSelectedType={setSelectedType}
+                description={description}
+                setDescription={setDescription}
+                deadline={deadline}
+                setDeadline={setDeadline}
+                amount={amount}
+                setAmount={setAmount}
+                handleSaveEdit={handleSaveEdit}
+            />
+
         </div>
     );
 };
 
 export default GoalsList;
+
