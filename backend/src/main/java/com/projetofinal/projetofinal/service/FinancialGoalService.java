@@ -40,6 +40,13 @@ public class FinancialGoalService {
         return mapGoalListToGoalDtoListService(goals);
     }
 
+    // Trazer todas as metas financeiras Dto by user ====================================
+    public List<FinancialGoalResponseDto> getAllFinancialGoalDtoServiceByUser(User user) {
+        User user2 = (User) userRepository.findByEmail(user.getUsername());
+        List<FinancialGoal> goals = financialGoalRepository.findByUserId(user2.getId());
+        return mapGoalListToGoalDtoListService(goals);
+    }    
+
     // Pega os objetos transformados em DTO e cria uma lista
     public List<FinancialGoalResponseDto> mapGoalListToGoalDtoListService(List<FinancialGoal> goals) {
         return goals.stream()
@@ -76,13 +83,23 @@ public class FinancialGoalService {
 
     // Criar uma nova meta financeira DTO ========================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> postNewFinancialGoalDtoService(FinancialGoalRequestDto goal) {
-        User user = userRepository.findById(goal.userid()).get();
-        FinancialGoal fingo = new FinancialGoal(goal.description(), goal.amount(), goal.creationDate(),
-                goal.deadline(), goal.name(), goal.type());
-        user.addFinancialGoalToList(fingo);
-        financialGoalRepository.save(fingo);
-        return ResponseEntity.ok("New financial goal created.");
+    public ResponseEntity<String> postNewFinancialGoalDtoService(String userName, FinancialGoalRequestDto goal) {
+
+        // User user = userRepository.findById(goal.userid()).get();
+        // FinancialGoal fingo = new FinancialGoal(goal.description(), goal.amount(), goal.creationDate(),
+        //         goal.deadline(), goal.name(), goal.type(), goal.saved());
+        // user.addFinancialGoalToList(fingo);
+        // financialGoalRepository.save(fingo);
+        // return ResponseEntity.ok("New financial goal created.");
+
+
+        FinancialGoal goal1 = new FinancialGoal(goal);
+        User user = (User) userRepository.findByEmail(userName);
+        goal.setUser(user);
+        user.addFinancialGoalToList(goal1);
+
+        financialGoalRepository.save(goal1);
+        return ResponseEntity.ok("Nova meta criada.");
     }
 
     // Atualizar uma meta financeira por id ==================================

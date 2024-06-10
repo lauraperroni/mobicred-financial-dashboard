@@ -132,6 +132,14 @@ public class Transaction {
         throw new UnsupportedOperationException("Unimplemented method 'getTransactions'");
     }
 
+    public String getBankName() {
+        return bankAccount.getBankName();        
+    }
+
+    public String getCategoryName() {
+        return category.getName();
+       }
+
     // Métodos de relação entre tabelas ===================================
 
 }

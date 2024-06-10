@@ -38,8 +38,8 @@ public class TransactionServiceTest {
     void testGetAllTransactionsDtoService() {
         // Mock de dados de transações
         List<Transaction> transactions = new ArrayList<>();
-        transactions.add(new Transaction(100.0, LocalDate.now(), 1));
-        transactions.add(new Transaction(200.0, LocalDate.now(), 2));
+        transactions.add(new Transaction(100.0, LocalDate.now(), 1, null, null));
+        transactions.add(new Transaction(200.0, LocalDate.now(), 2, null, null));
 
         // Configurando o comportamento do mock do repositório
         when(transactionRepository.findAll()).thenReturn(transactions);
@@ -56,7 +56,7 @@ public class TransactionServiceTest {
     @Test
     void testGetTransactionIdService() {
         // Mock de dados de transação
-        Transaction transaction = new Transaction(100.0, LocalDate.now(), 1);
+        Transaction transaction = new Transaction(100.0, LocalDate.now(), 1, null, null);
 
         // Configurando o comportamento do mock do repositório
         when(transactionRepository.findById(1)).thenReturn(Optional.of(transaction));

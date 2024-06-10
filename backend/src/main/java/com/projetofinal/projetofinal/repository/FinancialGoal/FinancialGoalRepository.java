@@ -23,4 +23,6 @@ public interface FinancialGoalRepository extends JpaRepository<FinancialGoal, In
 
     List<FinancialGoal> findByType(int type);
 
+    List<FinancialGoal> findByUserId(Integer id);
+
 }

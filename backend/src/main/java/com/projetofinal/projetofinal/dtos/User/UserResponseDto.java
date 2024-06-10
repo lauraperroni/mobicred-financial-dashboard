@@ -3,12 +3,15 @@ package com.projetofinal.projetofinal.dtos.User;
 import java.time.LocalDate;
 
 import com.projetofinal.projetofinal.model.User.User;
+import com.projetofinal.projetofinal.model.User.UserRole;
 
 public class UserResponseDto {
     private Integer id;
+    private UserRole role;
     private String cpf;
     private String name;
     private String email;
+    @SuppressWarnings("unused")
     private String password;
     private String street;
     private Integer number;
@@ -23,13 +26,13 @@ public class UserResponseDto {
     public UserResponseDto() {
     }
 
-    public UserResponseDto(Integer id, String cpf, String name, String email, String password, String street, Integer number,
+    public UserResponseDto(Integer id, UserRole role, String cpf, String name, String email, String password, String street, Integer number,
             String district, String complement, String city, String state, String zipCode, LocalDate registerDate) {
         this.id = id;
+        this.role = role;
         this.cpf = cpf;
         this.name = name;
         this.email = email;
-        this.password = password;
         this.street = street;
         this.number = number;
         this.district = district;
@@ -40,27 +43,25 @@ public class UserResponseDto {
         this.registerDate = registerDate;
     }
 
-    public UserResponseDto(Integer id, String name, String email, LocalDate registerDate) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.registerDate = registerDate;
-    }
-
     public UserResponseDto(User user) {
-        id = user.getId();
-        name = user.getName();
-        email = user.getEmail();
-        registerDate = user.getRegisterDate();
-        
+        this.id = user.getId();
+        this.role = user.getRole();
+        this.cpf = user.getCpf();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.street = user.getStreet();
+        this.number = user.getNumber();
+        this.district = user.getDistrict();
+        this.complement = user.getComplement();
+        this.city = user.getCity();
+        this.state = user.getState();
+        this.zipCode = user.getZipCode();
+        this.registerDate = user.getRegisterDate();
+        // Se a lista de contas bancárias e metas financeiras também precisar ser mapeada,
+        // faça isso aqui.
     }
 
     // Getters e Setters =======================================================
-
-    
-    public Integer getUserId() {
-        return id;
-    }
 
     public Integer getId() {
         return id;
@@ -68,6 +69,14 @@ public class UserResponseDto {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public String getCpf() {
@@ -92,10 +101,6 @@ public class UserResponseDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -158,26 +163,6 @@ public class UserResponseDto {
         this.zipCode = zipCode;
     }
 
-    public void setUserId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return name;
-    }
-
-    public void seUsertName(String name) {
-        this.name = name;
-    }
-
-    public String getUserEmail() {
-        return email;
-    }
-
-    public void setUserEmail(String email) {
-        this.email = email;
-    }
-
     public LocalDate getRegisterDate() {
         return registerDate;
     }
@@ -185,5 +170,4 @@ public class UserResponseDto {
     public void setRegisterDate(LocalDate registerDate) {
         this.registerDate = registerDate;
     }
-
 }

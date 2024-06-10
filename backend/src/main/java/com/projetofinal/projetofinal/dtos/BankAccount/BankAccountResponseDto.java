@@ -9,6 +9,7 @@ public class BankAccountResponseDto {
     private String bankName;
     private Double billingBalance;
     private String nextBillingDate;
+    private Integer bankNumber; // Adicionando bankNumber
 
     // Construtores ============================================================
 
@@ -40,6 +41,7 @@ public class BankAccountResponseDto {
         bankName = contas.getBankName();
         billingBalance = contas.getBillingBalance();
         nextBillingDate = contas.getNextBillingDate();
+        bankNumber = contas.getBankNumber(); // Adicionando ao construtor
     }
 
     // Getters e Setters =======================================================
@@ -72,8 +74,15 @@ public class BankAccountResponseDto {
         return bankName;
     }
 
-    public void setName(String bankName) {
+    public void setBankName(String bankName) {
         this.bankName = bankName;
     }
 
+    public Integer getBankNumber() {
+        return bankNumber;
+    }
+
+    public void setBankNumber(Integer bankNumber) {
+        this.bankNumber = bankNumber;
+    }
 }

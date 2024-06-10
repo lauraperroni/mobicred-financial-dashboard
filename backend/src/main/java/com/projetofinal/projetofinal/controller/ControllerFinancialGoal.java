@@ -2,7 +2,9 @@ package com.projetofinal.projetofinal.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalResponseDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
+import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.service.FinancialGoalService;
 
 @RestController
@@ -32,6 +35,13 @@ public class ControllerFinancialGoal {
         return service.getAllFinancialGoalDtoService();
     }
 
+    // Trazer todas as metas financeiras DTO de um usuário
+    // ====================================
+    @GetMapping("/user/all")
+    public List<FinancialGoalResponseDto> getAllFinancialGoalDtoByUser(@AuthenticationPrincipal User user) {
+        return service.getAllFinancialGoalDtoServiceByUser(user);
+    }
+
     // Traz uma meta financeira pelo id DTO ======================================
 
     @GetMapping("/{id}")
@@ -47,9 +57,16 @@ public class ControllerFinancialGoal {
     // Adicionar nova meta financeira ===========================================
 
     @PostMapping("/new")
-    public ResponseEntity<String> postNewFinancialGoal(@RequestBody FinancialGoalRequestDto goal) {
-        service.postNewFinancialGoalDtoService(goal);
-        return ResponseEntity.ok("New goal created.");
+    public ResponseEntity<String> postNewFinancialGoal(@AuthenticationPrincipal User user,
+            @RequestBody FinancialGoalRequestDto goal) {
+        try {
+            String email = user.getUsername();
+            service.postNewFinancialGoalDtoService(email, goal);
+            return ResponseEntity.ok("Nova meta registrada.");
+        } catch (Exception e) {
+            e.printStackTrace(); // Para depuração
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Erro ao criar nova meta.");
+        }
     }
 
     // Update de uma meta financeira por id ========================================

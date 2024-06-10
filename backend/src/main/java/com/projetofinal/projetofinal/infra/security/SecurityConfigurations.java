@@ -37,6 +37,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/bankaccounts/user/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/bankaccounts/new").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/bankaccounts/delete/{id}").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/financialgoals/user/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/financialgoals/name/asc").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/financialgoals/name/desc").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/financialgoals/sort/amount/asc").hasRole("ADMIN")

@@ -41,7 +41,7 @@ public class ControllerBankAccount {
 
     // Trazer todas as accounts bancarias DTO ====================================
     @GetMapping("/user/all")
-    public List<BankAccountResponseDto> getAllBankAccountDtoby(@AuthenticationPrincipal User user) {
+    public List<BankAccountResponseDto> getAllBankAccountDtoByUser(@AuthenticationPrincipal User user) {
         return service.getAllBankAccountDtoServicebyUser(user);
     }
 

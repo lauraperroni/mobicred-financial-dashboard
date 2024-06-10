@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,8 +35,13 @@ public class ControllerUser {
     }
 
     @GetMapping("/{id}")
-    public UserResponseDto getUserIdDto(@PathVariable Integer id) {
-        return service.getUserIdDtoService(id);
+    public User getUserId(@PathVariable Integer id) {
+        return service.getUserIdService(id);
+    }
+
+    @GetMapping("/user/{id}")
+    public UserResponseDto getUserIdDto(@AuthenticationPrincipal User user) {
+        return service.getUserIdDtoService(user);
     }
 
     @PostMapping("/auth/register")

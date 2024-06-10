@@ -1,5 +1,6 @@
 package com.projetofinal.projetofinal.dtos.Transaction;
 
+
 import java.time.LocalDate;
 
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
@@ -11,7 +12,8 @@ public class TransactionResponseDto {
     private LocalDate date;
     private String description;
     private String method;
-    
+    private String bankName; // Adicionando bankName
+    private String categoryName; // Adicionando categoryName
 
     // Constructors =============================================================
     public String getDescription() {
@@ -30,6 +32,22 @@ public class TransactionResponseDto {
         this.method = method;
     }
 
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     // No-args constructor
     public TransactionResponseDto() {
     }
@@ -42,6 +60,8 @@ public class TransactionResponseDto {
         this.date = transaction.getDate();
         this.method = transaction.getMethod();
         this.description = transaction.getDescription();
+        this.bankName = transaction.getBankName(); // Assuming Transaction class has a getBankName() method
+        this.categoryName = transaction.getCategoryName(); // Assuming Transaction class has a getCategoryName() method
     }
 
     // Getters and Setters ======================================================

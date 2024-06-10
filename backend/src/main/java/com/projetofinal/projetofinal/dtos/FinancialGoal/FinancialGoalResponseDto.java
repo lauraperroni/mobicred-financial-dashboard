@@ -12,32 +12,35 @@ public class FinancialGoalResponseDto {
     private Double amount;
     private LocalDate creationDate;
     private LocalDate deadline;
+    private Integer type;
+    private Double saved;
 
     // Construtores =============================================================
 
-    // Construtor no args
-    public FinancialGoalResponseDto() {
-    }
-
     // Construtor all args
     public FinancialGoalResponseDto(Integer id, String description, Double amount, LocalDate creationDate,
-            LocalDate deadline, String name) {
+            LocalDate deadline, Double saved, String name, Integer type) {
         this.id = id;
         this.description = description;
         this.amount = amount;
         this.creationDate = creationDate;
         this.deadline = deadline;
+        this.saved = saved;
         this.name = name;
+        this.type = type;
+        
     }
 
     // Construtor sem id
     public FinancialGoalResponseDto(String description, Double amount, LocalDate creationDate, LocalDate deadline,
-            String name) {
+            String name, Integer type, Double saved) {
         this.description = description;
         this.amount = amount;
         this.creationDate = creationDate;
         this.deadline = deadline;
         this.name = name;
+        this.type = type;
+        this.saved = saved;
     }
 
     // Construtor usando model
@@ -49,39 +52,65 @@ public class FinancialGoalResponseDto {
         creationDate = goals.getCreationDate();
         deadline = goals.getDeadline();
         name = goals.getName();
+        type = goals.getType();
+        saved = goals.getSaved();
     }
 
     // Getters e Setters ========================================================
 
-    public Integer getIdDto() {
+    public Double getSaved() {
+        return saved;
+    }
+
+    public void setSaved(Double saved) {
+        this.saved = saved;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    // Construtor no args
+    public FinancialGoalResponseDto() {
+    }
+
+    public FinancialGoalResponseDto(Double amount2, LocalDate creationDate2, String description2, Integer id2,
+            LocalDate deadline2, Double saved2, String name2, Integer type2) {
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setIdDto(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getDescriptionDto() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescriptionDto(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public Double getAmountDto() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmountDto(Double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public LocalDate getCreationDateDto() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDateDto(LocalDate creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -102,7 +131,6 @@ public class FinancialGoalResponseDto {
     }
 
     public static List<FinancialGoalResponseDto> fromEntities(List<FinancialGoal> goals) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'fromEntities'");
     }
 

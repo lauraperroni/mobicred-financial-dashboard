@@ -7,6 +7,7 @@ public record TransactionRequestDto(
                 LocalDate date,
                 Integer type,
                 Integer categoryId,
+                String categoryName,
                 Integer bankAccountId,
                 String method,
                 String description) {

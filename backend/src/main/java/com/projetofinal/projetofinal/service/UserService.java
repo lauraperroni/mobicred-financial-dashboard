@@ -44,10 +44,12 @@ public class UserService {
     public User getUserIdService(Integer id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found."));
     }
+    
 
-    public UserResponseDto getUserIdDtoService(Integer id) {
-        User user = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found."));
-        return new UserResponseDto(user);
+    public UserResponseDto getUserIdDtoService(User user) {
+        Integer id = user.getId();
+        User user1 = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found."));
+        return new UserResponseDto(user1);
     }
 
     public ResponseEntity<String> postNewUserService(User user) {

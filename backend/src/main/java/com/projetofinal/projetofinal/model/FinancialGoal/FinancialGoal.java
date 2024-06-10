@@ -1,6 +1,8 @@
 package com.projetofinal.projetofinal.model.FinancialGoal;
 
 import java.time.LocalDate;
+
+import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.User.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +24,7 @@ public class FinancialGoal {
     private Double amount;
     private LocalDate creationDate;
     private Integer type;
+    private Double saved;
 
     @Future
     private LocalDate deadline;
@@ -36,16 +39,36 @@ public class FinancialGoal {
     public FinancialGoal() {
     }
 
-    public FinancialGoal(String description, Double amount, LocalDate date, LocalDate deadline, String name, Integer type) {
+    public FinancialGoal(String description, Double amount, LocalDate date, LocalDate deadline, String name,
+            Integer type, Double saved) {
         this.description = description;
         this.amount = amount;
         this.creationDate = LocalDate.now();
         this.deadline = deadline;
         this.name = name;
         this.type = type;
+        this.saved = saved;
+    }
+
+    public FinancialGoal(FinancialGoalRequestDto goal) {
+        this.name = goal.getName();
+        this.description = goal.getDescription();
+        this.amount = goal.getAmount();
+        this.creationDate = LocalDate.now(); // Supondo que a data de criação deva ser a data atual
+        this.type = goal.getType();
+        this.saved = 0.0; // Inicializa o valor salvo como 0.0
+        this.deadline = goal.getDeadline();
     }
 
     // Getters e Setters =======================================================
+
+    public Double getSaved() {
+        return saved;
+    }
+
+    public void setSaved(Double saved) {
+        this.saved = saved;
+    }
 
     public Integer getId() {
         return id;

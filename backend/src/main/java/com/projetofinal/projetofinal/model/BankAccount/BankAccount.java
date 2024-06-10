@@ -72,10 +72,11 @@ public class BankAccount {
     }
 
     // Construtor all args
-    public BankAccount(String accountType, Double balance, String bankName, String nextBillingDate, Double billingBalance, User user) {
+    public BankAccount(String accountType, Double balance, Integer bankNumber, String bankName, String nextBillingDate, Double billingBalance, User user) {
         this.accountType = accountType;
         this.balance = balance;
         this.bankName = bankName;
+        this.bankNumber = bankNumber;
         this.nextBillingDate = nextBillingDate;
         this.billingBalance = billingBalance;
         this.user = user;
@@ -84,6 +85,7 @@ public class BankAccount {
     public BankAccount(BankAccountRequestDto dto){
         this.accountType = dto.accountType();
         this.balance = dto.balance();
+        this.bankNumber = dto.bankNumber();
         this.bankName = dto.bankName();
         this.nextBillingDate = dto.nextBillingDate();
         this.billingBalance = dto.billingBalance();

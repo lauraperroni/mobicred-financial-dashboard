@@ -45,9 +45,9 @@ public class UserServiceTest {
         var dtoUsers = service.getAllUserDtoService();
 
         for (int i = 0; i < users.size(); i++) {
-            assertTrue(dtoUsers.get(i).getUserName().equals(users.get(i).getName()));
-            assertTrue(dtoUsers.get(i).getUserEmail().equals(users.get(i).getEmail()));
-            assertTrue(dtoUsers.get(i).getUserId().equals(users.get(i).getId()));
+            assertTrue(dtoUsers.get(i).getName().equals(users.get(i).getName()));
+            assertTrue(dtoUsers.get(i).getEmail().equals(users.get(i).getEmail()));
+            assertTrue(dtoUsers.get(i).getId().equals(users.get(i).getId()));
         }
     }
 
@@ -68,7 +68,7 @@ public class UserServiceTest {
         Integer id = 1;
         when(repository.existsById(id)).thenReturn(false);
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            service.getUserIdDtoService(id);
+            service.getUserIdService(id);
         });
         assertEquals("User not found.", exception.getMessage());
     }
