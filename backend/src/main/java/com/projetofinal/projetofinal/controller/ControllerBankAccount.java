@@ -2,6 +2,7 @@ package com.projetofinal.projetofinal.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountResponseDto;
+import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountPutDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.User.User;
@@ -72,10 +73,16 @@ public class ControllerBankAccount {
     }
 
     // Update de um usuário por id =============================================
+    // @PutMapping("/update/{id}")
+    // public ResponseEntity<String> putUpdateBankAccountId(@PathVariable Integer id,
+    //         @RequestBody BankAccount account) {
+    //     account.setId(id);
+    //     return service.putUpdateBankAccountIdService(id, account);
+    // }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<String> putUpdateBankAccountId(@PathVariable Integer id,
-            @RequestBody BankAccount account) {
-        account.setId(id);
+            @RequestBody BankAccountPutDto account) {
         return service.putUpdateBankAccountIdService(id, account);
     }
 

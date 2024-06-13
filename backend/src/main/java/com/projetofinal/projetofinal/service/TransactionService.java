@@ -7,7 +7,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionResponseDto;
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionPutDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
 import com.projetofinal.projetofinal.exception.RestExceptionHandler;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
@@ -114,12 +117,20 @@ public class TransactionService {
         }
     }
 
-    // Update de um usuário por id ==============================================
+    // Update de uma transação por id ==============================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> putUpdateTransactionService(Integer id, Transaction transaction) {
+    public ResponseEntity<String> putUpdateTransactionService(Integer id, TransactionPutDto transaction) {
         if (transactionRepository.existsById(id)) {
-            transaction.setId(id);
-            transactionRepository.save(transaction);
+
+
+            BankAccount acc = bankAccountRepository.findById(transaction.bankAccountId()).get();
+            
+            Category cat = categoryRepository.findById(transaction.categoryId()).get();
+
+            Transaction trans = transactionRepository.findById(id).get();
+            trans.putData(transaction, acc, cat);
+           
+            transactionRepository.save(trans);
             return ResponseEntity.ok("Transaction updated.");
         } else {
             throw new EntityNotFoundException("Transaction not found.");

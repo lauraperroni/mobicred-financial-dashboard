@@ -3,6 +3,7 @@ package com.projetofinal.projetofinal.model.BankAccount;
 import java.util.Collection;
 import java.util.List;
 
+import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountPutDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.model.User.User;
@@ -89,6 +90,16 @@ public class BankAccount {
         this.bankName = dto.bankName();
         this.nextBillingDate = dto.nextBillingDate();
         this.billingBalance = dto.billingBalance();
+    }
+
+    public void putData(BankAccountPutDto acc){
+        this.accountType = acc.accountType();
+        this.balance = acc.balance();
+        this.bankName = acc.bankName();
+        this.billingBalance = acc.billingBalance();
+        this.nextBillingDate = acc.nextBillingDate();
+        this.bankNumber = acc.bankNumber();
+
     }
 
     // Getters e Setters =======================================================

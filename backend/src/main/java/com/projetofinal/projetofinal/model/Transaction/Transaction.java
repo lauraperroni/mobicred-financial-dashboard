@@ -3,6 +3,9 @@ package com.projetofinal.projetofinal.model.Transaction;
 import java.time.LocalDate;
 import java.util.Collection;
 
+import org.springframework.transaction.event.TransactionPhase;
+
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionPutDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.Category.Category;
 
@@ -52,6 +55,17 @@ public class Transaction {
         this.description = description;
         this.method = method;
     }
+
+    public void putData(TransactionPutDto trans, BankAccount bankAccount, Category category){
+        this.amount = trans.amount();
+        this.balanceAfterTransaction = trans.balanceAfterTransaction();
+        this.date = trans.date();
+        this.type = trans.type();
+        this.method = trans.method();
+        this.description = trans.description();
+        this.bankAccount = bankAccount;
+        this.category = category;
+       }
 
     // Getters e Setters =======================================================
 
@@ -133,12 +147,13 @@ public class Transaction {
     }
 
     public String getBankName() {
-        return bankAccount.getBankName();        
+        return bankAccount.getBankName();
     }
 
     public String getCategoryName() {
         return category.getName();
-       }
+    }
+
 
     // Métodos de relação entre tabelas ===================================
 

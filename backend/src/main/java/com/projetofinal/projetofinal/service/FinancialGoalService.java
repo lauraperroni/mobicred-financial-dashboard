@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalResponseDto;
+import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalPutDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import com.projetofinal.projetofinal.model.User.User;
@@ -40,12 +41,13 @@ public class FinancialGoalService {
         return mapGoalListToGoalDtoListService(goals);
     }
 
-    // Trazer todas as metas financeiras Dto by user ====================================
+    // Trazer todas as metas financeiras Dto by user
+    // ====================================
     public List<FinancialGoalResponseDto> getAllFinancialGoalDtoServiceByUser(User user) {
         User user2 = (User) userRepository.findByEmail(user.getUsername());
         List<FinancialGoal> goals = financialGoalRepository.findByUserId(user2.getId());
         return mapGoalListToGoalDtoListService(goals);
-    }    
+    }
 
     // Pega os objetos transformados em DTO e cria uma lista
     public List<FinancialGoalResponseDto> mapGoalListToGoalDtoListService(List<FinancialGoal> goals) {
@@ -86,12 +88,12 @@ public class FinancialGoalService {
     public ResponseEntity<String> postNewFinancialGoalDtoService(String userName, FinancialGoalRequestDto goal) {
 
         // User user = userRepository.findById(goal.userid()).get();
-        // FinancialGoal fingo = new FinancialGoal(goal.description(), goal.amount(), goal.creationDate(),
-        //         goal.deadline(), goal.name(), goal.type(), goal.saved());
+        // FinancialGoal fingo = new FinancialGoal(goal.description(), goal.amount(),
+        // goal.creationDate(),
+        // goal.deadline(), goal.name(), goal.type(), goal.saved());
         // user.addFinancialGoalToList(fingo);
         // financialGoalRepository.save(fingo);
         // return ResponseEntity.ok("New financial goal created.");
-
 
         FinancialGoal goal1 = new FinancialGoal(goal);
         User user = (User) userRepository.findByEmail(userName);
@@ -102,17 +104,26 @@ public class FinancialGoalService {
         return ResponseEntity.ok("Nova meta criada.");
     }
 
+
+
     // Atualizar uma meta financeira por id ==================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> putUpdateFinancialGoalService(Integer id, FinancialGoal goal) {
+    public ResponseEntity<String> putUpdateFinancialGoalServiceTeste(Integer id, FinancialGoalPutDto goal) {
         if (financialGoalRepository.existsById(id)) {
-            goal.setId(id);
-            financialGoalRepository.save(goal);
+            FinancialGoal meta = financialGoalRepository.findById(id).get();
+            meta.putData(goal);
+        
+            financialGoalRepository.save(meta);
             return ResponseEntity.ok("Financial goal updated.");
         } else {
+            System.out.println("Tentando service else");        
             throw new EntityNotFoundException("Financial Goal not found.");
         }
     }
+
+
+
+
 
     // Deletar uma meta financeira por id ================================
     @SuppressWarnings("null")

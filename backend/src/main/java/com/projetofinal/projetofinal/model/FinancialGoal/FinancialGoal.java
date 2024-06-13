@@ -2,6 +2,7 @@ package com.projetofinal.projetofinal.model.FinancialGoal;
 
 import java.time.LocalDate;
 
+import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalPutDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.User.User;
 import jakarta.persistence.Entity;
@@ -58,6 +59,15 @@ public class FinancialGoal {
         this.type = goal.getType();
         this.saved = 0.0; // Inicializa o valor salvo como 0.0
         this.deadline = goal.getDeadline();
+    }
+
+    public void putData (FinancialGoalPutDto goal){
+        this.amount = goal.amount();
+        this.description = goal.description();
+        this.name = goal.name();
+        this.deadline = goal.deadline();
+        this.saved = goal.saved();
+        this.type = goal.type();
     }
 
     // Getters e Setters =======================================================

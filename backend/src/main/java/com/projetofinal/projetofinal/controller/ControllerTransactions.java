@@ -3,6 +3,7 @@ package com.projetofinal.projetofinal.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionResponseDto;
+import com.projetofinal.projetofinal.dtos.Transaction.TransactionPutDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
 import com.projetofinal.projetofinal.model.User.User;
@@ -65,11 +66,20 @@ public class ControllerTransactions {
     }
 
     // Update de um usuário por id ================================================
+    // @PutMapping("/update/{id}")
+    // public ResponseEntity<String> putUpdateTransaction(@PathVariable Integer id, @RequestBody Transaction transaction) {
+    //     transaction.setId(id);
+    //     return service.putUpdateTransactionService(id, transaction);
+    // }
+
+
+
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> putUpdateTransaction(@PathVariable Integer id, @RequestBody Transaction transaction) {
-        transaction.setId(id);
+    public ResponseEntity<String> putUpdateTransaction(@PathVariable Integer id, @RequestBody TransactionPutDto transaction) {
         return service.putUpdateTransactionService(id, transaction);
     }
+
+
 
     // Deletar um usuário por id ==================================================
     @DeleteMapping("/delete/{id}")

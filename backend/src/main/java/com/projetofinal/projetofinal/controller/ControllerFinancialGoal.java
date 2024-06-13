@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalResponseDto;
+import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalPutDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import com.projetofinal.projetofinal.model.User.User;
+import com.projetofinal.projetofinal.repository.FinancialGoal.FinancialGoalRepository;
 import com.projetofinal.projetofinal.service.FinancialGoalService;
 
 @RestController
@@ -71,12 +73,25 @@ public class ControllerFinancialGoal {
 
     // Update de uma meta financeira por id ========================================
 
+    // @PutMapping("/updatee/{id}")
+    // public ResponseEntity<String> putUpdateFinancialGoal(@AuthenticationPrincipal User user, @PathVariable Integer id,
+    //         @RequestBody FinancialGoalPutDto goal) {
+    //     goal.setId(id);
+    //     return service.putUpdateFinancialGoalService(id, goal);
+    // }
+
+
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> putUpdateFinancialGoal(@PathVariable Integer id,
-            @RequestBody FinancialGoal goal) {
-        goal.setId(id);
-        return service.putUpdateFinancialGoalService(id, goal);
+    public ResponseEntity<String> putUpdateFinancialGoalTeste(@PathVariable Integer id,
+            @RequestBody FinancialGoalPutDto goal) {
+        return service.putUpdateFinancialGoalServiceTeste(id, goal);
     }
+
+
+
+
+
+
 
     // Deletar uma meta financeira por id =========================================
     @DeleteMapping("/delete/{id}")

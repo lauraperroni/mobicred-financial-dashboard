@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountResponseDto;
+import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountPutDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.User.User;
@@ -83,12 +84,14 @@ public class BankAccountService {
         return ResponseEntity.ok("Nova conta criada.");
     }
 
-    // Update de um usuário por id ==============================================
+    // Update de uma conta por id ==============================================
     @SuppressWarnings("null")
-    public ResponseEntity<String> putUpdateBankAccountIdService(Integer id, BankAccount account) {
+    public ResponseEntity<String> putUpdateBankAccountIdService(Integer id, BankAccountPutDto account) {
         if (bankAccountRepository.existsById(id)) {
-            account.setId(id);
-            bankAccountRepository.save(account);
+            BankAccount acc = bankAccountRepository.findById(id).get();
+            acc.putData(account);
+            
+            bankAccountRepository.save(acc);
             return ResponseEntity.ok("Updated bank account.");
         } else {
             throw new EntityNotFoundException("Bank account not found.");
