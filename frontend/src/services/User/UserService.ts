@@ -13,10 +13,10 @@ export const getUser = async () => {
     }
 }
 
-export const putBankAccounts = async (formData: any) => {
+export const putUser = async (formData: any) => {
     const token = await getToken();
     if (token) {
-        return Api.put('/bankaccounts/update/{id}', formData, {
+        return Api.put('/users/update', formData, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -25,5 +25,6 @@ export const putBankAccounts = async (formData: any) => {
 }
 
 export const UserService = {
-    getUser
+    getUser,
+    putUser
 }

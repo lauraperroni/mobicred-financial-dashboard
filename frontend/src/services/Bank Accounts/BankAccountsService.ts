@@ -2,7 +2,7 @@ import { Api } from "../../providers";
 
 const getToken = () => Promise.resolve(localStorage.getItem('token'));
 
-const getBankAccounts = async () => {
+export const getBankAccounts = async () => {
     const token = await getToken();
     if (token) {
         return Api.get('/bankaccounts/user/all', {
@@ -38,11 +38,16 @@ export const postBankAccounts = async (formData: any) => {
 export const putBankAccounts = async (id: number, formData: any) => {
     const token = await getToken();
     if (token) {
-        return Api.put(`/bankaccounts/update/${id}`, formData, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        try {
+            const response = await Api.put(`/bankaccounts/update/${id}`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw new Error(`Erro ao atualizar conta bancária.`);
+        }
     }
 }
 

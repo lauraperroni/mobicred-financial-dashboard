@@ -38,10 +38,10 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
         console.log('Dados recebidos das transações:', response.data);
         setTransactions(response.data);
       } else {
-        console.error('Error fetching transactions:', response);
+        console.error('Erro ao buscar transações:', response);
       }
     } catch (error) {
-      console.error('Error fetching transactions:', error);
+      console.error('Erro ao buscar transações:', error);
     }
   };
 
@@ -65,32 +65,42 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
   };
 
   const handleDelete = async (transaction: Transaction) => {
-    // Implemente a lógica de exclusão aqui
+    try {
+      const response = await TransactionsService.deleteTransactions(transaction.id);
+      if (response && response.status === 200) {
+        console.log('Transação excluída com sucesso:', transaction.id);
+        fetchTransactions();
+      } else {
+        console.error('Erro ao excluir transação:', response);
+      }
+    } catch (error) {
+      console.error('Erro ao excluir transação:', error);
+    }
   };
 
   return (
     <div className="container mx-auto p-8 bg-gray-50">
-      <h2 className="text-2xl font-semibold mb-4 ">Last Transactions</h2>
-      <p className="mb-4">Check your last transactions</p>
-      <button onClick={() => setShowAddModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">Add Transaction</button>
+      <h2 className="text-2xl font-semibold mb-4 ">Últimas Transações</h2>
+      <p className="mb-4">Verifique suas últimas transações</p>
+      <button onClick={() => setShowAddModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">Adicionar Transação</button>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg z-0">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th className="px-6 py-3">Description</th>
-              <th className="px-6 py-3">Method</th>
-              <th className="px-6 py-3">Date</th>
-              <th className="px-6 py-3">Amount</th>
-              <th className="px-6 py-3">Category</th>
-              <th className="px-6 py-3">Bank</th>
-              <th className="px-6 py-3">Type</th>
-              <th className="px-6 py-3 text-right">Actions</th>
+              <th className="px-6 py-3">Descrição</th>
+              <th className="px-6 py-3">Método</th>
+              <th className="px-6 py-3">Data</th>
+              <th className="px-6 py-3">Valor</th>
+              <th className="px-6 py-3">Categoria</th>
+              <th className="px-6 py-3">Banco</th>
+              <th className="px-6 py-3">Tipo</th>
+              <th className="px-6 py-3 text-right">Ações</th>
             </tr>
           </thead>
           <tbody>
             {transactions
               .slice()
-              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Ordenar por data decrescente
+              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
               .map(transaction => (
                 <tr key={transaction.id} className={transaction.type === TransactionType.Expense ? "bg-red-100 border-b dark:bg-gray-800" : "bg-green-100 border-b dark:bg-gray-800"}>
                   <td className="px-6 py-4 font-medium whitespace-nowrap">{transaction.description}</td>
@@ -99,10 +109,10 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
                   <td className="px-6 py-4">${transaction.amount.toFixed(2)}</td>
                   <td className="px-6 py-4">{transaction.categoryName}</td>
                   <td className="px-6 py-4">{transaction.bankName}</td>
-                  <td className="px-6 py-4">{transaction.type === TransactionType.Expense ? "Expense/Transfer" : "Credit"}</td>
+                  <td className="px-6 py-4">{transaction.type === TransactionType.Expense ? "Despesa/Transferência" : "Crédito"}</td>
                   <td className="px-6 py-4 text-right">
-                    <button onClick={() => handleEditModal(transaction)} className="mr-2 bg-yellow-500 text-white px-2 py-1 rounded-md">Edit</button>
-                    <button onClick={() => handleDelete(transaction)} className="bg-red-500 text-white px-2 py-1 rounded-md">Delete</button>
+                    <button onClick={() => handleEditModal(transaction)} className="mr-2 bg-yellow-500 text-white px-2 py-1 rounded-md">Editar</button>
+                    <button onClick={() => handleDelete(transaction)} className="bg-red-500 text-white px-2 py-1 rounded-md">Excluir</button>
                   </td>
                 </tr>
               ))}
@@ -112,7 +122,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
       {showAddModal && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
           <div className="bg-white p-8 rounded-xl">
-            <h2 className="text-lg font-semibold mb-4">Add Transaction</h2>
+            <h2 className="text-lg font-semibold mb-4">Adicionar Transação</h2>
             <AddTransactionModal isOpen={showAddModal} onClose={handleCloseAddModal} />
           </div>
         </div>
@@ -120,14 +130,13 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
       {showEditModal && selectedTransaction && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
           <div className="bg-white p-8 rounded-xl">
-            <h2 className="text-lg font-semibold mb-4">Edit Transaction</h2>
+            <h2 className="text-lg font-semibold mb-4">Editar Transação</h2>
             <EditTransactionModal isOpen={showEditModal} onClose={handleCloseEditModal} transaction={selectedTransaction} />
           </div>
         </div>
       )}
     </div>
   );
-
 };
 
 export default TransactionList;

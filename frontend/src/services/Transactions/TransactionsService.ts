@@ -35,8 +35,21 @@ export const postTransactions = async (formData: any) => {
     }
 }
 
+export const putTransactions = async (id: number, formData: any) => { 
+    const token = await getToken();
+    if (token) {
+        return Api.put(`/transactions/update/${id}`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
+}
+
+
 export const TransactionsService = {
     getTransactions,
     deleteTransactions,
+    putTransactions,
     postTransactions // Certifique-se de exportar a função de deletar transações
 }

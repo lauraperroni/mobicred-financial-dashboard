@@ -1,8 +1,10 @@
+// services/FinancialGoalsService.ts
+
 import { Api } from "../../providers";
 
 const getToken = () => Promise.resolve(localStorage.getItem('token'));
 
-const getFinancialGoals = async () => {
+export const getFinancialGoals = async () => {
     const token = await getToken();
     if (token) {
         return Api.get('/financialgoals/user/all', {
@@ -13,7 +15,7 @@ const getFinancialGoals = async () => {
     }
 };
 
-export const deleteFinancialGoals = async (id: number) => {
+export const deleteFinancialGoal = async (id: number) => {
     const token = await getToken();
     if (token) {
         return Api.delete(`/financialgoals/delete/${id}`, {
@@ -24,7 +26,7 @@ export const deleteFinancialGoals = async (id: number) => {
     }
 };
 
-export const postFinancialGoals = async (formData: any) => {
+export const createFinancialGoal = async (formData: any) => {
     const token = await getToken();
     if (token) {
         return Api.post(`/financialgoals/new`, formData, {
@@ -35,7 +37,7 @@ export const postFinancialGoals = async (formData: any) => {
     }
 };
 
-export const putFinancialGoals = async (id: number, formData: any) => {
+export const updateFinancialGoal = async (id: number, formData: any) => {
     const token = await getToken();
     if (token) {
         return Api.put(`/financialgoals/update/${id}`, formData, {
@@ -47,8 +49,8 @@ export const putFinancialGoals = async (id: number, formData: any) => {
 };
 
 export const FinancialGoalsService = {
-    deleteFinancialGoals,
-    putFinancialGoals,
     getFinancialGoals,
-    postFinancialGoals
+    deleteFinancialGoal,
+    createFinancialGoal,
+    updateFinancialGoal
 };

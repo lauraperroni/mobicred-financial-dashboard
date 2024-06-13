@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { BankAccountsService, TransactionsService } from '../../services'; // Importando o serviço de contas bancárias
+import React, { useState, useEffect } from 'react';
+import { BankAccountsService, TransactionsService } from '../../services';
 import { CategoryService } from '../../services/Category/CategoryService';
 
 interface BankAccount {
@@ -73,7 +73,19 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
     }, []);
 
     const handleSubmit = async () => {
-        // Lógica para enviar a transação editada para o backend
+        try {
+            const response = await TransactionsService.putTransactions(formData.id, formData);
+            if (response && response.status === 200) {
+                console.log('Transação atualizada com sucesso:', response.data);
+                onClose(); // Fechar modal após sucesso
+            } else {
+                console.error('Erro ao atualizar transação:', response);
+                // Tratar erro aqui (exibir mensagem de erro, etc.)
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar transação:', error);
+            // Tratar erro aqui (exibir mensagem de erro, etc.)
+        }
     };
 
     return (
@@ -101,7 +113,6 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                         value={formData.method}
                                         onChange={(e) => setFormData({ ...formData, method: e.target.value })}
                                     />
-
                                     <input
                                         type="date"
                                         placeholder="Date"
@@ -109,16 +120,12 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                         value={formData.date || ''}
                                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                                     />
-
-
-
-
                                     <div className="flex items-center">
                                         <input
                                             type="text"
                                             placeholder="Amount"
                                             className="border border-gray-300 rounded-md px-3 py-2 mb-2"
-                                            style={{ width: "calc(100%)" }} // Ajustando a largura para incluir o símbolo "$"
+                                            style={{ width: "calc(100%)" }}
                                             value={"$" + formData.amount}
                                             onChange={(e) => {
                                                 const value = e.target.value.replace("$", "");
@@ -126,11 +133,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                             }}
                                         />
                                     </div>
-
-
                                 </div>
-
-
                                 <div className="flex flex-col">
                                     <select
                                         value={formData.type}
@@ -141,9 +144,6 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                         <option value={2}>Expense</option>
                                         <option value={1}>Credit</option>
                                     </select>
-
-
-
                                     <select
                                         value={formData.categoryId}
                                         onChange={(e) => setFormData({ ...formData, categoryId: parseInt(e.target.value) })}
@@ -154,10 +154,6 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                             <option key={category.id} value={category.id} selected={category.name === formData.categoryName}>{category.name}</option>
                                         ))}
                                     </select>
-
-
-
-
                                     <select
                                         value={formData.bankAccountId}
                                         onChange={(e) => setFormData({ ...formData, bankAccountId: parseInt(e.target.value) })}
@@ -168,10 +164,6 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                             <option key={account.id} value={account.id} selected={account.bankName === formData.bankName}>{account.bankName}</option>
                                         ))}
                                     </select>
-
-
-
-
                                     <div className="flex justify-center">
                                         <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md w-full mr-2">Save</button>
                                         <button type="button" onClick={onClose} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md w-full">Cancel</button>

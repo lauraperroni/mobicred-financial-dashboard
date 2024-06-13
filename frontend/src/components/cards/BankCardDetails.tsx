@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import EditBankAccountModal from './EditBankAccountModal'; // Importe o novo modal de edição
+import EditBankAccountModal from './EditBankAccountModal';
 
 interface BankCardDetailsProps {
     isOpen: boolean;
@@ -12,37 +12,26 @@ interface BankCardDetailsProps {
     nextBillingDate: string;
     billingBalance: number;
     accountType: string;
-    onSaveChanges: (formData: any) => void;
+    onSaveChanges: () => void; // Ajustar o tipo da função onSaveChanges se necessário
 }
 
-const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal, id, userId, bankNumber, bankName, balance, nextBillingDate, billingBalance, accountType, onSaveChanges }) => {
+const BankCardDetails: React.FC<BankCardDetailsProps> = ({
+    isOpen,
+    onCloseModal,
+    id,
+    userId,
+    bankNumber,
+    bankName,
+    balance,
+    nextBillingDate,
+    billingBalance,
+    accountType,
+    onSaveChanges
+}) => {
     const [isEdit, setIsEdit] = useState(false);
-    const [formData, setFormData] = useState({
-        bankName,
-        balance: balance.toString(),
-        nextBillingDate,
-        billingBalance: billingBalance.toString(),
-        accountType,
-        id,
-        userId,
-        bankNumber
-    });
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
-
-    const handleSaveChanges = async () => {
-        try {
-            await onSaveChanges(formData);
-            onCloseModal();
-        } catch (error) {
-            console.error('Erro ao atualizar conta bancária:', error);
-        }
+    const handleSaveChanges = () => {
+        // Lógica para salvar alterações, se necessário
     };
 
     if (!isOpen) return null;
@@ -59,13 +48,14 @@ const BankCardDetails: React.FC<BankCardDetailsProps> = ({ isOpen, onCloseModal,
                     nextBillingDate={nextBillingDate}
                     billingBalance={billingBalance}
                     accountType={accountType}
+                    id={id}
                     onSaveChanges={onSaveChanges}
                 />
             ) : (
                 <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-black bg-opacity-50">
                     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-lg w-full m-4">
                         <div className="bg-green-500 text-white px-4 py-2">
-                            <h2 className="text-xl font-semibold">{isEdit ? 'Edit Bank Details' : 'Bank Details'}</h2>
+                            <h2 className="text-xl font-semibold">Bank Details</h2>
                         </div>
                         <div className="p-4">
                             <p className="mb-2"><span className="font-semibold">Bank Number:</span> {bankNumber}</p>

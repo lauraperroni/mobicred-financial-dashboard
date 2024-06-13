@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { putBankAccounts } from '../../services/Bank Accounts/BankAccountsService';
 
 interface EditBankAccountModalProps {
     isOpen: boolean;
@@ -9,31 +10,72 @@ interface EditBankAccountModalProps {
     nextBillingDate: string;
     billingBalance: number;
     accountType: string;
-    onSaveChanges: (formData: any) => void;
+    id: number;
+    onSaveChanges: (formData: any) => void; // Função para salvar alterações
 }
 
-const EditBankAccountModal: React.FC<EditBankAccountModalProps> = ({ isOpen, onCloseModal, bankNumber, bankName, balance, nextBillingDate, billingBalance, accountType, onSaveChanges }) => {
+const EditBankAccountModal: React.FC<EditBankAccountModalProps> = ({
+    isOpen,
+    onCloseModal,
+    bankNumber,
+    bankName,
+    balance,
+    nextBillingDate,
+    billingBalance,
+    accountType,
+    id,
+    onSaveChanges
+}) => {
     const [formData, setFormData] = useState({
-        bankName,
-        balance: balance.toString(),
-        nextBillingDate,
-        billingBalance: billingBalance.toString(),
-        accountType,
-        bankNumber
+        bankName: '',
+        bankNumber: '',
+        balance: '',
+        nextBillingDate: '',
+        billingBalance: '',
+        accountType: ''
     });
 
+    // Atualiza o estado do formulário com os dados da conta bancária
+    useEffect(() => {
+        setFormData({
+            bankName,
+            bankNumber: bankNumber.toString(),
+            balance: balance.toString(),
+            nextBillingDate,
+            billingBalance: billingBalance.toString(),
+            accountType
+        });
+    }, [isOpen, bankNumber, bankName, balance, nextBillingDate, billingBalance, accountType]);
+
+    // Função para lidar com mudanças nos inputs do formulário
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
-            [name]: value
+            [name]: value // Atualiza o campo específico com o novo valor
         }));
     };
 
+    // Função para salvar as alterações
     const handleSaveChanges = async () => {
         try {
-            await onSaveChanges(formData);
-            onCloseModal();
+            // Cria uma cópia do formData atualizado para enviar na requisição
+            const updatedData = {
+                bankName: formData.bankName,
+                bankNumber: parseInt(formData.bankNumber, 10),
+                balance: parseFloat(formData.balance),
+                nextBillingDate: formData.nextBillingDate,
+                billingBalance: parseFloat(formData.billingBalance),
+                accountType: formData.accountType,
+                id // Garante que o ID seja incluído no objeto
+            };
+
+            console.log('edit id:', id);
+            console.log('edit data: ', updatedData);
+            await putBankAccounts(id, updatedData); // Chama o serviço para atualizar os dados
+
+            onSaveChanges(updatedData); // Atualiza o estado pai com os dados atualizados
+            onCloseModal(); // Fecha o modal após salvar
         } catch (error) {
             console.error('Erro ao atualizar conta bancária:', error);
         }
@@ -45,7 +87,7 @@ const EditBankAccountModal: React.FC<EditBankAccountModalProps> = ({ isOpen, onC
         <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-black bg-opacity-50">
             <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-lg w-full m-4">
                 <div className="bg-green-500 text-white px-4 py-2">
-                    <h2 className="text-xl font-semibold">Edit Bank Account Detalhesss</h2>
+                    <h2 className="text-xl font-semibold">Edit Bank Account Details</h2>
                 </div>
                 <div className="p-4 flex flex-wrap">
                     <div className="w-full md:w-1/2 pr-2">
@@ -70,7 +112,7 @@ const EditBankAccountModal: React.FC<EditBankAccountModalProps> = ({ isOpen, onC
                     </div>
                     <div className="w-full mt-4">
                         <button onClick={onCloseModal} className="bg-gray-200 px-4 py-2 rounded-md">Close</button>
-                        <button onClick={handleSaveChanges} className="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
+                        <button onClick={handleSaveChanges} className="bg-green-500 text-white px-4 py-2 rounded-md ml-2">Save</button>
                     </div>
                 </div>
             </div>
