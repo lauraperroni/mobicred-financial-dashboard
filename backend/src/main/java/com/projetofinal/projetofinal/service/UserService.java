@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.projetofinal.projetofinal.dtos.User.RegisterDTO;
+import com.projetofinal.projetofinal.dtos.User.UserPutDto;
 import com.projetofinal.projetofinal.dtos.User.UserResponseDto;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
@@ -60,15 +61,33 @@ public class UserService {
         return ResponseEntity.ok("New user created.");
     }
 
-    public ResponseEntity<String> putUpdateUserService(Integer id, User user) {
+    // public ResponseEntity<String> putUpdateUserService(Integer id, User user) {
+    //     if (repository.existsById(id)) {
+    //         user.setId(id);
+    //         repository.save(user);
+    //         return ResponseEntity.ok("User updated.");
+    //     } else {
+    //         throw new EntityNotFoundException("User not found.");
+    //     }
+    // }
+
+
+    // Update de um usuário 
+    public ResponseEntity<String> putUpdateUserService(Integer id, UserPutDto userDto) {
         if (repository.existsById(id)) {
-            user.setId(id);
+            User user = repository.findById(id).get();
+            user.putData(userDto);
             repository.save(user);
             return ResponseEntity.ok("User updated.");
         } else {
             throw new EntityNotFoundException("User not found.");
         }
     }
+
+
+
+
+
 
     public ResponseEntity<String> deleteUserIdService(Integer id) {
         if (repository.existsById(id)) {

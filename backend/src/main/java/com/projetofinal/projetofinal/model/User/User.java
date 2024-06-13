@@ -7,6 +7,8 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.projetofinal.projetofinal.dtos.User.UserPutDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import jakarta.persistence.CascadeType;
@@ -242,6 +244,19 @@ public class User extends RepresentationModel<User> implements UserDetails {
 
     public List<BankAccount> getBankAccounts() {
         return bankAccounts;
+    }
+
+    public void putData(UserPutDto userDto) {
+        this.cpf = userDto.cpf();
+        this.name = userDto.name();
+        this.email = userDto.email();
+        this.street = userDto.street();
+        this.number = userDto.number();
+        this.district = userDto.district();
+        this.complement = userDto.complement();
+        this.city = userDto.city();
+        this.state = userDto.state();
+        this.zipCode = userDto.zipCode();
     }
     
 }

@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionDefinition;
-
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionResponseDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionPutDto;
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionRequestDto;
@@ -100,11 +98,11 @@ public class TransactionService {
             Transaction trans = new Transaction(transactionDto.amount(), transactionDto.date(), transactionDto.type(), transactionDto.description(), transactionDto.method());
 
             trans.setCategory(category);
-            if (transactionDto.type() == 1) { // Crédito
-                bank.deposit(transactionDto.amount(), trans);
-            } else if (transactionDto.type() == 2) { // Débito
-                bank.withdraw(transactionDto.amount(), trans);
-            }
+            // if (transactionDto.type() == 1) { // Crédito
+            //     bank.deposit(transactionDto.amount(), trans);
+            // } else if (transactionDto.type() == 2) { // Débito
+            //     bank.withdraw(transactionDto.amount(), trans);
+            // }
             bank.addTransactionToList(trans);
 
             trans.setBankAccount(bank);
@@ -124,7 +122,7 @@ public class TransactionService {
 
 
             BankAccount acc = bankAccountRepository.findById(transaction.bankAccountId()).get();
-            
+
             Category cat = categoryRepository.findById(transaction.categoryId()).get();
 
             Transaction trans = transactionRepository.findById(id).get();

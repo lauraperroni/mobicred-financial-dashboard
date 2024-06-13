@@ -153,15 +153,15 @@ public class BankAccount {
     }
 
     // Dentro do método deposit da classe BankAccount
-    public void deposit(Double amount, Transaction transaction) {
-        this.balance += amount;
-        transaction.setBalanceAfterTransaction(this.balance);
-    }
+    // public void deposit(Double amount, Transaction transaction) {
+    //     this.balance += amount;
+    //     transaction.setBalanceAfterTransaction(this.balance);
+    // }
 
-    public void withdraw(Double amount, Transaction transaction) {
-        this.balance -= amount;
-        transaction.setBalanceAfterTransaction(this.balance);
-    }
+    // public void withdraw(Double amount, Transaction transaction) {
+    //     this.balance -= amount;
+    //     transaction.setBalanceAfterTransaction(this.balance);
+    // }
 
     public Collection<Transaction> getTransactions() {
         return transactions;

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public record TransactionPutDto(
         Double amount,
-        Double balanceAfterTransaction,
         LocalDate date,
         Integer type,
         Integer bankAccountId,

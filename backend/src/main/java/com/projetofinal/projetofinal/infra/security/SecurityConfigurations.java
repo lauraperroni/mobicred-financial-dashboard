@@ -69,6 +69,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/transactions/sort/date").permitAll()
                         // User endpoints
                         .requestMatchers(HttpMethod.GET, "/users/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/users/update").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users/change-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/all").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/new").permitAll()
                         // Swagger endpoints

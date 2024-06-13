@@ -2,13 +2,9 @@ package com.projetofinal.projetofinal.model.Transaction;
 
 import java.time.LocalDate;
 import java.util.Collection;
-
-import org.springframework.transaction.event.TransactionPhase;
-
 import com.projetofinal.projetofinal.dtos.Transaction.TransactionPutDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.Category.Category;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +25,6 @@ public class Transaction {
     private String description;
     private Integer type;
     private LocalDate date;
-    private Double balanceAfterTransaction;
 
     // Relações entre tabelas
 
@@ -58,7 +53,6 @@ public class Transaction {
 
     public void putData(TransactionPutDto trans, BankAccount bankAccount, Category category){
         this.amount = trans.amount();
-        this.balanceAfterTransaction = trans.balanceAfterTransaction();
         this.date = trans.date();
         this.type = trans.type();
         this.method = trans.method();
@@ -107,14 +101,6 @@ public class Transaction {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public Double getBalanceAfterTransaction() {
-        return balanceAfterTransaction;
-    }
-
-    public void setBalanceAfterTransaction(Double balanceAfterTransaction) {
-        this.balanceAfterTransaction = balanceAfterTransaction;
     }
 
     public Integer getType() {
