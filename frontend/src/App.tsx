@@ -15,6 +15,7 @@ import Transaction from './pages/Transaction'
 import Savings from './pages/Calculators/Savings'
 import CompoundInterest from './pages/Calculators/CompoundInterest'
 import CalculatorMenu from './pages/CalculatorMenu'
+import ForgotReset from './pages/ForgotReset'
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
             <Route path='/calculators' element={<CalculatorMenu/>} />
             <Route path='/calculators/savings' element={<Savings/>} />
             <Route path='/calculators/compound-interest' element={<CompoundInterest/>} />
+          <Route path='/forgot-reset' element={<ForgotReset/>} />
         </Routes>
       </BrowserRouter>
     </>

@@ -6,9 +6,10 @@ const BankAccounts = () => {
 
     return (
         <>
-            <Header />
-            <Accounts />
-            
+            <div className="custom-bg flex flex-col">
+                <Header />
+                <Accounts />
+            </div>
         </>
     )
 };

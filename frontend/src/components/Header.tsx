@@ -53,7 +53,6 @@ const Header = () => {
                     </div>
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         <li><Link to="/profile">Profile</Link></li>
-                        <li><Link to="/settings">Settings</Link></li>
                         <li><Link to="/" onClick={handleLogout}>Logout</Link></li> {/* Adicionando evento onClick */}
                     </ul>
                 </div>

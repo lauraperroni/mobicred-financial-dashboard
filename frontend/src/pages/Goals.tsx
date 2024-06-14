@@ -4,7 +4,7 @@ const Goals = () => {
 
     return (
         <>
-        <div className="bg-gray-50">
+        <div className="custom-bg">
             <Header />
             <GoalList />
             </div>

@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import mobicredLogo from '../assets/mobicred.png';
 import { useNavigate } from 'react-router-dom';
 import { LoginService } from '../services';
+import backgroundImage from '../assets/4.png';
 
 export interface LoginForm {
   email: string;
@@ -26,10 +27,10 @@ const Login = () => {
     <>
       {/*LEFT SIDE OF SCREEN*/}
       <div className='flex flex-col md:flex-row w-full h-screen'>
-        <div className='md:w-4/6 bg-gradient-to-t from-black to-[#00ff26] flex flex-col justify-center items-center text-white'>
-          <div className='px-4 py-8 md:py-16'>
-            <h1 className='text-center md:text-left text-3xl md:text-4xl mb-4'>Financial Dashboard</h1>
-            <p className='text-center md:text-left'>Your personal financial dashboard</p>
+        <div className='w-4/6 bg-cover bg-center flex justify-center items-center text-white' style={{ backgroundImage: `url(${backgroundImage})` }}>
+          <div className='px-4 py-10 text-white'>
+            <h1 className='text-5xl font-extrabold leading-tight mb-4'>Financial Dashboard</h1>
+            <p className='text-xl leading-relaxed'>Your personal financial dashboard</p>
           </div>
         </div>
 

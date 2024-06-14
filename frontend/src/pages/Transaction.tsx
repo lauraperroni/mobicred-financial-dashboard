@@ -1,12 +1,12 @@
 import Header from "../components/Header";
-import TransactionList, { Transaction } from "../components/lists/TransactionList";
+import TransactionList from "../components/lists/TransactionList";
 
 const Transactions = () => {
     return (
         <>
-            <div className="bg-gray-50">
+            <div className="custom-bg">
                 <Header />
-                <TransactionList period={""} onAddTransaction={function (newTransaction: Transaction): void {
+                <TransactionList onAddTransaction={function (): void {
                     throw new Error('Function not implemented.');
                 } } />
             </div>

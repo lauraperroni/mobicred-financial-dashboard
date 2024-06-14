@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddTransactionModal from '../cards/AddTransactionModal';
 import EditTransactionModal from '../cards/EditTransactionModal';
 import { TransactionsService } from '../../services/Transactions/TransactionsService';
+import transactionImage from '../../assets/transaction.png'; // Importe a imagem transaction.png
 
 enum TransactionType {
   Expense = 2,
@@ -79,22 +80,27 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
   };
 
   return (
-    <div className="container mx-auto p-8 bg-gray-50">
-      <h2 className="text-2xl font-semibold mb-4 ">Últimas Transações</h2>
-      <p className="mb-4">Verifique suas últimas transações</p>
-      <button onClick={() => setShowAddModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">Adicionar Transação</button>
+    <div className="container mx-auto p-8">
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Last Transactions</h2>
+          <p className="mb-4">Check out your last transactions</p>
+          <button onClick={() => setShowAddModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-md">Add Transaction</button>
+        </div>
+        <img src={transactionImage} alt="Transactions" className="w-44" />
+      </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg z-0">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th className="px-6 py-3">Descrição</th>
-              <th className="px-6 py-3">Método</th>
-              <th className="px-6 py-3">Data</th>
-              <th className="px-6 py-3">Valor</th>
-              <th className="px-6 py-3">Categoria</th>
-              <th className="px-6 py-3">Banco</th>
-              <th className="px-6 py-3">Tipo</th>
-              <th className="px-6 py-3 text-right">Ações</th>
+              <th className="px-6 py-3">Description</th>
+              <th className="px-6 py-3">Method</th>
+              <th className="px-6 py-3">Date</th>
+              <th className="px-6 py-3">Amount</th>
+              <th className="px-6 py-3">Category</th>
+              <th className="px-6 py-3">Bank</th>
+              <th className="px-6 py-3">Type</th>
+              <th className="px-6 py-3 text-right">...</th>
             </tr>
           </thead>
           <tbody>
@@ -109,10 +115,10 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
                   <td className="px-6 py-4">${transaction.amount.toFixed(2)}</td>
                   <td className="px-6 py-4">{transaction.categoryName}</td>
                   <td className="px-6 py-4">{transaction.bankName}</td>
-                  <td className="px-6 py-4">{transaction.type === TransactionType.Expense ? "Despesa/Transferência" : "Crédito"}</td>
+                  <td className="px-6 py-4">{transaction.type === TransactionType.Expense ? "Expense" : "Income"}</td>
                   <td className="px-6 py-4 text-right">
-                    <button onClick={() => handleEditModal(transaction)} className="mr-2 bg-yellow-500 text-white px-2 py-1 rounded-md">Editar</button>
-                    <button onClick={() => handleDelete(transaction)} className="bg-red-500 text-white px-2 py-1 rounded-md">Excluir</button>
+                    <button onClick={() => handleEditModal(transaction)} className="mr-2 bg-yellow-500 text-white px-2 py-1 rounded-md">Edit</button>
+                    <button onClick={() => handleDelete(transaction)} className="bg-red-500 text-white px-2 py-1 rounded-md">Delete</button>
                   </td>
                 </tr>
               ))}
@@ -122,7 +128,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
       {showAddModal && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
           <div className="bg-white p-8 rounded-xl">
-            <h2 className="text-lg font-semibold mb-4">Adicionar Transação</h2>
+            <h2 className="text-lg font-semibold mb-4">New Transactions</h2>
             <AddTransactionModal isOpen={showAddModal} onClose={handleCloseAddModal} />
           </div>
         </div>
@@ -130,7 +136,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
       {showEditModal && selectedTransaction && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
           <div className="bg-white p-8 rounded-xl">
-            <h2 className="text-lg font-semibold mb-4">Editar Transação</h2>
+            <h2 className="text-lg font-semibold mb-4">Edit</h2>
             <EditTransactionModal isOpen={showEditModal} onClose={handleCloseEditModal} transaction={selectedTransaction} />
           </div>
         </div>

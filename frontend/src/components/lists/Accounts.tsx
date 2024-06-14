@@ -4,7 +4,6 @@ import AddCard from '../buttons/AddCard';
 import BankCardDetails from '../cards/BankCardDetails';
 import AddBankCardModal from '../cards/AddBankCardModal';
 import { BankAccountsService } from '../../services';
-import LastTransactions from '../LastTransactions';
 import TransactionListNoEdit from './TransactionListNoEdit';
 
 interface BankAccountsCards {
@@ -121,7 +120,7 @@ const Accounts: React.FC = () => {
 
     return (
         <>
-            <div className="flex bg-gray-50 justify-between">
+            <div className="flex justify-between">
                 <div className="">
                     {/* Aqui você pode colocar o título, cumprimentos, etc */}
                 </div>
@@ -130,7 +129,7 @@ const Accounts: React.FC = () => {
                 </div>
             </div>
 
-            <div className='flex justify-center bg-gray-50'>
+            <div className='flex justify-center'>
                 {cards.length > 0 ? (
                     cards.map((card) => (
                         <BankCard

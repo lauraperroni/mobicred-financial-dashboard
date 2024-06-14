@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CompoundInterestChart from '../charts/CompoundInterestChart';
 
 const CalculateCompoundInterest: React.FC = () => {
     const [initialInvestment, setInitialInvestment] = useState<number>(0);
@@ -19,9 +20,9 @@ const CalculateCompoundInterest: React.FC = () => {
         let totalInterestAccumulated = 0;
 
         for (let i = 0; i < monthsInt; i++) {
-            const monthlyInterest = (investmentAccumulated + interestRateFloat) / 100;
+            const monthlyInterest = (investmentAccumulated * (interestRateFloat / 100)) / 12;
             totalInterestAccumulated += monthlyInterest;
-            investmentAccumulated += monthlyInterest + monthlyInvestmentFloat;
+            investmentAccumulated += monthlyInvestmentFloat + monthlyInterest;
         }
 
         const totalInvestmentAmount = initialInvestmentFloat + monthlyInvestmentFloat * monthsInt;
@@ -45,25 +46,16 @@ const CalculateCompoundInterest: React.FC = () => {
                     <input type="number" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(parseFloat(e.target.value))} className="w-full border border-gray-300 rounded px-3 py-2" />
                 </label>
                 <label className="block mb-2">
-                    Time Period:
+                    Time Period (months):
                     <input type="number" value={months} onChange={(e) => setMonths(parseInt(e.target.value))} className="w-full border border-gray-300 rounded px-3 py-2" />
                 </label>
                 <label className="block mb-2">
-                    Interest Rate:
+                    Interest Rate (% per year):
                     <input type="number" step="0.01" value={interestRate} onChange={(e) => setInterestRate(parseFloat(e.target.value))} className="w-full border border-gray-300 rounded px-3 py-2" />
                 </label>
                 <button onClick={calculateCompoundInterest} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md mr-2">Calculate</button>
             </div>
-            <div className="shadow-lg rounded-lg overflow-hidden max-w-md w-full p-8 m-2 bg-white">
-                <div className="text-gray-800 m-2 p-4">
-                    <p>Initial Investment: <strong>${initialInvestment.toFixed(2)}</strong></p>
-                    <p>Monthly Investment: <strong>${monthlyInvestment.toFixed(2)}</strong></p>
-                    <p>Time Period: <strong>{months} months</strong></p>
-                    <p>Total Investment: <strong>${totalInvestment.toFixed(2)}</strong></p>
-                    <p>Total Interest: <strong>${totalInterest.toFixed(2)}</strong></p>
-                    <p>Final Amount: <strong>${finalAmount.toFixed(2)}</strong></p>
-                </div>
-            </div>
+            <CompoundInterestChart totalInvestment={totalInvestment} totalInterest={totalInterest} finalAmount={finalAmount} />
         </div>
     );
 };

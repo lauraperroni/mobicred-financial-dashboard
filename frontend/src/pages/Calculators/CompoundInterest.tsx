@@ -6,7 +6,7 @@ const CompoundInterest = () => {
     return (
         <>
             <Header />
-            <div>
+            <div className="custom-bg">
             <CalculateCompoundInterest />
             </div>
             

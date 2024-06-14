@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Transaction } from "../lists/TransactionList";
 import ActionButton from "./ActionButton";
 import AddTransactionModal from "../cards/AddTransactionModal";
 

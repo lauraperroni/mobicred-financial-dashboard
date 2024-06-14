@@ -1,16 +1,18 @@
 import mobicredLogo from '../assets/mobicred.png';
+import backgroundImage from '../assets/4.png';
 
 const ForgotSent = () => {
     return (
         <>
-            {/*LEFT SIDE OF THE SCREEN*/}
             <div className='flex w-screen h-screen'>
-                <div className='w-4/6 bg-gradient-to-t from-black to-[#00ff26] flex justify-center items-center text-white'> {/* A div da esquerda */}
-                    <div className='px-4 py-16'>
-                        <h1 className='text-left text-4xl'>Financial Dashboard</h1>
-                        <p className='text-left'>Your personal financial dashboard</p>
+                {/* Esquerda */}
+                <div className='w-4/6 bg-cover bg-center flex justify-center items-center text-white' style={{ backgroundImage: `url(${backgroundImage})` }}>
+                    <div className='px-4 py-10 text-white'>
+                        <h1 className='text-5xl font-extrabold leading-tight mb-4'>Financial Dashboard</h1>
+                        <p className='text-xl leading-relaxed'>Your personal financial dashboard</p>
                     </div>
                 </div>
+
 
                 {/*RIGHT SIDE OF THE SCREEN*/}
                 <div className="flex items-center flex-1 flex-col justify-center px-6 py-12 lg:px-8">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { differenceInDays, format } from 'date-fns';
 import { FinancialGoalsService } from '../services/Financial Goals/FinancialGoalsService';
 import EditGoalModal from './cards/EditGoalModal'; // Importe o novo modal
+import goalsImage from '../assets/goals.png'; // Importe a imagem goals.png
 
 interface Goal {
     name: string;
@@ -75,7 +76,7 @@ const GoalsList: React.FC = () => {
         const confirmed = window.confirm('Are you sure you want to delete this goal?');
         if (confirmed) {
             try {
-                await FinancialGoalsService.deleteFinancialGoals(goal.id);
+                await FinancialGoalsService.deleteFinancialGoal(goal.id);
                 setGoals(goals.filter(item => item.id !== goal.id));
             } catch (error) {
                 console.error('Error deleting financial goal:', error);
@@ -109,7 +110,7 @@ const GoalsList: React.FC = () => {
         fetchData();
 
         try {
-            const response = await FinancialGoalsService.postFinancialGoals({
+            const response = await FinancialGoalsService.postFinancialGoal({
                 ...newGoal,
                 type: selectedType,
                 name: typeOptions[selectedType],
@@ -148,7 +149,7 @@ const GoalsList: React.FC = () => {
         };
 
         try {
-            await FinancialGoalsService.putFinancialGoals(selectedGoal.id, updatedGoal);
+            await FinancialGoalsService.updateFinancialGoal(selectedGoal.id, updatedGoal);
             const updatedGoals = goals.map(item =>
                 item.id === updatedGoal.id ? updatedGoal : item
             );
@@ -163,20 +164,28 @@ const GoalsList: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto p-8 bg-gray-50">
-            <h2 className="text-2xl font-semibold mb-4">Your Goals</h2>
-            <p className="mb-4">Check your financial goals</p>
-            <button onClick={handleOpenAddGoalModal} className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">
-                Add New Goal
-            </button>
+        <div className="container mx-auto p-8">
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex-1">
+                    <h2 className="text-2xl font-bold mb-4">Your Goals</h2>
+                    <p className="mb-4">Check your financial goals</p>
+                    <button onClick={handleOpenAddGoalModal} className="bg-green-500 text-white px-4 py-2 rounded-md mt-2">
+                        Add New Goal
+                    </button>
+                </div>
+                <div className="flex-none">
+                    <img src={goalsImage} alt="Goals" className="w-32 h-32" />
+                </div>
+            </div>
+
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <colgroup>
                         <col style={{ width: '25%' }} />
                         <col style={{ width: '10%' }} />
+                        <col style={{ width: '15%' }} />
                         <col style={{ width: '10%' }} />
                         <col style={{ width: '10%' }} />
-                        <col style={{ width: '5%' }} />
                         <col style={{ width: '15%' }} />
                         <col style={{ width: '10%' }} />
                         <col style={{ width: '10%' }} />
@@ -233,7 +242,6 @@ const GoalsList: React.FC = () => {
                     </tbody>
                 </table>
             </div>
-
             {showModal && (
                 <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 z-50">
                     <div className="bg-gray-50 shadow-lg rounded-lg overflow-hidden max-w-xl w-96 m-4 z-50">
@@ -305,4 +313,3 @@ const GoalsList: React.FC = () => {
 };
 
 export default GoalsList;
-

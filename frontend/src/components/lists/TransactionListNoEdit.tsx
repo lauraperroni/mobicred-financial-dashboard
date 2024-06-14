@@ -71,12 +71,12 @@ const TransactionListNoEdit: React.FC<TransactionListNoEditProps> = ({ period })
   };
 
   return (
-    <div className="container mx-auto p-8 bg-gray-50">
-      <h2 className="text-2xl font-semibold mb-4 ">Last Transactions</h2>
+    <div className="container mx-auto p-8">
+      <h2 className="text-2xl font-semibold">Last Transactions</h2>
       <p className="mb-4">Check your last transactions</p>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg z-0">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th className="px-6 py-3">Description</th>
               <th className="px-6 py-3">Method</th>
@@ -96,7 +96,7 @@ const TransactionListNoEdit: React.FC<TransactionListNoEditProps> = ({ period })
                 <td className="px-6 py-4">${transaction.amount.toFixed(2)}</td>
                 <td className="px-6 py-4">{transaction.categoryName}</td>
                 <td className="px-6 py-4">{transaction.bankName}</td>
-                <td className="px-6 py-4">{transaction.type === TransactionType.Expense ? "Expense/Transfer" : "Credit"}</td>
+                <td className="px-6 py-4">{transaction.type === TransactionType.Expense ? "Expense" : "Income"}</td>
               </tr>
             )).reverse() /* Invertendo a ordem das transações para exibir as mais recentes primeiro */}
           </tbody>

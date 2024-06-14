@@ -48,8 +48,20 @@ export const updateFinancialGoal = async (id: number, formData: any) => {
     }
 };
 
+export const postFinancialGoal = async (formData: any) => {
+    const token = await getToken();
+    if (token) {
+        return Api.put(`/financialgoals/new`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
+};
+
 export const FinancialGoalsService = {
     getFinancialGoals,
+    postFinancialGoal,
     deleteFinancialGoal,
     createFinancialGoal,
     updateFinancialGoal

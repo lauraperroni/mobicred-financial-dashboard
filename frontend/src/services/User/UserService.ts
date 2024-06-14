@@ -24,7 +24,19 @@ export const putUser = async (formData: any) => {
     }
 }
 
+export const putPassword = async (formData: any) => {
+    const token = await getToken();
+    if (token) {
+        return Api.put('/users/update/password', formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
+}
+
 export const UserService = {
     getUser,
-    putUser
+    putUser,
+    putPassword
 }
