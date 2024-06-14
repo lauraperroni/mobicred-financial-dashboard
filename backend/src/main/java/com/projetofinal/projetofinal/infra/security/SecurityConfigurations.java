@@ -70,6 +70,10 @@ public class SecurityConfigurations {
                         // User endpoints
                         .requestMatchers(HttpMethod.GET, "/users/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/users/update").permitAll()
+
+                        .requestMatchers(HttpMethod.PUT, "/users/reset").permitAll() // apenas em caso de emergencia
+ 
+                        .requestMatchers(HttpMethod.PUT, "/users/update/password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/change-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/all").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/new").permitAll()

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.projetofinal.projetofinal.dtos.User.RegisterDTO;
 import com.projetofinal.projetofinal.dtos.User.UserPutDto;
+import com.projetofinal.projetofinal.dtos.User.UserPutPasswordDto;
 import com.projetofinal.projetofinal.dtos.User.UserResponseDto;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.repository.User.UserRepository;
@@ -45,7 +46,6 @@ public class UserService {
     public User getUserIdService(Integer id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found."));
     }
-    
 
     public UserResponseDto getUserIdDtoService(User user) {
         Integer id = user.getId();
@@ -62,17 +62,16 @@ public class UserService {
     }
 
     // public ResponseEntity<String> putUpdateUserService(Integer id, User user) {
-    //     if (repository.existsById(id)) {
-    //         user.setId(id);
-    //         repository.save(user);
-    //         return ResponseEntity.ok("User updated.");
-    //     } else {
-    //         throw new EntityNotFoundException("User not found.");
-    //     }
+    // if (repository.existsById(id)) {
+    // user.setId(id);
+    // repository.save(user);
+    // return ResponseEntity.ok("User updated.");
+    // } else {
+    // throw new EntityNotFoundException("User not found.");
+    // }
     // }
 
-
-    // Update de um usuário 
+    // Update de um usuário
     public ResponseEntity<String> putUpdateUserService(Integer id, UserPutDto userDto) {
         if (repository.existsById(id)) {
             User user = repository.findById(id).get();
@@ -84,10 +83,21 @@ public class UserService {
         }
     }
 
+    // Update de uma senha ==================================
+    public ResponseEntity<String> putUpdateUserPasswordService(User user, UserPutPasswordDto body) {
+        Integer id = user.getId();
 
+        if (repository.existsById(id)) {
 
-
-
+            String encryptedPassword = new BCryptPasswordEncoder().encode(body.newPassword());
+            // String encryptedPassword = new BCryptPasswordEncoder().encode("admin");
+            user.setPassword(encryptedPassword);
+            repository.save(user);
+            return ResponseEntity.ok("User updated.");
+        } else {
+            throw new EntityNotFoundException("User not found.");
+        }
+    }
 
     public ResponseEntity<String> deleteUserIdService(Integer id) {
         if (repository.existsById(id)) {
@@ -119,4 +129,17 @@ public class UserService {
         repository.save(user);
         return ResponseEntity.ok("New user registered.");
     }
+
+
+    // USAR APENAS EM CASO DE ESQUECIMENTO GENERALIZADO
+    public ResponseEntity<String> resetAllUserPasswords() {
+        Iterable<User> users = repository.findAll();
+        for (User user : users) {
+            String encryptedPassword = new BCryptPasswordEncoder().encode("a");
+            user.setPassword(encryptedPassword);
+        }
+        repository.saveAll(users);
+        return ResponseEntity.ok("All user passwords have been reset.");
+    }
+
 }

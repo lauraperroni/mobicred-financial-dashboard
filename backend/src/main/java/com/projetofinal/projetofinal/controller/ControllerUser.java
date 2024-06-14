@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.projetofinal.projetofinal.dtos.User.RegisterDTO;
 import com.projetofinal.projetofinal.dtos.User.UserPutDto;
+import com.projetofinal.projetofinal.dtos.User.UserPutPasswordDto;
 import com.projetofinal.projetofinal.dtos.User.UserResponseDto;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.service.UserService;
@@ -68,6 +69,17 @@ public class ControllerUser {
         return service.putUpdateUserService(id, userDto);
     }
 
+    @PutMapping("/update/password")
+    public ResponseEntity<String> putUpdatePassword(@AuthenticationPrincipal User user, @RequestBody UserPutPasswordDto body) {
+            return service.putUpdateUserPasswordService(user, body);
+
+    }
+
+
+    @PutMapping("/reset")
+    public ResponseEntity<String> putAllPasswords(){
+        return service.resetAllUserPasswords();
+    }
 
 
     @DeleteMapping("/delete/{id}")

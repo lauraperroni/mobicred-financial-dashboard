@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.projetofinal.projetofinal.dtos.User.UserPutDto;
+import com.projetofinal.projetofinal.dtos.User.UserPutPasswordDto;
 import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import jakarta.persistence.CascadeType;
@@ -258,5 +259,6 @@ public class User extends RepresentationModel<User> implements UserDetails {
         this.state = userDto.state();
         this.zipCode = userDto.zipCode();
     }
+
     
 }
