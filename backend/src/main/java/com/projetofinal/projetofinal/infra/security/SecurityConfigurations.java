@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +29,7 @@ public class SecurityConfigurations {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // Auth endpoints
@@ -43,7 +47,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/financialgoals/{id}").permitAll()
 
                         .requestMatchers(HttpMethod.PUT, "/financialgoals/update/{id}").permitAll()
-
+                        .requestMatchers(HttpMethod.POST, "/financialgoals/new").permitAll()
                         .requestMatchers(HttpMethod.GET, "/financialgoals/name/desc").permitAll()
                         .requestMatchers(HttpMethod.GET, "/financialgoals/sort/amount/asc").permitAll()
                         .requestMatchers(HttpMethod.GET, "/financialgoals/sort/amount/desc").permitAll()
@@ -72,7 +76,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.PUT, "/users/update").permitAll()
 
                         .requestMatchers(HttpMethod.PUT, "/users/reset").permitAll() // apenas em caso de emergencia
- 
+
                         .requestMatchers(HttpMethod.PUT, "/users/update/password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/change-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/all").permitAll()
@@ -95,4 +99,23 @@ public class SecurityConfigurations {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://127.0.0.1:5173");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        return new CorsFilter(corsConfigurationSource());
+    }
+
 }

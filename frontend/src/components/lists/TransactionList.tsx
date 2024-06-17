@@ -3,6 +3,7 @@ import AddTransactionModal from '../cards/AddTransactionModal';
 import EditTransactionModal from '../cards/EditTransactionModal';
 import { TransactionsService } from '../../services/Transactions/TransactionsService';
 import transactionImage from '../../assets/transaction.png'; // Importe a imagem transaction.png
+import { CgOpenCollective } from 'react-icons/cg';
 
 enum TransactionType {
   Expense = 2,
@@ -26,7 +27,7 @@ interface TransactionListProps {
   onAddTransaction: (newTransaction: Transaction) => void;
 }
 
-const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) => {
+const TransactionList: React.FC<TransactionListProps> = ({ }) => {
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
@@ -48,20 +49,26 @@ const TransactionList: React.FC<TransactionListProps> = ({ onAddTransaction }) =
 
   useEffect(() => {
     fetchTransactions();
+    console.log("form Data: ", FormData);
+
   }, []);
 
   const handleCloseAddModal = () => {
     setShowAddModal(false);
+    console.log("form Data: ", FormData);
     fetchTransactions();
   };
 
   const handleEditModal = (transaction: Transaction) => {
+    console.log("selected transaction: ", transaction);
+    console.log("form data: ", );
     setSelectedTransaction(transaction);
     setShowEditModal(true);
   };
 
   const handleCloseEditModal = () => {
     setShowEditModal(false);
+    console.log("form Data: ", FormData);
     fetchTransactions();
   };
 

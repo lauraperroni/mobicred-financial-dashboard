@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountResponseDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountPutDto;
 import com.projetofinal.projetofinal.dtos.BankAccount.BankAccountRequestDto;
-import com.projetofinal.projetofinal.model.BankAccount.BankAccount;
 import com.projetofinal.projetofinal.model.User.User;
 import com.projetofinal.projetofinal.service.BankAccountService;
 

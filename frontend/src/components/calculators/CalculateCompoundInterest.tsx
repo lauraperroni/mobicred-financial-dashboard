@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import CompoundInterestChart from '../charts/CompoundInterestChart';
 
 const CalculateCompoundInterest: React.FC = () => {
     const [initialInvestment, setInitialInvestment] = useState<number>(0);
@@ -34,7 +33,7 @@ const CalculateCompoundInterest: React.FC = () => {
     };
 
     return (
-        <div className="flex justify-center">
+        <div className="flex custom-bg justify-center">
             <div className="shadow-lg rounded-lg overflow-hidden max-w-md w-full p-8 m-4 bg-white">
                 <h2 className="text-lg font-semibold mb-4">Calculate Compound Interest</h2>
                 <label className="block mb-2">
@@ -54,8 +53,13 @@ const CalculateCompoundInterest: React.FC = () => {
                     <input type="number" step="0.01" value={interestRate} onChange={(e) => setInterestRate(parseFloat(e.target.value))} className="w-full border border-gray-300 rounded px-3 py-2" />
                 </label>
                 <button onClick={calculateCompoundInterest} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md mr-2">Calculate</button>
+                <div className="mt-4">
+                    <h3 className="text-md font-semibold">Results:</h3>
+                    <p>Total Investment: ${totalInvestment.toFixed(2)}</p>
+                    <p>Total Interest: ${totalInterest.toFixed(2)}</p>
+                    <p>Final Amount: ${finalAmount.toFixed(2)}</p>
+                </div>
             </div>
-            <CompoundInterestChart totalInvestment={totalInvestment} totalInterest={totalInterest} finalAmount={finalAmount} />
         </div>
     );
 };

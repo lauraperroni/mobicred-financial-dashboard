@@ -110,7 +110,7 @@ const GoalsList: React.FC = () => {
         fetchData();
 
         try {
-            const response = await FinancialGoalsService.postFinancialGoal({
+            const response = await FinancialGoalsService.createFinancialGoal({
                 ...newGoal,
                 type: selectedType,
                 name: typeOptions[selectedType],

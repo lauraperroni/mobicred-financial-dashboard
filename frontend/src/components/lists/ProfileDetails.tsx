@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { format } from 'date-fns';
 import { UserService } from '../../services/User/UserService';
 import EditPasswordModal from '../cards/EditPasswordModal';

@@ -6,7 +6,7 @@ interface AddBankCardModalProps {
     onAddCard: (formData: any) => void; // Atualizado para aceitar formData
     formData: {
         bankName: string;
-        bankNumber: number
+        bankNumber: number;
         balance: string;
         nextBillingDate: string;
         billingBalance: string;

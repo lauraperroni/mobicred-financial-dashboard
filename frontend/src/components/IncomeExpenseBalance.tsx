@@ -35,7 +35,7 @@ const MoneyCard: React.FC<MoneyCardProps> = ({ title, amount, icon }) => (
 
 const IncomeExpenseBalance: React.FC = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [accounts, setAccounts] = useState<any[]>([]); // Definindo o estado para armazenar os dados das contas bancárias
+    const [, setAccounts] = useState<any[]>([]); // Definindo o estado para armazenar os dados das contas bancárias
     const [totalBankBalance, setTotalBankBalance] = useState<number>(0); // Estado para armazenar o saldo total das contas bancárias
 
     useEffect(() => {

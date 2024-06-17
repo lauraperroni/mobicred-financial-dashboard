@@ -19,7 +19,6 @@ const BankCardDetails: React.FC<BankCardDetailsProps> = ({
     isOpen,
     onCloseModal,
     id,
-    userId,
     bankNumber,
     bankName,
     balance,
@@ -30,9 +29,6 @@ const BankCardDetails: React.FC<BankCardDetailsProps> = ({
 }) => {
     const [isEdit, setIsEdit] = useState(false);
 
-    const handleSaveChanges = () => {
-        // Lógica para salvar alterações, se necessário
-    };
 
     if (!isOpen) return null;
 

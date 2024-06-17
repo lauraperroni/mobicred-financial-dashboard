@@ -6,7 +6,7 @@ const EditPasswordModal: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [termsAccepted, setTermsAccepted] = useState(false);
+    const [] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ActionButton from "./ActionButton";
 import AddTransactionModal from "../cards/AddTransactionModal";
+import { Transaction } from "../IncomeExpenseBalance";
 
 interface MoneyCardProps {
     title: string;
@@ -44,7 +45,7 @@ function MoneyCard({
 
 function IncomeExpenseBalanceButtons() {
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [selectedType, setSelectedType] = useState<"income" | "expense" | "transfer">("income");
+    const [, setSelectedType] = useState<"income" | "expense" | "transfer">("income");
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [formData, setFormData] = useState<Transaction>({
         id: 0,
@@ -133,7 +134,6 @@ function IncomeExpenseBalanceButtons() {
                 <AddTransactionModal
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
-                    onAddTransaction={addTransaction} // Passa a função de adição de transação como prop
                 />
             )}
         </div>

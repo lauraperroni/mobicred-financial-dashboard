@@ -6,6 +6,7 @@ const AddBankCardButton: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         bankName: '',
+        bankNumber: 0,
         balance: '',
         nextBillingDate: '',
         billingBalance: '',
@@ -44,6 +45,7 @@ const AddBankCardButton: React.FC = () => {
         handleAddCard(formData);
         setFormData({
             bankName: '',
+            bankNumber: 0,
             balance: '',
             nextBillingDate: '',
             billingBalance: '',

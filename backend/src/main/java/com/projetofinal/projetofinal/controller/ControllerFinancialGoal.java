@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalResponseDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalPutDto;
 import com.projetofinal.projetofinal.dtos.FinancialGoal.FinancialGoalRequestDto;
-import com.projetofinal.projetofinal.model.FinancialGoal.FinancialGoal;
 import com.projetofinal.projetofinal.model.User.User;
-import com.projetofinal.projetofinal.repository.FinancialGoal.FinancialGoalRepository;
 import com.projetofinal.projetofinal.service.FinancialGoalService;
 
 @RestController

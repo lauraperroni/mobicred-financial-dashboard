@@ -1,5 +1,5 @@
 import React from "react";
-import { Transaction } from "../lists/TransactionList";
+import { Transaction } from "../IncomeExpenseBalance";
 
 interface ActionButtonProps {
     onClick: () => void;

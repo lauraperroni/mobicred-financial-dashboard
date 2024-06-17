@@ -38,6 +38,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
 
     useEffect(() => {
         const fetchAccounts = async () => {
+
             try {
                 const response = await BankAccountsService.getBankAccounts();
                 if (response && response.status === 200) {
@@ -72,12 +73,23 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
         }
     }, []);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event: { preventDefault: () => void; }) => {
+        console.log(formData);
+
+        alert('Um nome foi enviado: ' + formData); event.preventDefault()
         try {
             const response = await TransactionsService.putTransactions(formData.id, formData);
             if (response && response.status === 200) {
+                
                 console.log('Transação atualizada com sucesso:', response.data);
+                console.log("formdata: ", formData);
+                setTimeout(function(
+                ){
+                    console.log("formdata: ", formData);
+                    console.log('Transação atualizada com sucesso:', response.data);
+                }, 30000);
                 onClose(); // Fechar modal após sucesso
+
             } else {
                 console.error('Erro ao atualizar transação:', response);
                 // Tratar erro aqui (exibir mensagem de erro, etc.)
@@ -151,7 +163,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                     >
                                         <option value={0}>Select a category...</option>
                                         {categories.map(category => (
-                                            <option key={category.id} value={category.id} selected={category.name === formData.categoryName}>{category.name}</option>
+                                            <option key={category.id} value={category.id} selected={category.id === formData.categoryId}>{category.name}</option>
                                         ))}
                                     </select>
                                     <select
@@ -161,11 +173,11 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                     >
                                         <option value={0}>Select a bank account...</option>
                                         {bankAccounts.map(account => (
-                                            <option key={account.id} value={account.id} selected={account.bankName === formData.bankName}>{account.bankName}</option>
+                                            <option key={account.id} value={account.id} selected={account.id === formData.bankAccountId}>{account.bankName}</option>
                                         ))}
                                     </select>
                                     <div className="flex justify-center">
-                                        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md w-full mr-2">Save</button>
+                                        <button type="submit" onClick={handleSubmit} className="bg-green-500 text-white px-4 py-2 rounded-md w-full mr-2">Save</button>
                                         <button type="button" onClick={onClose} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md w-full">Cancel</button>
                                     </div>
                                 </div>

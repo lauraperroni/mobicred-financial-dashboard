@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { format } from 'date-fns'; // Importe a função format do date-fns
 import { UserService } from '../services/User/UserService';
 

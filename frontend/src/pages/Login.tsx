@@ -12,7 +12,7 @@ export interface LoginForm {
 const Login = () => {
   const navigate = useNavigate();
 
-  const { formState: { errors }, register, handleSubmit } = useForm<LoginForm>()
+  const { register, handleSubmit } = useForm<LoginForm>()
 
   async function submit(value: LoginForm) {
 

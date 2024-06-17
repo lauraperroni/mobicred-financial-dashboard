@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const LastTransactions = () => {
     // Aqui você pode adicionar lógica para buscar as últimas transações
-    const [transactions, setTransactions] = useState([
+    const [transactions] = useState([
         { id: 1, description: 'Compra no mercado', amount: -50.0 },
         { id: 2, description: 'Depósito', amount: 200.0 },
         { id: 3, description: 'Restaurante', amount: -30.0 },
