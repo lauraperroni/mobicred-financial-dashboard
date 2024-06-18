@@ -140,6 +140,16 @@ public class Transaction {
         return category.getName();
     }
 
+    public Integer getBankAccountId() {
+        Integer bankAccountId = bankAccount.getId();
+        return bankAccountId;
+    }
+
+    public Integer getCategoryId() {
+        Integer categoryId = category.getId();
+        return categoryId;
+    }
+
 
     // Métodos de relação entre tabelas ===================================
 

@@ -13,7 +13,25 @@ public class TransactionResponseDto {
     private String description;
     private String method;
     private String bankName; // Adicionando bankName
-    private String categoryName; // Adicionando categoryName
+    private String categoryName; // Adicionando categoryName]
+    private Integer bankAccountId;
+    public Integer getBankAccountId() {
+        return bankAccountId;
+    }
+
+    public void setBankAccountId(Integer bankAccountId) {
+        this.bankAccountId = bankAccountId;
+    }
+
+    private Integer categoryId;
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
     // Constructors =============================================================
     public String getDescription() {
@@ -62,6 +80,8 @@ public class TransactionResponseDto {
         this.description = transaction.getDescription();
         this.bankName = transaction.getBankName(); // Assuming Transaction class has a getBankName() method
         this.categoryName = transaction.getCategoryName(); // Assuming Transaction class has a getCategoryName() method
+        this.categoryId = transaction.getCategoryId();
+        this.bankAccountId = transaction.getBankAccountId();
     }
 
     // Getters and Setters ======================================================
