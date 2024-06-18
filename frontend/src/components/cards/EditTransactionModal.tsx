@@ -76,6 +76,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
 
         fetchAccounts();
         fetchCategories();
+
     }, []);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
