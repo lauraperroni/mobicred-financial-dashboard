@@ -25,7 +25,7 @@ Isso proporcionará uma compreensão mais clara dos padrões de gastos e ajudar�
 Os usuários terão acesso a um ranking das principais categorias de gastos, mostrando onde a maior parte de seus gastos está sendo direcionada.
 
 **Evolução Pessoal:**  
-Os usuários poderão acompanhar a evolução de seu patrimônio líquido ao longo do tempo, observando o saldo atual e as tendências de gastos e receitas.
+Os usuários poderão acompanhar a evolução de seu patrimônio líquido ao longo do tempo, observando o saldo atual e as tendências de gastos e receitas
 
 **Metas e Dinheiro Guardado:**  
 Os usuários poderão estabelecer metas financeiras, como economizar para uma viagem ou pagar uma dívida, e acompanhar seu progresso em direção a essas metas.  
