@@ -14,9 +14,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     List<Transaction> findByDate(LocalDate date);
 
-    List<Transaction> findByCategoryId(Integer categoryId);
+    // List<Transaction> findByCategoryId(Integer categoryId);
 
-    List<Transaction> findByBankAccountId(Integer bankAccountId);
+    // List<Transaction> findByBankAccountId(Integer bankAccountId);
 
     List<TransactionResponseDto> findAllTransactionsByBankAccountUserId(Integer id);
 

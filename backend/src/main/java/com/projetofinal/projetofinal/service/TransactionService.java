@@ -1,7 +1,7 @@
 package com.projetofinal.projetofinal.service;
 
-import java.time.LocalDate;
-import java.util.Comparator;
+// import java.time.LocalDate;
+// import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,89 +146,89 @@ public class TransactionService {
         }
     }
 
-    // Métodos extras
-    // Método para ordenar transações por quantidade (amount) CRESCENTE - OK TESTADO
-    public List<TransactionResponseDto> sortTransactionsByAmountAscending() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .sorted(Comparator.comparingDouble(Transaction::getAmount))
-                .map(this::mapTransactionToTransactionDtoService)
-                .collect(Collectors.toList());
-    }
+    // // Métodos extras
+    // // Método para ordenar transações por quantidade (amount) CRESCENTE - OK TESTADO
+    // public List<TransactionResponseDto> sortTransactionsByAmountAscending() {
+    //     List<Transaction> transactions = transactionRepository.findAll();
+    //     return transactions.stream()
+    //             .sorted(Comparator.comparingDouble(Transaction::getAmount))
+    //             .map(this::mapTransactionToTransactionDtoService)
+    //             .collect(Collectors.toList());
+    // }
 
-    // Método para ordenar transações por quantidade (amount) DECRESCENTE - OK
-    // TESTADO
-    public List<TransactionResponseDto> sortTransactionsByAmountDescending() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .sorted(Comparator.comparingDouble(Transaction::getAmount).reversed())
-                .map(this::mapTransactionToTransactionDtoService)
-                .collect(Collectors.toList());
-    }
+    // // Método para ordenar transações por quantidade (amount) DECRESCENTE - OK
+    // // TESTADO
+    // public List<TransactionResponseDto> sortTransactionsByAmountDescending() {
+    //     List<Transaction> transactions = transactionRepository.findAll();
+    //     return transactions.stream()
+    //             .sorted(Comparator.comparingDouble(Transaction::getAmount).reversed())
+    //             .map(this::mapTransactionToTransactionDtoService)
+    //             .collect(Collectors.toList());
+    // }
 
-    // Método para ordenar transações por data CRESCENTE - OK TESTADO
-    public List<TransactionResponseDto> sortTransactionsByDateAscending() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .sorted(Comparator.comparing(Transaction::getDate))
-                .map(this::mapTransactionToTransactionDtoService)
-                .collect(Collectors.toList());
-    }
+    // // Método para ordenar transações por data CRESCENTE - OK TESTADO
+    // public List<TransactionResponseDto> sortTransactionsByDateAscending() {
+    //     List<Transaction> transactions = transactionRepository.findAll();
+    //     return transactions.stream()
+    //             .sorted(Comparator.comparing(Transaction::getDate))
+    //             .map(this::mapTransactionToTransactionDtoService)
+    //             .collect(Collectors.toList());
+    // }
 
-    // Método para ordenar transações por data DECRESCENTE - OK TESTADO
-    public List<TransactionResponseDto> sortTransactionsByDateDescending() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .sorted(Comparator.comparing(Transaction::getDate).reversed())
-                .map(this::mapTransactionToTransactionDtoService)
-                .collect(Collectors.toList());
-    }
+    // // Método para ordenar transações por data DECRESCENTE - OK TESTADO
+    // public List<TransactionResponseDto> sortTransactionsByDateDescending() {
+    //     List<Transaction> transactions = transactionRepository.findAll();
+    //     return transactions.stream()
+    //             .sorted(Comparator.comparing(Transaction::getDate).reversed())
+    //             .map(this::mapTransactionToTransactionDtoService)
+    //             .collect(Collectors.toList());
+    // }
 
-    // Método para ordenar transações por categoria CRESCENTE
-    public List<TransactionResponseDto> sortTransactionsByCategoryAscending() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .sorted(Comparator.comparing(transaction -> transaction.getCategory().getName()))
-                .map(this::mapTransactionToTransactionDtoService)
-                .collect(Collectors.toList());
-    }
+    // // Método para ordenar transações por categoria CRESCENTE
+    // public List<TransactionResponseDto> sortTransactionsByCategoryAscending() {
+    //     List<Transaction> transactions = transactionRepository.findAll();
+    //     return transactions.stream()
+    //             .sorted(Comparator.comparing(transaction -> transaction.getCategory().getName()))
+    //             .map(this::mapTransactionToTransactionDtoService)
+    //             .collect(Collectors.toList());
+    // }
 
-    // Método para ordenar transações por categoria DECRESCENTE
-    public List<TransactionResponseDto> sortTransactionsByCategoryDescending() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .sorted(Comparator.comparing(transaction -> transaction.getCategory().getName(),
-                        Comparator.reverseOrder()))
-                .map(this::mapTransactionToTransactionDtoService)
-                .collect(Collectors.toList());
-    }
+    // // Método para ordenar transações por categoria DECRESCENTE
+    // public List<TransactionResponseDto> sortTransactionsByCategoryDescending() {
+    //     List<Transaction> transactions = transactionRepository.findAll();
+    //     return transactions.stream()
+    //             .sorted(Comparator.comparing(transaction -> transaction.getCategory().getName(),
+    //                     Comparator.reverseOrder()))
+    //             .map(this::mapTransactionToTransactionDtoService)
+    //             .collect(Collectors.toList());
+    // }
 
-    // ========================================================================================
-    // método para buscar transações por uma data específica - OK TESTADO
-    public List<TransactionResponseDto> sortTransactionsByDate(LocalDate date) {
-        List<Transaction> transactions = transactionRepository.findByDate(date);
-        return transactions.stream()
-                .sorted(Comparator.comparing(Transaction::getDate))
-                .map(this::mapTransactionToTransactionDtoService)
-                .collect(Collectors.toList());
-    }
+    // // ========================================================================================
+    // // método para buscar transações por uma data específica - OK TESTADO
+    // public List<TransactionResponseDto> sortTransactionsByDate(LocalDate date) {
+    //     List<Transaction> transactions = transactionRepository.findByDate(date);
+    //     return transactions.stream()
+    //             .sorted(Comparator.comparing(Transaction::getDate))
+    //             .map(this::mapTransactionToTransactionDtoService)
+    //             .collect(Collectors.toList());
+    // }
 
-    // ========================================================================================
-    // método para buscar transações por uma categoria específica OK TESTADO
-    public List<TransactionResponseDto> sortTransactionsByCategory(Integer categoryId) {
-        List<Transaction> transactions = transactionRepository.findByCategoryId(categoryId);
-        return transactions.stream()
-                .sorted(Comparator.comparing(Transaction::getDate))
-                .map(this::mapTransactionToTransactionDtoService)
-                .collect(Collectors.toList());
-    }
+    // // ========================================================================================
+    // // método para buscar transações por uma categoria específica OK TESTADO
+    // public List<TransactionResponseDto> sortTransactionsByCategory(Integer categoryId) {
+    //     List<Transaction> transactions = transactionRepository.findByCategoryId(categoryId);
+    //     return transactions.stream()
+    //             .sorted(Comparator.comparing(Transaction::getDate))
+    //             .map(this::mapTransactionToTransactionDtoService)
+    //             .collect(Collectors.toList());
+    // }
 
-    // ========================================================================================
-    // Método para buscar transações por conta bancária - OK TESTADO
-    public List<TransactionResponseDto> sortTransactionsByBankAccount(Integer bankAccountId) {
-        List<Transaction> transactions = transactionRepository.findByBankAccountId(bankAccountId);
-        return mapTransactionListToTransactionDtoListService(transactions);
-    }
+    // // ========================================================================================
+    // // Método para buscar transações por conta bancária - OK TESTADO
+    // public List<TransactionResponseDto> sortTransactionsByBankAccount(Integer bankAccountId) {
+    //     List<Transaction> transactions = transactionRepository.findByBankAccountId(bankAccountId);
+    //     return mapTransactionListToTransactionDtoListService(transactions);
+    // }
 
     // Traz todas as transactions de um usuário
     // Traz todas as transactions de um usuário
