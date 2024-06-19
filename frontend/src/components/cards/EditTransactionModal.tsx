@@ -67,10 +67,6 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
         fetchAccounts();
         fetchCategories();
 
-        if (transaction.date) {
-            const formattedDate = new Date(transaction.date).toISOString().split('T')[0];
-            setFormData(prevState => ({ ...prevState, date: formattedDate }));
-        }
     }, []);
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
