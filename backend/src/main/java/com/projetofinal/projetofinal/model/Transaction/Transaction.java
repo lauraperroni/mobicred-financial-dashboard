@@ -59,7 +59,6 @@ public class Transaction {
         this.description = trans.description();
         this.bankAccount = bankAccount;
         this.category = category;
-
        }
 
     // Getters e Setters =======================================================
@@ -140,7 +139,6 @@ public class Transaction {
     public String getCategoryName() {
         return category.getName();
     }
-
 
 
     // Métodos de relação entre tabelas ===================================

@@ -1,5 +1,6 @@
 package com.projetofinal.projetofinal.dtos.Transaction;
 
+
 import java.time.LocalDate;
 
 import com.projetofinal.projetofinal.model.Transaction.Transaction;
@@ -11,58 +12,10 @@ public class TransactionResponseDto {
     private LocalDate date;
     private String description;
     private String method;
-    private String bankName;
-    private String categoryName;
-    private Integer bankAccountId; // ID da conta bancária
-    private Integer categoryId; // ID da categoria
+    private String bankName; // Adicionando bankName
+    private String categoryName; // Adicionando categoryName
 
-    public TransactionResponseDto() {
-    }
-
-    public TransactionResponseDto(Transaction transaction) {
-        this.id = transaction.getId();
-        this.amount = transaction.getAmount();
-        this.type = transaction.getType();
-        this.date = transaction.getDate();
-        this.description = transaction.getDescription();
-        this.method = transaction.getMethod();
-        this.bankName = transaction.getBankName();
-        this.categoryName = transaction.getCategoryName();
-    }
-
-    // Getters e Setters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
+    // Constructors =============================================================
     public String getDescription() {
         return description;
     }
@@ -95,19 +48,52 @@ public class TransactionResponseDto {
         this.categoryName = categoryName;
     }
 
-    public Integer getBankAccountId() {
-        return bankAccountId;
+    // No-args constructor
+    public TransactionResponseDto() {
     }
 
-    public void setBankAccountId(Integer bankAccountId) {
-        this.bankAccountId = bankAccountId;
+    // Constructor using Transaction as an argument
+    public TransactionResponseDto(Transaction transaction) {
+        this.id = transaction.getId(); // Assuming the Transaction class has a getId() method
+        this.amount = transaction.getAmount();
+        this.type = transaction.getType();
+        this.date = transaction.getDate();
+        this.method = transaction.getMethod();
+        this.description = transaction.getDescription();
+        this.bankName = transaction.getBankName(); // Assuming Transaction class has a getBankName() method
+        this.categoryName = transaction.getCategoryName(); // Assuming Transaction class has a getCategoryName() method
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    // Getters and Setters ======================================================
+    public Integer getId() {
+        return id;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

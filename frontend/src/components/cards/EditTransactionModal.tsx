@@ -13,11 +13,13 @@ interface Category {
 }
 
 interface Transaction {
-    id: number;
+    id: number; // Adicionei o ID para identificar a transação que está sendo editada
     amount: number;
     date: string;
     type: 1 | 2;
     categoryId: number;
+    categoryName: string;
+    bankName: string;
     bankAccountId: number;
     method: string;
     description: string;
@@ -26,31 +28,20 @@ interface Transaction {
 interface EditTransactionModalProps {
     isOpen: boolean;
     onClose: () => void;
-    transaction: Transaction;
+    transaction: Transaction; // Recebe a transação que será editada
 }
 
 const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onClose, transaction }) => {
-    const [formData2, setFormData2] = useState<Transaction>({
-        id: transaction.id,
-        amount: transaction.amount,
-        date: transaction.date,
-        type: transaction.type,
-        categoryId: transaction.categoryId,
-        bankAccountId: transaction.bankAccountId,
-        method: transaction.method,
-        description: transaction.description
-    });
-
+    const [formData, setFormData] = useState<Transaction>(transaction);
     const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
         const fetchAccounts = async () => {
+
             try {
                 const response = await BankAccountsService.getBankAccounts();
-
                 if (response && response.status === 200) {
-                    console.log('Contas bancárias recebidas:', response.data);
                     setBankAccounts(response.data);
                 } else {
                     console.error('Erro ao buscar contas bancárias:', response);
@@ -64,7 +55,6 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
             try {
                 const response = await CategoryService.getCategory();
                 if (response && response.status === 200) {
-                    console.log('Categorias recebidas:', response.data);
                     setCategories(response.data);
                 } else {
                     console.error('Erro ao buscar categorias:', response);
@@ -76,21 +66,37 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
 
         fetchAccounts();
         fetchCategories();
+
+        if (transaction.date) {
+            const formattedDate = new Date(transaction.date).toISOString().split('T')[0];
+            setFormData(prevState => ({ ...prevState, date: formattedDate }));
+        }
     }, []);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmit = async (event: { preventDefault: () => void; }) => {
+        console.log(formData);
 
+        alert('Um nome foi enviado: ' + formData); event.preventDefault()
         try {
-            const response = await TransactionsService.putTransactions(transaction.id, formData2);
+            const response = await TransactionsService.putTransactions(formData.id, formData);
             if (response && response.status === 200) {
+                
                 console.log('Transação atualizada com sucesso:', response.data);
+                console.log("formdata: ", formData);
+                setTimeout(function(
+                ){
+                    console.log("formdata: ", formData);
+                    console.log('Transação atualizada com sucesso:', response.data);
+                }, 30000);
                 onClose(); // Fechar modal após sucesso
+
             } else {
                 console.error('Erro ao atualizar transação:', response);
+                // Tratar erro aqui (exibir mensagem de erro, etc.)
             }
         } catch (error) {
             console.error('Erro ao atualizar transação:', error);
+            // Tratar erro aqui (exibir mensagem de erro, etc.)
         }
     };
 
@@ -109,22 +115,22 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                         type="text"
                                         placeholder="Description"
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
-                                        value={formData2.description}
-                                        onChange={(e) => setFormData2({ ...formData2, description: e.target.value })}
+                                        value={formData.description}
+                                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                     />
                                     <input
                                         type="text"
                                         placeholder="Method"
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
-                                        value={formData2.method}
-                                        onChange={(e) => setFormData2({ ...formData2, method: e.target.value })}
+                                        value={formData.method}
+                                        onChange={(e) => setFormData({ ...formData, method: e.target.value })}
                                     />
                                     <input
                                         type="date"
                                         placeholder="Date"
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
-                                        value={formData2.date || ''}
-                                        onChange={(e) => setFormData2({ ...formData2, date: e.target.value })}
+                                        value={formData.date || ''}
+                                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                                     />
                                     <div className="flex items-center">
                                         <input
@@ -132,44 +138,46 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({ isOpen, onC
                                             placeholder="Amount"
                                             className="border border-gray-300 rounded-md px-3 py-2 mb-2"
                                             style={{ width: "calc(100%)" }}
-                                            value={"$" + formData2.amount}
+                                            value={"$" + formData.amount}
                                             onChange={(e) => {
                                                 const value = e.target.value.replace("$", "");
-                                                setFormData2({ ...formData2, amount: parseFloat(value) });
+                                                setFormData({ ...formData, amount: parseFloat(value) });
                                             }}
                                         />
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
                                     <select
-                                        value={formData2.type}
-                                        onChange={(e) => setFormData2({ ...formData2, type: parseInt(e.target.value) as (1 | 2) })}
+                                        value={formData.type}
+                                        onChange={(e) => setFormData({ ...formData, type: parseInt(e.target.value) as (1 | 2) })}
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
                                     >
-                                        <option value={0}>{formData2.type ? "" : "Type"}</option>
+                                        <option value={0}>{formData.type ? "" : "Type"}</option>
                                         <option value={2}>Expense</option>
                                         <option value={1}>Credit</option>
                                     </select>
                                     <select
-                                        value={formData2.categoryId}
-                                        onChange={(e) => setFormData2({ ...formData2, categoryId: parseInt(e.target.value) })}
+                                        value={formData.categoryId}
+                                        onChange={(e) => setFormData({ ...formData, categoryId: parseInt(e.target.value) })}
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
                                     >
+                                        <option value={0}>Select a category...</option>
                                         {categories.map(category => (
-                                            <option key={category.id} value={category.id}>{category.name}</option>
+                                            <option key={category.id} value={category.id} selected={category.id === formData.categoryId}>{category.name}</option>
                                         ))}
                                     </select>
                                     <select
-                                        value={formData2.bankAccountId}
-                                        onChange={(e) => setFormData2({ ...formData2, bankAccountId: parseInt(e.target.value) })}
+                                        value={formData.bankAccountId}
+                                        onChange={(e) => setFormData({ ...formData, bankAccountId: parseInt(e.target.value) })}
                                         className="border border-gray-300 rounded-md px-3 py-2 mb-2"
                                     >
+                                        <option value={0}>Select a bank account...</option>
                                         {bankAccounts.map(account => (
-                                            <option key={account.id} value={account.id}>{account.bankName}</option>
+                                            <option key={account.id} value={account.id} selected={account.id === formData.bankAccountId}>{account.bankName}</option>
                                         ))}
                                     </select>
                                     <div className="flex justify-center">
-                                        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md w-full mr-2">Save</button>
+                                        <button type="submit" onClick={handleSubmit} className="bg-green-500 text-white px-4 py-2 rounded-md w-full mr-2">Save</button>
                                         <button type="button" onClick={onClose} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md w-full">Cancel</button>
                                     </div>
                                 </div>

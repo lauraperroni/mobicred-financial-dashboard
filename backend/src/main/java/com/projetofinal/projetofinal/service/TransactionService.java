@@ -60,6 +60,12 @@ public class TransactionService {
                 .collect(Collectors.toList());
     }
 
+    // Converte uma Transacao em uma TransacaoDto
+    private TransactionResponseDto mapTransactionToTransactionDtoService(Transaction transaction) {
+        TransactionResponseDto dto = new TransactionResponseDto(transaction);
+        return dto;
+    }
+
     // Traz uma transacao pelo id ===============================================
     @SuppressWarnings("null")
     public Transaction getTransactionIdService(Integer id) {
@@ -89,14 +95,13 @@ public class TransactionService {
                     .orElseThrow(EntityNotFoundException::new);
             Category category = categoryRepository.findById(transactionDto.categoryId())
                     .orElseThrow(EntityNotFoundException::new);
-            Transaction trans = new Transaction(transactionDto.amount(), transactionDto.date(), transactionDto.type(),
-                    transactionDto.description(), transactionDto.method());
+            Transaction trans = new Transaction(transactionDto.amount(), transactionDto.date(), transactionDto.type(), transactionDto.description(), transactionDto.method());
 
             trans.setCategory(category);
             // if (transactionDto.type() == 1) { // Crédito
-            // bank.deposit(transactionDto.amount(), trans);
+            //     bank.deposit(transactionDto.amount(), trans);
             // } else if (transactionDto.type() == 2) { // Débito
-            // bank.withdraw(transactionDto.amount(), trans);
+            //     bank.withdraw(transactionDto.amount(), trans);
             // }
             bank.addTransactionToList(trans);
 
@@ -115,13 +120,14 @@ public class TransactionService {
     public ResponseEntity<String> putUpdateTransactionService(Integer id, TransactionPutDto transaction) {
         if (transactionRepository.existsById(id)) {
 
+
             BankAccount acc = bankAccountRepository.findById(transaction.bankAccountId()).get();
 
             Category cat = categoryRepository.findById(transaction.categoryId()).get();
 
             Transaction trans = transactionRepository.findById(id).get();
             trans.putData(transaction, acc, cat);
-
+           
             transactionRepository.save(trans);
             return ResponseEntity.ok("Transaction updated.");
         } else {
@@ -224,24 +230,17 @@ public class TransactionService {
         return mapTransactionListToTransactionDtoListService(transactions);
     }
 
-    // Método para buscar todas as transações de um usuário e mapeá-las para
-    // TransactionResponseDto
+    // Traz todas as transactions de um usuário
+    // Traz todas as transactions de um usuário
     public List<TransactionResponseDto> getAllTransactionsDtoServiceByUser(User user) {
         User userEntity = (User) userRepository.findByEmail(user.getUsername());
 
-        // Mapeia todas as transações do usuário para TransactionResponseDto
-        return userEntity.getBankAccounts().stream()
+        List<Transaction> transactions = userEntity.getBankAccounts().stream()
                 .flatMap(bankAccount -> bankAccount.getTransactions().stream())
-                .map(this::mapTransactionToTransactionDtoService) // Mapeia cada transação para TransactionResponseDto
                 .collect(Collectors.toList());
-    }
 
-    private TransactionResponseDto mapTransactionToTransactionDtoService(Transaction transaction) {
-        TransactionResponseDto dto = new TransactionResponseDto(transaction);
-        dto.setBankAccountId(transaction.getBankAccount().getId()); // Define o ID da conta bancária
-        System.out.println(transaction.getBankAccount().getId());
-        dto.setCategoryId(transaction.getCategory().getId()); // Define o ID da categoria
-        System.out.println(transaction.getCategory().getId());
-        return dto;
+        return transactions.stream()
+                .map(this::mapTransactionToTransactionDtoService)
+                .collect(Collectors.toList());
     }
 }

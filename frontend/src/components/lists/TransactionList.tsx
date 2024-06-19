@@ -3,6 +3,7 @@ import AddTransactionModal from '../cards/AddTransactionModal';
 import EditTransactionModal from '../cards/EditTransactionModal';
 import { TransactionsService } from '../../services/Transactions/TransactionsService';
 import transactionImage from '../../assets/transaction.png'; // Importe a imagem transaction.png
+import { CgOpenCollective } from 'react-icons/cg';
 
 enum TransactionType {
   Expense = 2,
