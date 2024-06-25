@@ -20,6 +20,7 @@ const Login = () => {
     if (status === 200) {
       localStorage.setItem('token', data.token)
       navigate('/home');
+      alert("Complete your user details before using the system for a better experience! :)")
     }
   };
 

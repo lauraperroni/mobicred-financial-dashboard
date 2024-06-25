@@ -26,7 +26,7 @@ function HelloUser({ userName }: HelloUserProps) {
     return (
         <>
             <h1 className="text-3xl leading-10 text-gray-900 font-bold m-8">
-                Hello, {name}!
+                Hello {name}!
             </h1>
         </>
     );
